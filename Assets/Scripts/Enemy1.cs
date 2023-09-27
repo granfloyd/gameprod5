@@ -7,7 +7,7 @@ using UnityEngine;
 public class Enemy1 : MonoBehaviour
 {
     public Transform target; 
-    private float speed = 1.0f;
+    private float speed = 0.5f;
     private Rigidbody2D rb;
     private Vector2 movement;
     bool bHasLOS = false;
@@ -45,7 +45,7 @@ public class Enemy1 : MonoBehaviour
         if (collision.gameObject.name == "Player")
         {
             //If the GameObject's name matches the one you suggest, output this message in the console
-            Debug.Log("player collided with Enemy1");
+            Debug.Log("Enemy1 collided with player");
         }
 
     }
