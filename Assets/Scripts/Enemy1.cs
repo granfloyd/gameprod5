@@ -12,7 +12,6 @@ public class Enemy1 : MonoBehaviour
     private Vector2 movement;
     bool bHasLOS = false;
     
-        
     // Start is called before the first frame update
     void Start()
     {

@@ -13,17 +13,14 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+
     }
 
-    // Update is called once per frame
-    private void Update()
+    void FixedUpdate()
     {
         movement.x = Input.GetAxisRaw("Horizontal");
         movement.y = Input.GetAxisRaw("Vertical");
-    }
-    void FixedUpdate()
-    {
-        rb.MovePosition(rb.position + movement * speed * Time.fixedDeltaTime);
+        rb.MovePosition(rb.position + movement * speed * Time.deltaTime);
     }
 
 }
