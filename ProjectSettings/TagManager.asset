@@ -6,6 +6,10 @@ TagManager:
   tags:
   - Enemy1
   - Projectile
+  - Blackguy
+  - Grimis
+  - playerProjectile
+  - test
   layers:
   - Default
   - TransparentFX
