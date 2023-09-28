@@ -84,7 +84,7 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.MovePosition(rb.position + movement * speed * Time.deltaTime);
         }
-        Debug.Log("dash CD" + dashCD);
+        //Debug.Log("dash CD" + dashCD);
 
 
     }
