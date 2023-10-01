@@ -4,16 +4,16 @@ using UnityEngine;
 
 public class Blackguy : MonoBehaviour
 {
-    public Transform target;
+    private Player playerRef;
     private float speed = 0.8f;
     private Rigidbody2D rb;
-    private Vector2 movement;
     public bool bHasLOS = false;
     public bool bHasCollided = false;
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        playerRef = GameObject.Find("Player").GetComponent<Player>();
     }
     void OnTriggerEnter2D(Collider2D collider)
     {
@@ -43,7 +43,7 @@ public class Blackguy : MonoBehaviour
             Debug.Log("Blackguy collided with player");
             bHasCollided = true;
         }
-        if(collision.gameObject.CompareTag("playerProjectile"))
+        if (collision.gameObject.CompareTag("playerProjectile"))
         {
             Debug.Log("blackguy died");
             Destroy(gameObject);
@@ -60,7 +60,7 @@ public class Blackguy : MonoBehaviour
     }
     void FollowPlayer()
     {
-        Vector2 pos = Vector2.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
+        Vector2 pos = Vector2.MoveTowards(transform.position, playerRef.transform.position, speed * Time.deltaTime);
         rb.MovePosition(pos);
     }
     // Update is called once per frame
@@ -68,8 +68,11 @@ public class Blackguy : MonoBehaviour
     {
         if (bHasLOS)
         {
-            if(!bHasCollided)
-            FollowPlayer();
+            if (!bHasCollided)
+            {
+                FollowPlayer();
+            }
+
         }
     }
 }

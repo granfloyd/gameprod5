@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class Enemy1 : MonoBehaviour
 {
-    public Transform target;
+    private Player playerRef;
     private float speed = 0.5f;
     private Rigidbody2D rb;
     private Vector2 movement;
@@ -17,6 +17,7 @@ public class Enemy1 : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        playerRef = GameObject.Find("Player").GetComponent<Player>();
     }
     void OnTriggerEnter2D(Collider2D collider)
     {
@@ -57,7 +58,7 @@ public class Enemy1 : MonoBehaviour
     }
     void FollowPlayer()
     {
-        Vector2 pos = Vector2.MoveTowards(transform.position,target.position, speed * Time.deltaTime);
+        Vector2 pos = Vector2.MoveTowards(transform.position,playerRef.transform.position, speed * Time.deltaTime);
         rb.MovePosition(pos);
     }
     // Update is called once per frame
