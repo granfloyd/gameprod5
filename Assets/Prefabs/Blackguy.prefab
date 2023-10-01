@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 6063477788355111142}
   - component: {fileID: 3755296823709948411}
   - component: {fileID: 7627591263130621842}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Blackguy
   m_TagString: Blackguy
   m_Icon: {fileID: 0}
@@ -149,7 +149,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7abb41f88962cc4d86bd5b837e7ffe3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
   bHasLOS: 0
   bHasCollided: 0
 --- !u!58 &3755296823709948411

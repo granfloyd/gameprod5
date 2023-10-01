@@ -556,6 +556,47 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &599141034 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4253834067626226563, guid: 8a34c1c4b1a43ff49811094abf03eb81, type: 3}
+  m_PrefabInstance: {fileID: 628166922}
+  m_PrefabAsset: {fileID: 0}
+--- !u!19719996 &599141039
+TilemapCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 599141034}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_MaximumTileChangeCount: 1000
+  m_ExtrusionFactor: 0
+  m_UseDelaunayMesh: 0
 --- !u!1 &619394800
 GameObject:
   m_ObjectHideFlags: 0
@@ -690,10 +731,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4473724137574685587, guid: 8a34c1c4b1a43ff49811094abf03eb81, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4253834067626226563, guid: 8a34c1c4b1a43ff49811094abf03eb81, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 599141039}
   m_SourcePrefab: {fileID: 100100000, guid: 8a34c1c4b1a43ff49811094abf03eb81, type: 3}
 --- !u!1 &643232590
 GameObject:
@@ -1266,6 +1311,10 @@ PrefabInstance:
     - target: {fileID: 5494078988545000670, guid: ea647538801a0d946b4be4f3c1cf3b8d, type: 3}
       propertyPath: m_Name
       value: Blackguy
+      objectReference: {fileID: 0}
+    - target: {fileID: 5494078988545000670, guid: ea647538801a0d946b4be4f3c1cf3b8d, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 6063477788355111142, guid: ea647538801a0d946b4be4f3c1cf3b8d, type: 3}
       propertyPath: target

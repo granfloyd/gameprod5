@@ -131,7 +131,7 @@ GameObject:
   - component: {fileID: 8226031690352128280}
   - component: {fileID: 5819143012570927821}
   - component: {fileID: 1585842714232269794}
-  - component: {fileID: 4473724137574685587}
+  - component: {fileID: 6694638377888684214}
   m_Layer: 0
   m_Name: Ground_Impassable
   m_TagString: Untagged
@@ -241,8 +241,8 @@ TilemapRenderer:
   m_Mode: 0
   m_DetectChunkCullingBounds: 0
   m_MaskInteraction: 0
---- !u!70 &4473724137574685587
-CapsuleCollider2D:
+--- !u!19719996 &6694638377888684214
+TilemapCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -274,8 +274,9 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_Size: {x: 0.0001, y: 0.0001}
-  m_Direction: 0
+  m_MaximumTileChangeCount: 1000
+  m_ExtrusionFactor: 0
+  m_UseDelaunayMesh: 0
 --- !u!1 &4545157436574545040
 GameObject:
   m_ObjectHideFlags: 0
