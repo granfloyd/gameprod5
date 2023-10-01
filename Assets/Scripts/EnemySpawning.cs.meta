@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: 7dc434b12558a4a48a3f4a030a9c52cc
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - Blackguyprefab: {fileID: 5494078988545000670, guid: ea647538801a0d946b4be4f3c1cf3b8d, type: 3}
+  - Room1Prefab: {fileID: 5301095301816588377, guid: 385b0a42ab3aca244969eb9fbc755d9f, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
