@@ -11,7 +11,7 @@ public class SmoothCam : MonoBehaviour
     private Vector3 vel = Vector3.zero;
 
     // Update is called once per frame
-    private void FixedUpdate()
+    void FixedUpdate()
     {
         Vector3 targetpos = target.position + offset;
         targetpos.z = transform.position.z;

@@ -9,6 +9,7 @@ public class Blackguy : MonoBehaviour
     private Rigidbody2D rb;
     public bool bHasLOS = false;
     public bool bHasCollided = false;
+    float ticker = 0;
     // Start is called before the first frame update
     void Start()
     {
@@ -42,6 +43,7 @@ public class Blackguy : MonoBehaviour
         {
             Debug.Log("Blackguy collided with player");
             bHasCollided = true;
+
         }
         if (collision.gameObject.CompareTag("playerProjectile"))
         {
@@ -66,9 +68,15 @@ public class Blackguy : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        ticker += Time.deltaTime;
         if (bHasLOS)
         {
-            if (!bHasCollided)
+
+            if(bHasCollided)
+            {
+                ticker = 0;
+            }
+            if(ticker > 3.0f)
             {
                 FollowPlayer();
             }

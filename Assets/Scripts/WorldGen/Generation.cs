@@ -67,7 +67,7 @@ public class Generation : MonoBehaviour
             randRoomList.Add(randRoom);
             Debug.Log(randRoomList[i]);
         }
-        for(int i =0; i < 8; i++)
+        for(int i = 0; i < 8; i++)
         {
             GameObject roomGen = Instantiate(randRoomList[i], roomPos[i], Quaternion.identity);
         }

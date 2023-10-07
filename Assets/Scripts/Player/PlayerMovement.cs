@@ -47,7 +47,7 @@ public class PlayerMovement : MonoBehaviour
             else
             {
                 slowDuration += Time.deltaTime;
-                if (slowDuration >= 2)
+                if (slowDuration > 2.0f)
                 {
                     slowDuration = 0;
                     isSlowed = false;
