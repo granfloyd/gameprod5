@@ -1,6 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
+
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,6 +12,9 @@ public class HealthSystem : MonoBehaviour
     public Sprite fullHeart;
     public Sprite emptyHeart;
 
+    public GameObject pannel;
+    public bool benis = false;
+    private float ticker = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -31,6 +32,21 @@ public class HealthSystem : MonoBehaviour
             health = numOfHearts;
 
         UpdateHearts();
+      
+        if(benis)
+        {
+            pannel.SetActive(true);
+            ticker += Time.deltaTime;
+            if(ticker > 3.0f)
+            {
+                benis = false;
+            }
+        }
+        if (!benis)
+        {
+            ticker = 0;
+            pannel.SetActive(false);
+        }
     }
 
     private void UpdateHearts()
@@ -58,13 +74,31 @@ public class HealthSystem : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
 
-        //Check for a match with the specified name on any GameObject that collides with your GameObject
+        ////Check for a match with the specified name on any GameObject that collides with your GameObject
         if (collision.gameObject.name == "Grimis")
         {
             //If the GameObject's name matches the one you suggest, output this message in the console
             Debug.Log("Grimis collided with player");
             TakeDamage(1);
         }
+        if (collision.gameObject.CompareTag("enemyProjectile"))
+        {
+            Debug.Log("enemyprojectile collided with player");
+            TakeDamage(1);
+        }
+        if (collision.gameObject.CompareTag("Enemy1"))
+        {
+            Debug.Log("enemy1 collided with player");
+            TakeDamage(1);
+        }
+        if (collision.gameObject.CompareTag("GrimisAtk"))
+        {
+            Debug.Log("idk");
+            benis = true;
+            
+        }
 
     }
+
+    
 }

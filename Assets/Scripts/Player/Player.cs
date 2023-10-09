@@ -31,7 +31,6 @@ public class Player : MonoBehaviour
         {
             if(ticker >=1)
             {
-                
                 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition); 
                 //calcs a vector from player -  mouse pos
                 Vector2 direction = (Vector2)((mousePos - transform.position ));

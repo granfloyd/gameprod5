@@ -9,13 +9,6 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rb;
     public Vector2 movement;
 
-    //slow stuff
-    private Blackguy blackguyRef;
-    private float slow = 0.2f;
-    private float slowTimer = 0;
-    private bool isSlowed = false;
-    private float slowDuration = 0;
-
     //dash stuff
     private float dashCD = 10;
     private float dashTimer = 0;
@@ -25,36 +18,13 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        blackguyRef = GameObject.FindObjectOfType<Blackguy>();
     }
 
     void FixedUpdate()
     {
         movement.x = Input.GetAxisRaw("Horizontal");
         movement.y = Input.GetAxisRaw("Vertical");
-        if (blackguyRef.bHasCollided)
-        {
-            if (!isSlowed)
-            {
-                slowTimer += Time.deltaTime;
-                if (slowTimer >= 0.2f)
-                {
-                    isSlowed = true;
-                    speed = slow;
-                    slowTimer = 0;
-                }
-            }
-            else
-            {
-                slowDuration += Time.deltaTime;
-                if (slowDuration > 2.0f)
-                {
-                    slowDuration = 0;
-                    isSlowed = false;
-                    speed = 1.0f;
-                }
-            }
-        }
+
         dashCD += Time.deltaTime;
         if(dashCD > 5.0f)
         {
@@ -76,7 +46,6 @@ public class PlayerMovement : MonoBehaviour
             {
                 isDashing = false;
                 dashTimer = 0;
-                dashCD = 0;
                 
             }
         }

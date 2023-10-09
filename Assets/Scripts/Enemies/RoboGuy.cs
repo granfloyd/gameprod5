@@ -1,12 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;
 
-public class Grimis : MonoBehaviour
+public class RoboGuy : MonoBehaviour
 {
-    public GameObject grimisProjectilePrefab;
-    public float grimisProjectileSpeed = 4.0f;
+    public GameObject eProjectilePrefab;
+    public float eProjectileSpeed = 4.0f;
 
     private Player playerRef;
     public float speed = 0.3f;
@@ -28,11 +27,11 @@ public class Grimis : MonoBehaviour
         playerRef = GameObject.Find("Player").GetComponent<Player>();
     }
 
-    private void OnTriggerEnter2D(Collider2D collider)
+    void OnTriggerEnter2D(Collider2D collider)
     {
         if (collider.gameObject.name == "Player")
         {
-            Debug.Log("grimis HAS los on player");
+            Debug.Log("RoboGuy HAS los on player");
             bHasLOS = true;
         }
     }
@@ -41,7 +40,7 @@ public class Grimis : MonoBehaviour
     {
         if (collider.gameObject.name == "Player")
         {
-            Debug.Log("grimis has LOST los on player");
+            Debug.Log("Roboguy has LOST los on player");
             bHasLOS = false;
         }
     }
@@ -50,9 +49,15 @@ public class Grimis : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("playerProjectile"))
         {
-            Debug.Log("grimis got shot deleting grimis....");
+            Debug.Log("Roboguy got shot deleting roboguy....");
             Destroy(gameObject);
         }
+    }
+
+    void FollowPlayer()
+    {
+        Vector2 pos = Vector2.MoveTowards(transform.position, playerRef.transform.position, speed * Time.deltaTime);
+        rb.MovePosition(pos);
     }
 
     void ShootPlayer()
@@ -61,18 +66,21 @@ public class Grimis : MonoBehaviour
         Vector2 direction = (Vector2)(playerRef.transform.position - transform.position);
         direction.Normalize();
 
-        GameObject grimisprojectile = Instantiate(grimisProjectilePrefab, transform.position, Quaternion.identity);
+        GameObject eprojectile = Instantiate(eProjectilePrefab, transform.position, Quaternion.identity);
 
-        grimisprojectile.GetComponent<Rigidbody2D>().velocity = direction * grimisProjectileSpeed;
-
+        eprojectile.GetComponent<Rigidbody2D>().velocity = direction * eProjectileSpeed;
+        
         // Destroy the gameobject 2 seconds after creation
-        Destroy(grimisprojectile, 2.0f);
+        Destroy(eprojectile, 2.0f);
     }
-    void Update()
+
+    // Update is called once per frame
+    void FixedUpdate()
     {
         ticker += Time.deltaTime;
         if (bHasLOS)
         {
+            FollowPlayer();
             if (ticker > 3.0f)
             {
                 delay += Time.deltaTime;
@@ -82,10 +90,10 @@ public class Grimis : MonoBehaviour
                     counter += 1;
                     delay = 0;
                 }
-                if (counter >= 1)
+                if(counter >= 3)
                 {
                     reset = true;
-                }
+                }                
             }
         }
         // Resets 
@@ -96,10 +104,6 @@ public class Grimis : MonoBehaviour
             counter = 0;
             reset = false;
         }
+
     }
-
-
-
 }
-
-    

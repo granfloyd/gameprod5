@@ -5,12 +5,12 @@ TagManager:
   serializedVersion: 2
   tags:
   - Enemy1
-  - Projectile
   - Blackguy
   - Grimis
   - playerProjectile
-  - test
-  - projectile2
+  - enemyProjectile
+  - RoboGuy
+  - GrimisAtk
   layers:
   - Default
   - TransparentFX
@@ -21,9 +21,9 @@ TagManager:
   - Player
   - Blackguy
   - Benis
-  - 
-  - 
-  - 
+  - ePlayerProjectile
+  - RoboGuy
+  - Enemy
   - 
   - 
   - 
