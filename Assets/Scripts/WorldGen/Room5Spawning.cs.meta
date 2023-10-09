@@ -3,7 +3,13 @@ guid: 7c462d68509ff324e9b655f12813ad03
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - Blackguyprefab: {fileID: 5494078988545000670, guid: ea647538801a0d946b4be4f3c1cf3b8d, type: 3}
+  - Grimisprefab: {fileID: 3500668215452513334, guid: fade2fedd18b4aa4182e499cd3f6e84e, type: 3}
+  - Roboguyprefab: {fileID: 8685240406803841551, guid: 36459e184af4a9445a2776f55c2dde8b, type: 3}
+  - Enemy1prefab: {fileID: 3364070151232361827, guid: a6c59aba9fd45624ea2c7b6851b4d5f5, type: 3}
+  - randEnemy: {instanceID: 0}
+  - Room5Prefab: {fileID: 5301095301816588377, guid: bd21f0bfdc17f8c4b891980a4e15478e, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

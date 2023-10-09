@@ -1878,6 +1878,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6013287500326155509}
   - component: {fileID: 7989085277928862953}
+  - component: {fileID: 4927909600785805200}
   m_Layer: 0
   m_Name: Room7
   m_TagString: Untagged
@@ -1916,6 +1917,24 @@ Grid:
   m_CellGap: {x: 0, y: 0, z: 0}
   m_CellLayout: 0
   m_CellSwizzle: 0
+--- !u!114 &4927909600785805200
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5301095301816588377}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25047b31f87cde343855cb252d473cbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Blackguyprefab: {fileID: 5494078988545000670, guid: ea647538801a0d946b4be4f3c1cf3b8d, type: 3}
+  Grimisprefab: {fileID: 3500668215452513334, guid: fade2fedd18b4aa4182e499cd3f6e84e, type: 3}
+  Roboguyprefab: {fileID: 8685240406803841551, guid: 36459e184af4a9445a2776f55c2dde8b, type: 3}
+  Enemy1prefab: {fileID: 3364070151232361827, guid: a6c59aba9fd45624ea2c7b6851b4d5f5, type: 3}
+  randEnemy: {fileID: 0}
+  Room7Prefab: {fileID: 5301095301816588377}
 --- !u!1 &9071051385626121929
 GameObject:
   m_ObjectHideFlags: 0
