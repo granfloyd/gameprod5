@@ -11,6 +11,8 @@ TagManager:
   - enemyProjectile
   - RoboGuy
   - GrimisAtk
+  - heart
+  - Heart
   layers:
   - Default
   - TransparentFX

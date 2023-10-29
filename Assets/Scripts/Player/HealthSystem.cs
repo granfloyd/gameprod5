@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class HealthSystem : MonoBehaviour
 {
     //position stuff
-    public int health;
+    public int health = 10;
     public int numOfHearts;
 
     public Image[] hearts;
@@ -24,6 +24,11 @@ public class HealthSystem : MonoBehaviour
     public void TakeDamage(int dmg)
     {
         health -= dmg;
+    }
+
+    public void HealDamage(int amount)
+    {
+        health += amount;
     }
     // Update is called once per frame
     void Update()
@@ -97,8 +102,18 @@ public class HealthSystem : MonoBehaviour
             benis = true;
             
         }
+        
 
     }
+    private void OnTriggerEnter2D(Collider2D collider)
+    {
+        if (collider.gameObject.CompareTag("Heart"))
+        {
+            //If the GameObject's name matches the one you suggest, output this message in the console
+            Debug.Log("player gained + 1 hp");
+            HealDamage(1);
+        }
+    }
 
-    
+
 }
