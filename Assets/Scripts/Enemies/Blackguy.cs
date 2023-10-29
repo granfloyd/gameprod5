@@ -29,7 +29,7 @@ public class Blackguy : MonoBehaviour
     void OnTriggerEnter2D(Collider2D collider)
     {
         //Check for a match with the specified name on any GameObject that collides with your GameObject
-        if (collider.gameObject.name == "Player")
+        if (collider.gameObject.tag == "Player")
         {
             Debug.Log("Blackguy HAS los on player");
             bHasLOS = true;
@@ -40,7 +40,7 @@ public class Blackguy : MonoBehaviour
     private void OnTriggerExit2D(Collider2D collider)
     {
         //Check for a match with the specified name on any GameObject that collides with your GameObject
-        if (collider.gameObject.name == "Player")
+        if (collider.gameObject.tag == "Player")
         {
             Debug.Log("Blackguy has LOST los on player");
             bHasLOS = false;
@@ -49,13 +49,13 @@ public class Blackguy : MonoBehaviour
     void OnCollisionEnter2D(Collision2D collision)
     {
         //Check for a match with the specified name on any GameObject that collides with your GameObject
-        if (collision.gameObject.name == "Player")
+        if (collision.gameObject.tag == "Player")
         {
             Debug.Log("Blackguy collided with player");
             bHasCollided = true;
 
         }
-        if (collision.gameObject.CompareTag("playerProjectile"))
+        if (collision.gameObject.tag == "playerProjectile")
         {
             Debug.Log("blackguy died");
             Destroy(gameObject);
@@ -64,7 +64,7 @@ public class Blackguy : MonoBehaviour
     void OnCollisionExit2D(Collision2D collision)
     {
         //Check for a match with the specified name on any GameObject that collides with your GameObject
-        if (collision.gameObject.name == "Player")
+        if (collision.gameObject.tag == "Player")
         {
             Debug.Log("Blackguy EXIT");
             bHasCollided = false;

@@ -37,14 +37,14 @@ public class Room7Spawning : MonoBehaviour
         }
 
         //room2
-        for (int i = 0; i < 2; i++)
+        for (int i = 0; i < 3; i++)
         {
             int randIndex = Random.Range(0, spawnPos.Count);
             Vector2 randPos = spawnPos[randIndex];
             randSpawnPos.Add(randPos);
             Debug.Log(randSpawnPos);
         }
-        for (int i = 0; i < 2; i++)
+        for (int i = 0; i < 3; i++)
         {
             GameObject spawnthis = Instantiate(randEnemyList[i], Room7Prefab.transform);
             spawnthis.transform.localPosition = randSpawnPos[i];

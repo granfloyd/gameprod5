@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -26,7 +27,7 @@ public class Room1Spawning : MonoBehaviour
         spawnPos.Add(new Vector2(-1.5f, 0));
         spawnPos.Add(new Vector2(1.5f, 0));
         //rand enemy
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < 2; i++)
         {
             int randIndex = Random.Range(0, enemyList.Count);
             GameObject randEnemy = enemyList[randIndex];
@@ -46,21 +47,14 @@ public class Room1Spawning : MonoBehaviour
             GameObject spawnthis = Instantiate(randEnemyList[i], Room1Prefab.transform);
             spawnthis.transform.localPosition = randSpawnPos[i];
         }
-        
-        ////room2
-        //for (int i = 0; i < 1; i++)
-        //{
-        //    int randIndex = Random.Range(0, spawnPos.Count);
-        //    Vector2 randPos = spawnPos[randIndex];
-        //    randSpawnPos.Add(randPos);
-        //    Debug.Log(randSpawnPos);
-        //}
-        //for (int i = 0; i < 1; i++)
-        //{
-        //    GameObject spawnthis = Instantiate(randEnemy, Room2Prefab.transform);
-        //    spawnthis.transform.localPosition = randSpawnPos[i];
-        //}
 
+    }
+
+    void Update()
+    {
+        Debug.Log(randEnemyList.Count);
+        if (randEnemyList.Count == 0)
+            Debug.Log("ZERO enemies left in this room...Spawning Chest");
     }
 }
 

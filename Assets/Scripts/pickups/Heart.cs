@@ -18,7 +18,7 @@ public class Heart : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
-        if (collider.gameObject.CompareTag("Player"))
+        if (collider.gameObject.tag == "Player")
         {
             //delete heart
             Destroy(gameObject);

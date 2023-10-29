@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 1719941649174406049}
   - component: {fileID: -5702331854307365448}
   - component: {fileID: -6703735206158618707}
+  - component: {fileID: -437045364363722086}
   m_Layer: 11
   m_Name: RoboGuy
   m_TagString: RoboGuy
@@ -216,3 +217,20 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.32, y: 0.32}
   m_EdgeRadius: 0
+--- !u!114 &-437045364363722086
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8685240406803841551}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db3488330d22a0a4a95a3f3ea8a6f64b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eProjectilePrefab: {fileID: 7986293975911026654, guid: f89b0da5a038f814e8b5f765b7248dd8, type: 3}
+  eProjectileSpeed: 4
+  speed: 0.3
+  bHasLOS: 0
+  bHasCollided: 0

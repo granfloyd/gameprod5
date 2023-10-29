@@ -22,7 +22,7 @@ public class Enemy1 : MonoBehaviour
     void OnTriggerEnter2D(Collider2D collider)
     {
         //Check for a match with the specified name on any GameObject that collides with your GameObject
-        if (collider.gameObject.name == "Player")
+        if (collider.gameObject.tag == "Player")
         {
             //If the GameObject's name matches the one you suggest, output this message in the console
             Debug.Log("enemy1 has los on player");
@@ -33,7 +33,7 @@ public class Enemy1 : MonoBehaviour
     private void OnTriggerExit2D(Collider2D collider)
     {
         //Check for a match with the specified name on any GameObject that collides with your GameObject
-        if (collider.gameObject.name == "Player")
+        if (collider.gameObject.tag == "Player")
         {
             //If the GameObject's name matches the one you suggest, output this message in the console
             Debug.Log("enemy1 has LOST los on player");
@@ -43,12 +43,12 @@ public class Enemy1 : MonoBehaviour
     void OnCollisionEnter2D(Collision2D collision)
     {
         //Check for a match with the specified name on any GameObject that collides with your GameObject
-        if (collision.gameObject.name == "Player")
+        if (collision.gameObject.tag == "Player")
         {
             //If the GameObject's name matches the one you suggest, output this message in the console
             Debug.Log("Enemy1 collided with player");
         }
-        if (collision.gameObject.CompareTag("playerProjectile"))
+        if (collision.gameObject.tag == "playerProjectile")
         {
             //If the GameObject's name matches the one you suggest, output this message in the console
             Debug.Log("enemy1 died");

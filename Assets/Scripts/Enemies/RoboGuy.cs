@@ -29,7 +29,7 @@ public class RoboGuy : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collider)
     {
-        if (collider.gameObject.name == "Player")
+        if (collider.gameObject.tag == "Player")
         {
             Debug.Log("RoboGuy HAS los on player");
             bHasLOS = true;
@@ -38,7 +38,7 @@ public class RoboGuy : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collider)
     {
-        if (collider.gameObject.name == "Player")
+        if (collider.gameObject.tag == "Player")
         {
             Debug.Log("Roboguy has LOST los on player");
             bHasLOS = false;
@@ -47,7 +47,7 @@ public class RoboGuy : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("playerProjectile"))
+        if (collision.gameObject.tag == "playerProjectile")
         {
             Debug.Log("Roboguy got shot deleting roboguy....");
             Destroy(gameObject);
