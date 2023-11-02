@@ -14,11 +14,14 @@ public class Player : MonoBehaviour
     private Vector3 mousePos;
     private Vector2 aimDirection;
 
+    public List<GameObject> keys = new List<GameObject>();
+
     void Start()
     {
         //old
         //currentHealth = maxHealth;
         //healthBar.SetMaxHealth(maxHealth);
+        
         aimProjectile = Instantiate(aimProjectile, aimDirection, Quaternion.identity);
     }
    

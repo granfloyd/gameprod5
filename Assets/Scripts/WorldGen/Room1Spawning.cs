@@ -9,7 +9,7 @@ public class Room1Spawning : MonoBehaviour
     public GameObject Roboguyprefab;
     public GameObject Enemy1prefab;
     List<GameObject> enemyList = new List<GameObject>();
-    List<GameObject> randEnemyList = new List<GameObject>();
+    public List<GameObject> randEnemyList = new List<GameObject>();
     List<Vector2> spawnPos = new List<Vector2>();
     List<Vector2> randSpawnPos = new List<Vector2>();
 
@@ -52,9 +52,9 @@ public class Room1Spawning : MonoBehaviour
 
     void Update()
     {
-        Debug.Log(randEnemyList.Count);
-        if (randEnemyList.Count == 0)
-            Debug.Log("ZERO enemies left in this room...Spawning Chest");
+        //Debug.Log(randEnemyList.Count);
+        //if (randEnemyList.Count == 0)
+        //    Debug.Log("ZERO enemies left in this room...Spawning Chest");
     }
 }
 
