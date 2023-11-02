@@ -31,7 +31,6 @@ public class Grimis : MonoBehaviour
     {
         if (collider.gameObject.tag == "Player")
         {
-            Debug.Log("grimis HAS los on player");
             bHasLOS = true;
         }
     }
@@ -40,7 +39,6 @@ public class Grimis : MonoBehaviour
     {
         if (collider.gameObject.tag == "Player")
         {
-            Debug.Log("grimis has LOST los on player");
             bHasLOS = false;
         }
     }
@@ -49,7 +47,6 @@ public class Grimis : MonoBehaviour
     {
         if (collision.gameObject.tag == "playerProjectile")
         {
-            Debug.Log("grimis got shot deleting grimis....");
             Destroy(gameObject);
         }
     }

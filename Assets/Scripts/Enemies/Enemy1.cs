@@ -25,7 +25,6 @@ public class Enemy1 : MonoBehaviour
         if (collider.gameObject.tag == "Player")
         {
             //If the GameObject's name matches the one you suggest, output this message in the console
-            Debug.Log("enemy1 has los on player");
             bHasLOS = true;
            
         }
@@ -36,7 +35,6 @@ public class Enemy1 : MonoBehaviour
         if (collider.gameObject.tag == "Player")
         {
             //If the GameObject's name matches the one you suggest, output this message in the console
-            Debug.Log("enemy1 has LOST los on player");
             bHasLOS = false;
         }
     }
@@ -46,12 +44,10 @@ public class Enemy1 : MonoBehaviour
         if (collision.gameObject.tag == "Player")
         {
             //If the GameObject's name matches the one you suggest, output this message in the console
-            Debug.Log("Enemy1 collided with player");
         }
         if (collision.gameObject.tag == "playerProjectile")
         {
             //If the GameObject's name matches the one you suggest, output this message in the console
-            Debug.Log("enemy1 died");
             Destroy(gameObject);
         }
 

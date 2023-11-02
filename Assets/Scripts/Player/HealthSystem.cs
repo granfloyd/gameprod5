@@ -82,23 +82,20 @@ public class HealthSystem : MonoBehaviour
         ////Check for a match with the specified name on any GameObject that collides with your GameObject
         if (collision.gameObject.name == "Grimis")
         {
-            //If the GameObject's name matches the one you suggest, output this message in the console
-            Debug.Log("Grimis collided with player");
             TakeDamage(1);
         }
         if (collision.gameObject.CompareTag("enemyProjectile"))
         {
-            Debug.Log("enemyprojectile collided with player");
+
             TakeDamage(1);
         }
         if (collision.gameObject.CompareTag("Enemy1"))
         {
-            Debug.Log("enemy1 collided with player");
             TakeDamage(1);
         }
         if (collision.gameObject.CompareTag("GrimisAtk"))
         {
-            Debug.Log("idk");
+
             benis = true;
             
         }
@@ -110,7 +107,6 @@ public class HealthSystem : MonoBehaviour
         if (collider.gameObject.CompareTag("Heart"))
         {
             //If the GameObject's name matches the one you suggest, output this message in the console
-            Debug.Log("player gained + 1 hp");
             HealDamage(1);
         }
     }

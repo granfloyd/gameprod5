@@ -40,13 +40,12 @@ public class Room1Spawning : MonoBehaviour
             int randIndex = Random.Range(0, spawnPos.Count);
             Vector2 randPos = spawnPos[randIndex];
             randSpawnPos.Add(randPos);
-            Debug.Log(randSpawnPos);
         }
-        for (int i = 0; i < 2; i++)
-        {
-            GameObject spawnthis = Instantiate(randEnemyList[i], Room1Prefab.transform);
-            spawnthis.transform.localPosition = randSpawnPos[i];
-        }
+        //for (int i = 0; i < 2; i++)
+        //{
+        //    GameObject spawnthis = Instantiate(randEnemyList[i], Room1Prefab.transform);
+        //    spawnthis.transform.localPosition = randSpawnPos[i];
+        //}
 
     }
 

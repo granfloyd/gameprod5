@@ -15,22 +15,18 @@ public class PlayerProjectile : MonoBehaviour
         //Check for a match with the specified name on any GameObject that collides with your GameObject
         if (collision.gameObject.tag == "Grimis")
         {
-            Debug.Log("Grimis got shot ");
             Destroy(gameObject);
         }
         if (collision.gameObject.tag == "Enemy1")
         {
-            Debug.Log("Enemy1 got shot");
             Destroy(gameObject);
         }
         if (collision.gameObject.tag == "Blackguy")
         {
-            Debug.Log("Blackguy got shot");
             Destroy(gameObject);
         }
         if (collision.gameObject.tag == "RoboGuy")
         {
-            Debug.Log("roboguy got shot");
             Destroy(gameObject);
         }
 

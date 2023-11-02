@@ -6,25 +6,52 @@ using UnityEngine.UIElements;
 
 public class Player : MonoBehaviour
 {
+    public Chest chestRef;
+
+    public GameObject keyObject;
+
+    public GameObject chestObject; 
+
     public GameObject projectilePrefab;
+
     public GameObject aimProjectile;
+
     public float projectileSpeed;
+
     public float ticker = 0;
 
+    public int totalKeys = 0;
+
     private Vector3 mousePos;
+
     private Vector2 aimDirection;
 
-    public List<GameObject> keys = new List<GameObject>();
+    //key stuff
+    public bool isPickedUp = false;
+
+    public bool onKey = false;
+
+    //chest stuff
+    public bool isOpened = false;
+
+    public bool onChest = false;
+
+    //public List<GameObject> keys = new List<GameObject>();
 
     void Start()
     {
-        //old
-        //currentHealth = maxHealth;
-        //healthBar.SetMaxHealth(maxHealth);
-        
         aimProjectile = Instantiate(aimProjectile, aimDirection, Quaternion.identity);
+
+        chestRef = GameObject.Find("Chest").GetComponent<Chest>();
     }
-   
+    public void UpdateKey(int addkey)
+    {
+        totalKeys += addkey;
+        Debug.Log("key has been added to player inventory");
+    }
+
+    
+
     // Update is called once per frame
     void Update()
     {
@@ -50,9 +77,54 @@ public class Player : MonoBehaviour
                 
             } 
         }
-        
+        //key stuff
+        if (onKey && Input.GetKey(KeyCode.E))
+        {
+            Debug.Log("player picked up key");
+            UpdateKey(1);
+            Destroy(keyObject);
+            onKey = false;
+        }
+
+        //chest stuff
+        if (onChest && Input.GetKey(KeyCode.E))
+        {
+            Debug.Log("player opened chest!");
+            //spawns a rand gameobject / drop then destroys object
+            chestRef.OpenChest();
+            Destroy(chestObject);
+            onChest = false;
+        }
 
 
+    }
+    void OnTriggerEnter2D(Collider2D collider)
+    {
+        if (collider.gameObject.tag == "Key")
+        {
+            onKey = true;
+            Debug.Log("player is on key");
+            keyObject = collider.gameObject;
+        }
+        if (collider.gameObject.tag == "Chest")
+        {
+            onChest = true;
+            Debug.Log("player is on Chest");
+            chestObject = collider.gameObject;
+        }
+    }
+    private void OnTriggerExit2D(Collider2D collider)
+    {
+        if (collider.gameObject.tag == "Key")
+        {
+            onKey = false;
+            Debug.Log("player walked over key");
+        }
+        if (collider.gameObject.tag == "Chest")
+        {
+            onChest = false;
+            Debug.Log("player walked over Chest");
+        }
     }
     void RotateAim()
     {

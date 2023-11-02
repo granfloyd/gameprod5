@@ -42,7 +42,6 @@ public class Room9Spawning : MonoBehaviour
             int randIndex = Random.Range(0, spawnPos.Count);
             Vector2 randPos = spawnPos[randIndex];
             randSpawnPos.Add(randPos);
-            Debug.Log(randSpawnPos);
         }
         for (int i = 0; i < 3; i++)
         {
