@@ -87,14 +87,20 @@ public class Player : MonoBehaviour
         }
 
         //chest stuff
-        if (onChest && Input.GetKey(KeyCode.E))
+        if(totalKeys > 0)
         {
-            Debug.Log("player opened chest!");
-            //spawns a rand gameobject / drop then destroys object
-            chestRef.OpenChest();
-            Destroy(chestObject);
-            onChest = false;
+            if (onChest && Input.GetKey(KeyCode.E))
+            {
+                Debug.Log("player opened chest!");
+                //take key away from player 
+                totalKeys -= 1; 
+                //spawns a rand gameobject / drop then destroys object
+                chestRef.OpenChest();
+                Destroy(chestObject);
+                onChest = false;
+            }
         }
+        
 
 
     }
