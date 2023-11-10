@@ -13,6 +13,12 @@ TagManager:
   - GrimisAtk
   - heart
   - Heart
+  - spawnpoint
+  - Key
+  - Chest
+  - Door
+  - Shield
+  - ScoreManager
   layers:
   - Default
   - TransparentFX
@@ -26,7 +32,7 @@ TagManager:
   - ePlayerProjectile
   - RoboGuy
   - Enemy
-  - 
+  - shield
   - 
   - 
   - 

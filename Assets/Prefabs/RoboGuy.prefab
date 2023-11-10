@@ -232,5 +232,6 @@ MonoBehaviour:
   eProjectilePrefab: {fileID: 7986293975911026654, guid: f89b0da5a038f814e8b5f765b7248dd8, type: 3}
   eProjectileSpeed: 4
   speed: 0.3
+  keyObject: {fileID: 5483950112051104397, guid: 8afc91131dff8c34091d2c7f74edc59b, type: 3}
   bHasLOS: 0
   bHasCollided: 0

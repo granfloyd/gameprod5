@@ -4,20 +4,29 @@ using UnityEngine;
 
 public class Grimis : MonoBehaviour
 {
-    public GameObject grimisProjectilePrefab;
-    public float grimisProjectileSpeed = 4.0f;
-
     private Player playerRef;
-    public float speed = 0.3f;
+
+    public GameObject grimisProjectilePrefab;
+
+    public GameObject keyObject;
+
     private Rigidbody2D rb;
 
-    public bool bHasLOS = false;
-    public bool bHasCollided = false;
-
+    public float grimisProjectileSpeed = 4.0f;
+   
+    public float speed = 0.3f;
+    
     private float ticker = 0;
+
     private float delay = 0.0f;
+
     private int counter = 0;
+
     private bool reset = false;
+
+    public bool bHasLOS = false;
+
+    public bool bHasCollided = false;
 
 
     // Start is called before the first frame update
@@ -47,6 +56,7 @@ public class Grimis : MonoBehaviour
     {
         if (collision.gameObject.tag == "playerProjectile")
         {
+            GameObject spawnthis = Instantiate(keyObject, transform.position, Quaternion.identity);
             Destroy(gameObject);
         }
     }

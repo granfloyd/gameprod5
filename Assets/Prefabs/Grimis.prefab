@@ -187,6 +187,7 @@ MonoBehaviour:
   grimisProjectilePrefab: {fileID: 5005327014637351098, guid: a96bf2b86d6ba84458c24a7177591ce2, type: 3}
   grimisProjectileSpeed: 4
   speed: 0.3
+  keyObject: {fileID: 5483950112051104397, guid: 8afc91131dff8c34091d2c7f74edc59b, type: 3}
   bHasLOS: 0
   bHasCollided: 0
 --- !u!58 &9027084489555225507

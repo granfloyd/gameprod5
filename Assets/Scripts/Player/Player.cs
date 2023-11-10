@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
+
 using UnityEngine;
-using UnityEngine.Rendering;
-using UnityEngine.UIElements;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -15,6 +16,8 @@ public class Player : MonoBehaviour
     public GameObject projectilePrefab;
 
     public GameObject aimProjectile;
+
+    public GameObject shieldPrefab;
 
     public float projectileSpeed;
 
@@ -36,21 +39,27 @@ public class Player : MonoBehaviour
 
     public bool onChest = false;
 
-    //public List<GameObject> keys = new List<GameObject>();
+    //door stuff 
+    public bool onDoor = false;
 
+    //shield stuff
+    public float ticker2 = 0;
+
+    public bool shieldActive = false;
+
+    GameObject shield;
     void Start()
     {
         aimProjectile = Instantiate(aimProjectile, aimDirection, Quaternion.identity);
 
         chestRef = GameObject.Find("Chest").GetComponent<Chest>();
     }
+
     public void UpdateKey(int addkey)
     {
         totalKeys += addkey;
         Debug.Log("key has been added to player inventory");
     }
-
-    
 
     // Update is called once per frame
     void Update()
@@ -100,10 +109,40 @@ public class Player : MonoBehaviour
                 onChest = false;
             }
         }
+        //door stuff 
+        if (onDoor && Input.GetKey(KeyCode.E))
+        {
+            //SceneManager.LoadScene(SceneManager.GetActiveScene().name, LoadSceneMode.Single);
+            SceneManager.LoadScene("Game1");
+        }
+
+        //shield stuff
+        if(!shieldActive)
+        {
+            if (Input.GetKey(KeyCode.Space))
+            {
+                shield = Instantiate(shieldPrefab, transform.position, Quaternion.identity);
+                shieldActive = true;
+            }
+        }
         
+        if (shieldActive)
+        {
+            ticker2 += Time.deltaTime;
+
+            if (ticker2 > 10)
+            {
+                Destroy(shield);
+                ticker2 = 0;
+                shieldActive = false;
+            }
+        }
+        if(shield != null)
+        shield.transform.position = transform.position;
 
 
     }
+    
     void OnTriggerEnter2D(Collider2D collider)
     {
         if (collider.gameObject.tag == "Key")
@@ -118,6 +157,11 @@ public class Player : MonoBehaviour
             Debug.Log("player is on Chest");
             chestObject = collider.gameObject;
         }
+        if (collider.gameObject.tag == "Door")
+        {
+            onDoor = true;
+            
+        }
     }
     private void OnTriggerExit2D(Collider2D collider)
     {
@@ -131,21 +175,29 @@ public class Player : MonoBehaviour
             onChest = false;
             Debug.Log("player walked over Chest");
         }
+        if (collider.gameObject.tag == "Door")
+        {
+            onDoor = false;
+
+        }
     }
     void RotateAim()
     {
 
-        mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Vector2 aimDirection = (Vector2)((mousePos - transform.position));
-        aimDirection.Normalize();
-        // Update the position of aimProjectile to follow the player
-        aimProjectile.transform.position = (Vector2)transform.position + aimDirection * 0.3f;
-
-        //Calculates the angle of aimDirection, adjusting for a sprite that faces up
-        float angle = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg - 90;
-
-        // Rotate aimProjectile to face towards the mouse cursor
-        aimProjectile.transform.rotation = Quaternion.Euler(0, 0, angle);
+        
+         mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+         Vector2 aimDirection = (Vector2)((mousePos - transform.position));
+         aimDirection.Normalize();
+         // Update the position of aimProjectile to follow the player
+         aimProjectile.transform.position = (Vector2)transform.position + aimDirection * 0.3f;
+         
+         //Calculates the angle of aimDirection, adjusting for a sprite that faces up
+         float angle = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg - 90;
+         
+         // Rotate aimProjectile to face towards the mouse cursor
+         aimProjectile.transform.rotation = Quaternion.Euler(0, 0, angle);
+        
+        
 
     }
     

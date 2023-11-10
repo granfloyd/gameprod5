@@ -21,6 +21,10 @@ public class HealthSystem : MonoBehaviour
     {
 
     }
+    void Awake()
+    {
+        //DontDestroyOnLoad(gameObject);
+    }
     public void TakeDamage(int dmg)
     {
         health -= dmg;
@@ -37,44 +41,50 @@ public class HealthSystem : MonoBehaviour
             health = numOfHearts;
 
         UpdateHearts();
-      
-        if(benis)
-        {
-            pannel.SetActive(true);
-            ticker += Time.deltaTime;
-            if(ticker > 3.0f)
+
+            if (benis)
             {
-                benis = false;
+                pannel.SetActive(true);
+                ticker += Time.deltaTime;
+                if (ticker > 3.0f)
+                {
+                    benis = false;
+                }
             }
-        }
-        if (!benis)
-        {
-            ticker = 0;
-            pannel.SetActive(false);
-        }
+            if (!benis)
+            {
+                ticker = 0;
+                pannel.SetActive(false);
+            }
+        
     }
 
     private void UpdateHearts()
     {
         for (int i = 0; i < hearts.Length; i++)
         {
-            if (i < health)
-            {
-                hearts[i].sprite = fullHeart;
-            }
-            else
-            {
-                hearts[i].sprite = emptyHeart;
-            }
-            if (i < numOfHearts)
-            {
-                hearts[i].enabled = true;
-            }
-            else
-            {
-                hearts[i].enabled = false;
-            }
+
+            
+                if (i < health)
+                {
+                    hearts[i].sprite = fullHeart;
+                }
+                else
+                {
+                    hearts[i].sprite = emptyHeart;
+                }
+                if (i < numOfHearts)
+                {
+                    hearts[i].enabled = true;
+                }
+                else
+                {
+                    hearts[i].enabled = false;
+                }
+            
+
         }
+    
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {

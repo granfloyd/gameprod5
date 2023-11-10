@@ -6,11 +6,19 @@ using UnityEngine;
 
 public class Enemy1 : MonoBehaviour
 {
+
     private Player playerRef;
-    private float speed = 0.5f;
+
+    public GameObject keyObject;
+
     private Rigidbody2D rb;
+
     private Vector2 movement;
+
+    private float speed = 0.5f;
+    
     bool bHasLOS = false;
+    
     //public Player player;
 
     // Start is called before the first frame update
@@ -47,7 +55,7 @@ public class Enemy1 : MonoBehaviour
         }
         if (collision.gameObject.tag == "playerProjectile")
         {
-            //If the GameObject's name matches the one you suggest, output this message in the console
+            GameObject spawnthis = Instantiate(keyObject, transform.position, Quaternion.identity);
             Destroy(gameObject);
         }
 

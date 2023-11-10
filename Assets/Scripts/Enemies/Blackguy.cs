@@ -4,19 +4,24 @@ using UnityEngine;
 
 public class Blackguy : MonoBehaviour
 {
+
     private Player playerRef;
-    public float speed = 0.8f;
+
+    private PlayerMovement playerMovementRef;
+
     private Rigidbody2D rb;
-    public bool bHasLOS = false;
-    public bool bHasCollided = false;
+
+    public GameObject keyObject;
+
+    public float speed = 0.8f;
+   
     private float ticker = 0;
+
     public float fasterfaster = 0.1f;
 
-    //slow stuff
-    private PlayerMovement playerMovementRef;
-    private float slow = 0.2f;
-    private bool isSlowed = false;
-    private float slowDuration = 0;
+    public bool bHasLOS = false;
+
+    public bool bHasCollided = false;
 
     // Start is called before the first frame update
     void Start()
@@ -24,7 +29,6 @@ public class Blackguy : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         playerRef = GameObject.Find("Player").GetComponent<Player>();
         playerMovementRef = GameObject.Find("Player").GetComponent<PlayerMovement>();
-
     }
     void OnTriggerEnter2D(Collider2D collider)
     {
@@ -54,6 +58,7 @@ public class Blackguy : MonoBehaviour
         }
         if (collision.gameObject.tag == "playerProjectile")
         {
+            GameObject spawnthis = Instantiate(keyObject, transform.position, Quaternion.identity);
             Destroy(gameObject);
         }
     }
@@ -74,23 +79,7 @@ public class Blackguy : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (bHasCollided && !isSlowed)
-        {
-            isSlowed = true;
-            playerMovementRef.speed = slow;
-        }
-
-        if (isSlowed)
-        {
-            slowDuration += Time.deltaTime;
-            if (slowDuration > 2.0f)
-            {
-                slowDuration = 0;
-                isSlowed = false;
-                playerMovementRef.speed = 1.0f;
-            }
-        }
-
+        
         ticker += Time.deltaTime;
         if (bHasLOS)
         {

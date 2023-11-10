@@ -1,23 +1,33 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Rendering;
 using UnityEngine;
 
 public class RoboGuy : MonoBehaviour
 {
-    public GameObject eProjectilePrefab;
-    public float eProjectileSpeed = 4.0f;
-
     private Player playerRef;
-    public float speed = 0.3f;
+
+    public GameObject keyObject;
+
+    public GameObject eProjectilePrefab;
+
     private Rigidbody2D rb;
 
-    public bool bHasLOS = false;
-    public bool bHasCollided = false;
+    public float eProjectileSpeed = 4.0f;
+    
+    public float speed = 0.3f;
 
     private float ticker = 0;
+
     private float delay = 0.0f;
+
     private int counter = 0;
+
     private bool reset = false;
+
+    public bool bHasLOS = false;
+
+    public bool bHasCollided = false;
 
 
     // Start is called before the first frame update
@@ -47,6 +57,7 @@ public class RoboGuy : MonoBehaviour
     {
         if (collision.gameObject.tag == "playerProjectile")
         {
+            GameObject spawnthis = Instantiate(keyObject, transform.position, Quaternion.identity);
             Destroy(gameObject);
         }
     }
