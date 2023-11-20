@@ -17,6 +17,10 @@ public class EnemyProjectile : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        if (collision.gameObject.tag == "Shield")
+        {
+            Destroy(gameObject);
+        }
 
     }
     // Update is called once per frame

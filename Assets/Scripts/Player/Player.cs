@@ -4,10 +4,15 @@ using Unity.VisualScripting;
 
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.SocialPlatforms.Impl;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
+    public GameObject pressE;
     public Chest chestRef;
+
+    public Text keyCountText;
 
     public GameObject keyObject;
 
@@ -53,10 +58,13 @@ public class Player : MonoBehaviour
         aimProjectile = Instantiate(aimProjectile, aimDirection, Quaternion.identity);
 
         chestRef = GameObject.Find("Chest").GetComponent<Chest>();
+        UpdateKey(1);
     }
+
 
     public void UpdateKey(int addkey)
     {
+        keyCountText.text = totalKeys.ToString();
         totalKeys += addkey;
         Debug.Log("key has been added to player inventory");
     }
@@ -150,15 +158,18 @@ public class Player : MonoBehaviour
             onKey = true;
             Debug.Log("player is on key");
             keyObject = collider.gameObject;
+            pressE.SetActive(true);
         }
         if (collider.gameObject.tag == "Chest")
         {
             onChest = true;
             Debug.Log("player is on Chest");
             chestObject = collider.gameObject;
+            pressE.SetActive(true);
         }
         if (collider.gameObject.tag == "Door")
         {
+            pressE.SetActive(true);
             onDoor = true;
             
         }
@@ -169,15 +180,38 @@ public class Player : MonoBehaviour
         {
             onKey = false;
             Debug.Log("player walked over key");
+            pressE.SetActive(false);
         }
         if (collider.gameObject.tag == "Chest")
         {
             onChest = false;
             Debug.Log("player walked over Chest");
+            pressE.SetActive(false);
         }
         if (collider.gameObject.tag == "Door")
         {
             onDoor = false;
+            pressE.SetActive(false);
+
+        }
+    }
+    private void OnTriggerStay2D(Collider2D collider)
+    {
+        if (collider.gameObject.tag == "Key")
+        {
+            
+           
+            pressE.SetActive(true);
+        }
+        if (collider.gameObject.tag == "Chest")
+        {
+            
+            pressE.SetActive(true);
+        }
+        if (collider.gameObject.tag == "Door")
+        {
+            
+            pressE.SetActive(true);
 
         }
     }
