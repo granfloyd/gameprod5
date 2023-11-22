@@ -19,6 +19,7 @@ TagManager:
   - Door
   - Shield
   - ScoreManager
+  - GrimisDrink
   layers:
   - Default
   - TransparentFX

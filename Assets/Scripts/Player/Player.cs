@@ -1,7 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
-
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.SocialPlatforms.Impl;
@@ -10,19 +11,30 @@ using UnityEngine.UI;
 public class Player : MonoBehaviour
 {
     public GameObject pressE;
+
     public Chest chestRef;
 
     public Text keyCountText;
 
     public GameObject keyObject;
 
-    public GameObject chestObject; 
+    public GameObject chestObject;
+    
+    public GameObject grimisDrinkObject;
+
+    public GameObject heartObject;
+
+    public GameObject shieldObject;
 
     public GameObject projectilePrefab;
 
     public GameObject aimProjectile;
 
     public GameObject shieldPrefab;
+
+    public GameObject grimisDrinkPrefab;
+
+    public List<GameObject> inventory = new List<GameObject>();
 
     public float projectileSpeed;
 
@@ -53,12 +65,22 @@ public class Player : MonoBehaviour
     public bool shieldActive = false;
 
     GameObject shield;
+
+    public bool onGrimisDrink = false;
+
+    public bool onHeart = false;
+
+    public bool onShield = false;
+
+    public bool full = false;
+
+    public enum Items { grimisDrink, Heart, Shield }
     void Start()
     {
         aimProjectile = Instantiate(aimProjectile, aimDirection, Quaternion.identity);
 
         chestRef = GameObject.Find("Chest").GetComponent<Chest>();
-        UpdateKey(1);
+        UpdateKey(4);
     }
 
 
@@ -66,8 +88,8 @@ public class Player : MonoBehaviour
     {
         keyCountText.text = totalKeys.ToString();
         totalKeys += addkey;
-        Debug.Log("key has been added to player inventory");
     }
+
 
     // Update is called once per frame
     void Update()
@@ -94,31 +116,93 @@ public class Player : MonoBehaviour
                 
             } 
         }
-        //key stuff
-        if (onKey && Input.GetKey(KeyCode.E))
+        if(full)
         {
-            Debug.Log("player picked up key");
+            if(inventory.Count <= 4)
+            {
+                full = false;
+            }
+            if(inventory.Any(item => item == null))
+            {
+                full = false;
+            }
+        }
+        if(inventory.Count >= 4 && inventory.Any(item => item != null))
+        {
+            full = true;
+        }
+        if(Input.GetKeyDown(KeyCode.R))
+        {
+            inventory.RemoveAt(3);
+        }
+        //key stuff
+        if (onKey && Input.GetKeyDown(KeyCode.E))
+        {
             UpdateKey(1);
             Destroy(keyObject);
-            onKey = false;
         }
 
+        if(onKey)
+        {
+            pressE.SetActive(true);
+        }
+        else if(onChest)
+        {
+            pressE.SetActive(true);
+        }
+        else if (onDoor)
+        {
+            pressE.SetActive(true);
+        }
+        else if(onHeart)
+        {
+            pressE.SetActive(true);
+        }
+        else if(onGrimisDrink)
+        {
+            pressE.SetActive(true);
+        }
+        else if(onShield)
+        {
+            pressE.SetActive(true);
+        }
+        else
+        {
+            pressE.SetActive(false);
+        }
         //chest stuff
         if(totalKeys > 0)
         {
-            if (onChest && Input.GetKey(KeyCode.E))
+            if (onChest && Input.GetKeyDown(KeyCode.E))
             {
-                Debug.Log("player opened chest!");
                 //take key away from player 
                 totalKeys -= 1; 
                 //spawns a rand gameobject / drop then destroys object
                 chestRef.OpenChest();
-                Destroy(chestObject);
-                onChest = false;
             }
         }
+        if(!full)
+        {
+            if (onGrimisDrink && Input.GetKeyDown(KeyCode.F))
+            {
+                inventory.Add(grimisDrinkPrefab);
+                Destroy(grimisDrinkObject);
+            }
+
+            if (onHeart && Input.GetKeyDown(KeyCode.F))
+            {
+
+            }
+
+            if (onShield && Input.GetKeyDown(KeyCode.F))
+            {
+
+            }
+        }
+        
+
         //door stuff 
-        if (onDoor && Input.GetKey(KeyCode.E))
+        if (onDoor && Input.GetKeyDown(KeyCode.E))
         {
             //SceneManager.LoadScene(SceneManager.GetActiveScene().name, LoadSceneMode.Single);
             SceneManager.LoadScene("Game1");
@@ -156,69 +240,89 @@ public class Player : MonoBehaviour
         if (collider.gameObject.tag == "Key")
         {
             onKey = true;
-            Debug.Log("player is on key");
             keyObject = collider.gameObject;
-            pressE.SetActive(true);
         }
         if (collider.gameObject.tag == "Chest")
         {
             onChest = true;
-            Debug.Log("player is on Chest");
             chestObject = collider.gameObject;
-            pressE.SetActive(true);
         }
         if (collider.gameObject.tag == "Door")
         {
-            pressE.SetActive(true);
-            onDoor = true;
-            
+            onDoor = true;            
         }
+        if (collider.gameObject.tag == "GrimisDrink")
+        {
+           onGrimisDrink = true;
+            grimisDrinkObject = collider.gameObject;
+        }
+        if (collider.gameObject.tag == "Heart")
+        {
+            onHeart = true;
+            heartObject = collider.gameObject;
+        }
+        if (collider.gameObject.tag == "Shield")
+        {
+            onShield = true;
+            shieldObject = collider.gameObject;
+        }
+
+    }
+
+    private void OnTriggerStay2D(Collider2D collider)
+    {
+        if (collider.gameObject.tag == "Key")
+        {
+            if(!onKey)
+            {
+                onKey = true;
+                keyObject = collider.gameObject;
+            }
+
+        }
+        if (collider.gameObject.tag == "Chest")
+        {
+            if (!onChest)
+            {
+                onChest = true;
+            }
+        }
+
     }
     private void OnTriggerExit2D(Collider2D collider)
     {
         if (collider.gameObject.tag == "Key")
         {
             onKey = false;
-            Debug.Log("player walked over key");
-            pressE.SetActive(false);
+            keyObject = collider.gameObject;
         }
         if (collider.gameObject.tag == "Chest")
         {
             onChest = false;
-            Debug.Log("player walked over Chest");
-            pressE.SetActive(false);
         }
         if (collider.gameObject.tag == "Door")
         {
             onDoor = false;
-            pressE.SetActive(false);
-
+        }
+        if (collider.gameObject.tag == "GrimisDrink")
+        {
+            onGrimisDrink = false;
+            grimisDrinkObject = collider.gameObject;
+        }
+        if (collider.gameObject.tag == "Heart")
+        {
+            onHeart = false;
+            heartObject = collider.gameObject;
+        }
+        if (collider.gameObject.tag == "Shield")
+        {
+            onShield = false;
+            shieldObject = collider.gameObject;
         }
     }
-    private void OnTriggerStay2D(Collider2D collider)
-    {
-        if (collider.gameObject.tag == "Key")
-        {
-            
-           
-            pressE.SetActive(true);
-        }
-        if (collider.gameObject.tag == "Chest")
-        {
-            
-            pressE.SetActive(true);
-        }
-        if (collider.gameObject.tag == "Door")
-        {
-            
-            pressE.SetActive(true);
-
-        }
-    }
+    
     void RotateAim()
     {
-
-        
          mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
          Vector2 aimDirection = (Vector2)((mousePos - transform.position));
          aimDirection.Normalize();
@@ -230,9 +334,6 @@ public class Player : MonoBehaviour
          
          // Rotate aimProjectile to face towards the mouse cursor
          aimProjectile.transform.rotation = Quaternion.Euler(0, 0, angle);
-        
-        
-
     }
     
 }

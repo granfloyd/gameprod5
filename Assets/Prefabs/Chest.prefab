@@ -100,6 +100,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dropList:
   - {fileID: 2665664882185455798, guid: 5a13961d6d3133a49bfa54215bb03225, type: 3}
+  - {fileID: 2033005917234892103, guid: 8650b37fea503f34c8f92aea954e93ad, type: 3}
+  - {fileID: 2033005917234892103, guid: 8650b37fea503f34c8f92aea954e93ad, type: 3}
 --- !u!61 &2388643431225586676
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -17,7 +17,6 @@ public class Chest : MonoBehaviour
         GameObject randDrop = dropList[randIndex];
 
         GameObject spawnthis = Instantiate(randDrop, transform.position, Quaternion.identity);
-        Debug.Log("WOW DROPS ");
     }
 
     // Update is called once per frame

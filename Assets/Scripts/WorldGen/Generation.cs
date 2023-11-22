@@ -65,7 +65,7 @@ public class Generation : MonoBehaviour
             int randIndex = Random.Range(0, RoomPrefabs.Length);
             GameObject randRoom = RoomPrefabs[randIndex];
             randRoomList.Add(randRoom);
-            Debug.Log(randRoomList[i]);
+            //Debug.Log(randRoomList[i]);
         }
         for(int i = 0; i < 8; i++)
         {

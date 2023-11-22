@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class ScoreManager : MonoBehaviour
 {
-    public int score = 0;
+    public static int score;
 
     public int savehighscore;
 
@@ -15,22 +15,34 @@ public class ScoreManager : MonoBehaviour
     public Text highscoreText;
 
     public Text scoreText;
-
     public void UpdateScoreText()
     {
-        scoreText.text = score.ToString();
+        if (scoreText != null)
+        {
+            scoreText.text = score.ToString();
+        }
     }
+
     public void UpdateScore()
     {
-        UpdateScoreText();
         score++;
+        PlayerPrefs.SetInt("PlayerScore", score); // Save score to PlayerPrefs
+        UpdateScoreText();
     }
     // Start is called before the first frame update
     void Start()
     {
-        
-        
+        if (FirstStartManager.isFirstStart)
+        {
+            score = 0;
+        }
+        else
+        {
+            // Load score from PlayerPrefs
+            score = PlayerPrefs.GetInt("PlayerScore", 0);
+        }
     }
+
     void SaveHighScore()
     {
         using (StreamWriter writer = new StreamWriter("savefile.txt"))
@@ -73,6 +85,7 @@ public class ScoreManager : MonoBehaviour
             }
             UpdateHighScoreText();
         }
-
+        //Debug.Log("SCORE: " + score);
     }
+    
 }

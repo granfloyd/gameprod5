@@ -1,11 +1,12 @@
 
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class HealthSystem : MonoBehaviour
 {
     //position stuff
-    public int health = 10;
+    public static int health;
     public int numOfHearts;
 
     public Image[] hearts;
@@ -15,26 +16,57 @@ public class HealthSystem : MonoBehaviour
     public GameObject pannel;
     public bool benis = false;
     private float ticker = 0;
-
-    // Start is called before the first frame update
+    //void Start()
+    //{
+    //    // Load health from PlayerPrefs
+    //    health = PlayerPrefs.GetInt("PlayerHealth", 10);
+    //    // Check if the game is being started for the first time
+    //    //if (PlayerPrefs.GetInt("FirstStart", 1) == 1)
+    //    //{
+    //    //    // If it is the first start, set health to 10 and set FirstStart to 0
+    //    //    health = 10;
+    //    //    PlayerPrefs.SetInt("FirstStart", 0);
+    //    //}
+    //    //else
+    //    //{
+    //    //    // If it's not the first start, load health from PlayerPrefs
+    //    //    health = PlayerPrefs.GetInt("PlayerHealth", 10);
+    //    //}
+    //}
     void Start()
     {
+        if (FirstStartManager.isFirstStart)
+        {
+            health = 10;
+            FirstStartManager.isFirstStart = false;
+        }
+        else
+        {
+            // Load health from PlayerPrefs
+            health = PlayerPrefs.GetInt("PlayerHealth", 10);
+        }
+    }
 
-    }
-    void Awake()
-    {
-        //DontDestroyOnLoad(gameObject);
-    }
+
     public void TakeDamage(int dmg)
     {
-        health -= dmg;
+        if (health > 0)
+        {
+            health -= dmg;
+            PlayerPrefs.SetInt("PlayerHealth", health); // Save health to PlayerPrefs
+        }
+       
     }
 
     public void HealDamage(int amount)
     {
-        health += amount;
+        if(health <10)
+        {
+            health += amount;
+            PlayerPrefs.SetInt("PlayerHealth", health); // Save health to PlayerPrefs
+        }
+        
     }
-    // Update is called once per frame
     void Update()
     {
         if (health > numOfHearts)
@@ -56,31 +88,35 @@ public class HealthSystem : MonoBehaviour
                 ticker = 0;
                 pannel.SetActive(false);
             }
-        
+        Debug.Log("HEALTH: "+ health);
+        if(health == 0)
+        {
+            SceneManager.LoadScene("TitleScreen");
+            FirstStartManager.isFirstStart = true;
+        }
+
     }
 
     private void UpdateHearts()
     {
         for (int i = 0; i < hearts.Length; i++)
         {
-
-            
-                if (i < health)
-                {
-                    hearts[i].sprite = fullHeart;
-                }
-                else
-                {
-                    hearts[i].sprite = emptyHeart;
-                }
-                if (i < numOfHearts)
-                {
-                    hearts[i].enabled = true;
-                }
-                else
-                {
-                    hearts[i].enabled = false;
-                }
+            if (i < health)
+            {
+                hearts[i].sprite = fullHeart;
+            }
+            else
+            {
+                hearts[i].sprite = emptyHeart;
+            }
+            if (i < numOfHearts)
+            {
+                hearts[i].enabled = true;
+            }
+            else
+            {
+                hearts[i].enabled = false;
+            }
             
 
         }
@@ -90,19 +126,23 @@ public class HealthSystem : MonoBehaviour
     {
 
         ////Check for a match with the specified name on any GameObject that collides with your GameObject
-        if (collision.gameObject.name == "Grimis")
+        if(health > 0)
         {
-            TakeDamage(1);
-        }
-        if (collision.gameObject.CompareTag("enemyProjectile"))
-        {
+            if (collision.gameObject.name == "Grimis")
+            {
+                TakeDamage(1);
+            }
+            if (collision.gameObject.CompareTag("enemyProjectile"))
+            {
 
-            TakeDamage(1);
+                TakeDamage(1);
+            }
+            if (collision.gameObject.CompareTag("Enemy1"))
+            {
+                TakeDamage(1);
+            }
         }
-        if (collision.gameObject.CompareTag("Enemy1"))
-        {
-            TakeDamage(1);
-        }
+        
         if (collision.gameObject.CompareTag("GrimisAtk"))
         {
 
