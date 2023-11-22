@@ -67,12 +67,12 @@ public class Grimis : MonoBehaviour
         Vector2 direction = (Vector2)(playerRef.transform.position - transform.position);
         direction.Normalize();
 
-        //GameObject grimisprojectile = Instantiate(grimisProjectilePrefab, transform.position, Quaternion.identity);
+        GameObject grimisprojectile = Instantiate(grimisProjectilePrefab, transform.position, Quaternion.identity);
 
-        //grimisprojectile.GetComponent<Rigidbody2D>().velocity = direction * grimisProjectileSpeed;
+        grimisprojectile.GetComponent<Rigidbody2D>().velocity = direction * grimisProjectileSpeed;
 
         // Destroy the gameobject 2 seconds after creation
-        //Destroy(grimisprojectile, 2.0f);
+        Destroy(grimisprojectile, 2.0f);
     }
     void Update()
     {

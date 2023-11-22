@@ -35,6 +35,7 @@ public class ScoreManager : MonoBehaviour
         if (FirstStartManager.isFirstStart)
         {
             score = 0;
+            PlayerPrefs.SetInt("PlayerScore", score); // Save score to PlayerPrefs
         }
         else
         {

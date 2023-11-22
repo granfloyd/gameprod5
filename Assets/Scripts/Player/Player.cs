@@ -10,68 +10,39 @@ using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
-    public GameObject pressE;
-
     public Chest chestRef;
-
     public Text keyCountText;
-
+    public GameObject pressE;   
     public GameObject keyObject;
-
-    public GameObject chestObject;
-    
+    public GameObject chestObject;    
     public GameObject grimisDrinkObject;
-
     public GameObject heartObject;
-
     public GameObject shieldObject;
-
     public GameObject projectilePrefab;
-
     public GameObject aimProjectile;
-
     public GameObject shieldPrefab;
-
     public GameObject grimisDrinkPrefab;
-
+    public GameObject heartPrefab;
+    GameObject shield;
     public List<GameObject> inventory = new List<GameObject>();
 
     public float projectileSpeed;
-
     public float ticker = 0;
-
+    public float ticker2 = 0;
     public int totalKeys = 0;
 
     private Vector3 mousePos;
-
     private Vector2 aimDirection;
 
-    //key stuff
     public bool isPickedUp = false;
-
     public bool onKey = false;
-
-    //chest stuff
     public bool isOpened = false;
-
-    public bool onChest = false;
-
-    //door stuff 
-    public bool onDoor = false;
-
-    //shield stuff
-    public float ticker2 = 0;
-
+    public bool onChest = false; 
+    public bool onDoor = false;   
     public bool shieldActive = false;
-
-    GameObject shield;
-
     public bool onGrimisDrink = false;
-
     public bool onHeart = false;
-
     public bool onShield = false;
-
     public bool full = false;
 
     public enum Items { grimisDrink, Heart, Shield }
@@ -204,6 +175,9 @@ public class Player : MonoBehaviour
         //door stuff 
         if (onDoor && Input.GetKeyDown(KeyCode.E))
         {
+            FirstStartManager.isFirstStart = false;
+            PlayerPrefs.SetInt("PlayerHealth", HealthSystem.health); // Save current health
+            PlayerPrefs.SetInt("PlayerScore", ScoreManager.score); // Save current score
             //SceneManager.LoadScene(SceneManager.GetActiveScene().name, LoadSceneMode.Single);
             SceneManager.LoadScene("Game1");
         }

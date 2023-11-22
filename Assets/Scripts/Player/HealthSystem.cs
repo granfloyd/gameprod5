@@ -16,29 +16,13 @@ public class HealthSystem : MonoBehaviour
     public GameObject pannel;
     public bool benis = false;
     private float ticker = 0;
-    //void Start()
-    //{
-    //    // Load health from PlayerPrefs
-    //    health = PlayerPrefs.GetInt("PlayerHealth", 10);
-    //    // Check if the game is being started for the first time
-    //    //if (PlayerPrefs.GetInt("FirstStart", 1) == 1)
-    //    //{
-    //    //    // If it is the first start, set health to 10 and set FirstStart to 0
-    //    //    health = 10;
-    //    //    PlayerPrefs.SetInt("FirstStart", 0);
-    //    //}
-    //    //else
-    //    //{
-    //    //    // If it's not the first start, load health from PlayerPrefs
-    //    //    health = PlayerPrefs.GetInt("PlayerHealth", 10);
-    //    //}
-    //}
+
     void Start()
     {
         if (FirstStartManager.isFirstStart)
         {
             health = 10;
-            FirstStartManager.isFirstStart = false;
+            PlayerPrefs.SetInt("PlayerHealth", health); // Save health to PlayerPrefs
         }
         else
         {
@@ -55,18 +39,17 @@ public class HealthSystem : MonoBehaviour
             health -= dmg;
             PlayerPrefs.SetInt("PlayerHealth", health); // Save health to PlayerPrefs
         }
-       
     }
 
     public void HealDamage(int amount)
     {
-        if(health <10)
+        if (health < numOfHearts)
         {
             health += amount;
             PlayerPrefs.SetInt("PlayerHealth", health); // Save health to PlayerPrefs
         }
-        
     }
+
     void Update()
     {
         if (health > numOfHearts)
@@ -89,11 +72,11 @@ public class HealthSystem : MonoBehaviour
                 pannel.SetActive(false);
             }
         Debug.Log("HEALTH: "+ health);
-        if(health == 0)
-        {
-            SceneManager.LoadScene("TitleScreen");
-            FirstStartManager.isFirstStart = true;
-        }
+        //if(health == 0)
+        //{
+        //    SceneManager.LoadScene("TitleScreen");
+        //    FirstStartManager.isFirstStart = true;
+        //}
 
     }
 
