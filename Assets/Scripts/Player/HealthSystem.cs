@@ -61,7 +61,7 @@ public class HealthSystem : MonoBehaviour
             {
                 pannel.SetActive(true);
                 ticker += Time.deltaTime;
-                if (ticker > 3.0f)
+                if (ticker > 0.3f)
                 {
                     benis = false;
                 }
@@ -72,11 +72,11 @@ public class HealthSystem : MonoBehaviour
                 pannel.SetActive(false);
             }
         Debug.Log("HEALTH: "+ health);
-        //if(health == 0)
-        //{
-        //    SceneManager.LoadScene("TitleScreen");
-        //    FirstStartManager.isFirstStart = true;
-        //}
+        if(health == 0)
+        {
+            SceneManager.LoadScene("TitleScreen");
+            FirstStartManager.isFirstStart = true;
+        }
 
     }
 

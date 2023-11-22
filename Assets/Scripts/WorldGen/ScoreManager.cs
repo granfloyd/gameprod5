@@ -10,11 +10,28 @@ public class ScoreManager : MonoBehaviour
 
     public int savehighscore;
 
-    public int highscore = 0;
+    public int highscore;
 
     public Text highscoreText;
 
     public Text scoreText;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        if (FirstStartManager.isFirstStart)
+        {
+            score = 0;
+            PlayerPrefs.SetInt("PlayerScore", score); // Save score to PlayerPrefs
+        }
+        else
+        {
+            // Load score from PlayerPrefs
+            score = PlayerPrefs.GetInt("PlayerScore", 0);
+        }
+        
+    }
+
     public void UpdateScoreText()
     {
         if (scoreText != null)
@@ -29,28 +46,13 @@ public class ScoreManager : MonoBehaviour
         PlayerPrefs.SetInt("PlayerScore", score); // Save score to PlayerPrefs
         UpdateScoreText();
     }
-    // Start is called before the first frame update
-    void Start()
-    {
-        if (FirstStartManager.isFirstStart)
-        {
-            score = 0;
-            PlayerPrefs.SetInt("PlayerScore", score); // Save score to PlayerPrefs
-        }
-        else
-        {
-            // Load score from PlayerPrefs
-            score = PlayerPrefs.GetInt("PlayerScore", 0);
-        }
-    }
+    
 
     void SaveHighScore()
     {
         using (StreamWriter writer = new StreamWriter("savefile.txt"))
         {
-
             writer.WriteLine(savehighscore);
-
         }
     }
 
