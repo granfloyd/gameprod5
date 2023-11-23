@@ -17,7 +17,7 @@ public class EnemyProjectile : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        if (collision.gameObject.tag == "Shield")
+        if (collision.gameObject.tag == "Shield2.0")
         {
             Destroy(gameObject);
         }

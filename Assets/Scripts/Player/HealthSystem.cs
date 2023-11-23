@@ -57,6 +57,7 @@ public class HealthSystem : MonoBehaviour
 
         UpdateHearts();
 
+        //grimis attack
             if (benis)
             {
                 pannel.SetActive(true);

@@ -10,50 +10,227 @@ using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
+    GameObject imageObject;
+    Image image;
+
+    public Image Active;
+    Image Activeimg;
+
+    public Canvas myCanvas;
     public Chest chestRef;
     public Text keyCountText;
     public GameObject pressE;   
-    public GameObject keyObject;
-    public GameObject chestObject;    
-    public GameObject grimisDrinkObject;
-    public GameObject heartObject;
-    public GameObject shieldObject;
+    private GameObject keyObject;
+    private GameObject chestObject;    
+    private GameObject grimisDrinkObject;
+    private GameObject heartObject;
+    private GameObject shieldObject;
     public GameObject projectilePrefab;
     public GameObject aimProjectile;
     public GameObject shieldPrefab;
+    public GameObject shield2Prefab;
     public GameObject grimisDrinkPrefab;
     public GameObject heartPrefab;
+
+    public GameObject Slot1;
+    public GameObject Slot2;
+    public GameObject Slot3;
+    public GameObject Slot4;
+
     GameObject shield;
-    public List<GameObject> inventory = new List<GameObject>();
+    public List<GameObject> inventory;
 
     public float projectileSpeed;
-    public float ticker = 0;
-    public float ticker2 = 0;
+    private float ticker = 0;
+    private float ticker2 = 0;
     public int totalKeys = 0;
 
     private Vector3 mousePos;
     private Vector2 aimDirection;
 
-    public bool isPickedUp = false;
-    public bool onKey = false;
-    public bool isOpened = false;
-    public bool onChest = false; 
-    public bool onDoor = false;   
-    public bool shieldActive = false;
-    public bool onGrimisDrink = false;
-    public bool onHeart = false;
-    public bool onShield = false;
-    public bool full = false;
+    private bool isPickedUp = false;
+    private bool onKey = false;
+    private bool isOpened = false;
+    private bool onChest = false; 
+    private bool onDoor = false;   
+    private bool shieldActive = false;
+    private bool onGrimisDrink = false;
+    private bool onHeart = false;
+    private bool onShield = false;
+    private bool full = false;
 
-    public enum Items { grimisDrink, Heart, Shield }
+    public int whatsActive = 0;
+
     void Start()
     {
+        Active = Instantiate(Active, Slot1.transform.position, Quaternion.identity);
+        Active.transform.SetParent(myCanvas.transform, false);
+        
+        //inventory = new List<GameObject>(new GameObject[4]);
         aimProjectile = Instantiate(aimProjectile, aimDirection, Quaternion.identity);
-
+        
         chestRef = GameObject.Find("Chest").GetComponent<Chest>();
         UpdateKey(4);
     }
 
+    //add picked up item to ui slots
+    private void GuyzGamezLovesSlots(GameObject type)
+    {
+        imageObject = new GameObject("UIImage" + whatsActive);
+        imageObject.transform.SetParent(myCanvas.transform, false);
+        image = imageObject.AddComponent<Image>();
+
+        
+        if (inventory.Any())
+        {
+            type = inventory.ElementAt(whatsActive);
+            if (type != null)
+            {
+                if (whatsActive == 0)
+                    image.transform.position = Slot1.transform.position;                  
+                if (whatsActive == 1)
+                    image.transform.position = Slot2.transform.position;                   
+                if (whatsActive == 2)
+                    image.transform.position = Slot3.transform.position;                    
+                if (whatsActive == 3)
+                    image.transform.position = Slot4.transform.position;
+                  
+                // Update the sprite of the existing UI Image
+                SpriteRenderer sr = type.GetComponent<SpriteRenderer>();
+                image.sprite = sr.sprite;
+            }
+        }
+    }
+
+    private void AddToInventory(GameObject itemToAdd,GameObject itemToDelete)
+    {
+        if (inventory[whatsActive] == null)
+        {
+            inventory.Insert(whatsActive, itemToAdd);
+            GuyzGamezLovesSlots(itemToAdd);
+            Destroy(itemToDelete);
+        }
+        else
+        {
+            Debug.Log("Greedy Jew, PUT THAT BACK!");
+        }
+    }
+
+    private void DeleteItemFromInventory()
+    {
+        
+        if (whatsActive == 0)
+        {
+            if (inventory[0] == grimisDrinkPrefab)
+            {
+                UseDrink();
+                GameObject itemToDelete = GameObject.Find("UIImage0");
+                if (itemToDelete != null)
+                {
+                    Destroy(itemToDelete);
+                    inventory.RemoveAt(0);
+                }
+
+
+            }
+            else if (inventory[0] == shieldPrefab)
+            {
+                UseShield();
+                GameObject itemToDelete = GameObject.Find("UIImage0");
+                if (itemToDelete != null)
+                {
+                    Destroy(itemToDelete);
+                    inventory.RemoveAt(0);
+                }
+            }   
+        }
+
+        if (whatsActive == 1)
+        {
+            if (inventory[1] == grimisDrinkPrefab)
+            {
+                UseDrink();
+                GameObject itemToDelete = GameObject.Find("UIImage1");
+                if (itemToDelete != null)
+                {
+                    Destroy(itemToDelete);
+                    inventory.RemoveAt(1);
+                }
+            }
+            else if (inventory[1] == shieldPrefab)
+            {
+                UseShield();
+                GameObject itemToDelete = GameObject.Find("UIImage1");
+                if (itemToDelete != null)
+                {
+                    Destroy(itemToDelete);
+                    inventory.RemoveAt(1);
+                }
+            }
+        }
+
+        if (whatsActive == 2)
+        {
+            if (inventory[2] == grimisDrinkPrefab)
+            {
+                UseDrink();
+                GameObject itemToDelete = GameObject.Find("UIImage2");
+                if (itemToDelete != null)
+                {
+                    Destroy(itemToDelete);
+                    inventory.RemoveAt(2);
+                }
+            }
+            else if (inventory[2] == shieldPrefab)
+            {
+                UseShield();
+                GameObject itemToDelete = GameObject.Find("UIImage2");
+                if (itemToDelete != null)
+                {
+                    Destroy(itemToDelete);
+                    inventory.RemoveAt(2);
+                }
+            } 
+        }
+
+        if (whatsActive == 3)
+        {
+            if (inventory[3] == grimisDrinkPrefab)
+            {
+                UseDrink();
+                GameObject itemToDelete = GameObject.Find("UIImage3");
+                if (itemToDelete != null)
+                {
+                    Destroy(itemToDelete);
+                    inventory.RemoveAt(3);
+                }
+            }
+            else if (inventory[3] == shieldPrefab)
+            {
+                UseShield();
+                GameObject itemToDelete = GameObject.Find("UIImage3");
+                if (itemToDelete != null)
+                {
+                    Destroy(itemToDelete);
+                    inventory.RemoveAt(3);
+                }
+            }
+        }
+    }
+    private void UseShield()
+    {
+        //shield stuff
+        if (!shieldActive)
+        {
+            shield = Instantiate(shield2Prefab, transform.position, Quaternion.identity);
+            shieldActive = true;
+        }        
+    }
+
+    private void UseDrink()
+    {
+        Debug.Log("used Drink");
+    }
 
     public void UpdateKey(int addkey)
     {
@@ -61,10 +238,10 @@ public class Player : MonoBehaviour
         totalKeys += addkey;
     }
 
-
     // Update is called once per frame
     void Update()
     {
+       
         RotateAim();
         ticker += Time.deltaTime;
         if (Input.GetMouseButtonDown(0))
@@ -87,24 +264,10 @@ public class Player : MonoBehaviour
                 
             } 
         }
-        if(full)
-        {
-            if(inventory.Count <= 4)
-            {
-                full = false;
-            }
-            if(inventory.Any(item => item == null))
-            {
-                full = false;
-            }
-        }
-        if(inventory.Count >= 4 && inventory.Any(item => item != null))
-        {
-            full = true;
-        }
+
         if(Input.GetKeyDown(KeyCode.R))
         {
-            inventory.RemoveAt(3);
+           
         }
         //key stuff
         if (onKey && Input.GetKeyDown(KeyCode.E))
@@ -152,46 +315,49 @@ public class Player : MonoBehaviour
                 chestRef.OpenChest();
             }
         }
-        if(!full)
+
+        if (onGrimisDrink && Input.GetKeyDown(KeyCode.F))
         {
-            if (onGrimisDrink && Input.GetKeyDown(KeyCode.F))
-            {
-                inventory.Add(grimisDrinkPrefab);
-                Destroy(grimisDrinkObject);
-            }
-
-            if (onHeart && Input.GetKeyDown(KeyCode.F))
-            {
-
-            }
-
-            if (onShield && Input.GetKeyDown(KeyCode.F))
-            {
-
-            }
-        }
-        
-
-        //door stuff 
-        if (onDoor && Input.GetKeyDown(KeyCode.E))
-        {
-            FirstStartManager.isFirstStart = false;
-            PlayerPrefs.SetInt("PlayerHealth", HealthSystem.health); // Save current health
-            PlayerPrefs.SetInt("PlayerScore", ScoreManager.score); // Save current score
-            //SceneManager.LoadScene(SceneManager.GetActiveScene().name, LoadSceneMode.Single);
-            SceneManager.LoadScene("Game1");
+            AddToInventory(grimisDrinkPrefab, grimisDrinkObject);
         }
 
+        if (onHeart && Input.GetKeyDown(KeyCode.F))
+        {
+
+        }
+
+        if (onShield && Input.GetKeyDown(KeyCode.F))
+        {
+            AddToInventory(shieldPrefab, shieldObject);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+            DeleteItemFromInventory();
+
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            whatsActive = 0;
+            Active.transform.position = Slot1.transform.position;
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            whatsActive = 1;
+            Active.transform.position = Slot2.transform.position;
+
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            whatsActive = 2;
+            Active.transform.position = Slot3.transform.position;
+
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            whatsActive = 3;
+            Active.transform.position = Slot4.transform.position;
+
+        }
         //shield stuff
-        if(!shieldActive)
-        {
-            if (Input.GetKey(KeyCode.Space))
-            {
-                shield = Instantiate(shieldPrefab, transform.position, Quaternion.identity);
-                shieldActive = true;
-            }
-        }
-        
         if (shieldActive)
         {
             ticker2 += Time.deltaTime;
@@ -203,8 +369,18 @@ public class Player : MonoBehaviour
                 shieldActive = false;
             }
         }
-        if(shield != null)
-        shield.transform.position = transform.position;
+        if (shield != null)
+            shield.transform.position = transform.position;
+        //door stuff 
+        if (onDoor && Input.GetKeyDown(KeyCode.E))
+        {
+            FirstStartManager.isFirstStart = false;
+            PlayerPrefs.SetInt("PlayerHealth", HealthSystem.health); // Save current health
+            PlayerPrefs.SetInt("PlayerScore", ScoreManager.score); // Save current score
+            SceneManager.LoadScene("Game1");
+        }
+
+        
 
 
     }
@@ -238,6 +414,7 @@ public class Player : MonoBehaviour
         if (collider.gameObject.tag == "Shield")
         {
             onShield = true;
+            Debug.Log("On Shield");
             shieldObject = collider.gameObject;
         }
 

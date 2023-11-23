@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 1156659751080520946}
   - component: {fileID: 5554785834907386649}
   - component: {fileID: 8475230079967414544}
-  m_Layer: 0
-  m_Name: Shield
-  m_TagString: Shield
+  m_Layer: 12
+  m_Name: Shield2.0
+  m_TagString: Shield2.0
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -75,7 +75,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: 21300000, guid: 75cd9cf9ab551b9439bd850ecb06d9bf, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 616b173e49de91a42ac98b74004d6b04, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -142,7 +142,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: -0.0048417, y: 0.0025838017}

@@ -20,6 +20,7 @@ TagManager:
   - Shield
   - ScoreManager
   - GrimisDrink
+  - Shield2.0
   layers:
   - Default
   - TransparentFX
