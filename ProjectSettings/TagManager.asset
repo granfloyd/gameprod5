@@ -21,6 +21,8 @@ TagManager:
   - ScoreManager
   - GrimisDrink
   - Shield2.0
+  - Powerup69
+  - Wall
   layers:
   - Default
   - TransparentFX

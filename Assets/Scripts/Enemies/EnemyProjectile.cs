@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyProjectile : MonoBehaviour
 {
-    public AudioSource audioSource;
+    public AudioSource audioSource69;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,7 +21,19 @@ public class EnemyProjectile : MonoBehaviour
         }
         if (collision.gameObject.tag == "Shield2.0")
         {
-            //audioSource.Play();
+            audioSource69.Play();
+            Destroy(gameObject);
+        }
+        if (collision.gameObject.tag == "Wall")
+        {
+            Destroy(gameObject);
+        }
+        if (collision.gameObject.tag == "playerProjectile")
+        {
+            Destroy(gameObject);
+        }
+        if (collision.gameObject.tag == "GrimisAtk")
+        {
             Destroy(gameObject);
         }
 

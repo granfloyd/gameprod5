@@ -40,6 +40,18 @@ public class PlayerProjectile : MonoBehaviour
             Destroy(gameObject);
             scoreManagerRef.UpdateScore();
         }
+        if (collision.gameObject.tag == "Wall")
+        {   
+            Destroy(gameObject);
+        }
+        if (collision.gameObject.tag == "enemyProjectile")
+        {
+            Destroy(gameObject);
+        }
+        if (collision.gameObject.tag == "GrimisAtk")
+        {
+            Destroy(gameObject);
+        }
 
     }
     // Update is called once per frame
