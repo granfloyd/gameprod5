@@ -1,25 +1,28 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
     GameObject imageObject;
     Image image;
-
+    public AudioSource audioSource;//key
+    public AudioSource audioSource2;//drink
+    public AudioSource audioSource3;//shield
+    public AudioSource audioSource4;//addtoinventory
+    public AudioSource audioSource5;//select
+    public AudioSource audioSource6;//cant pickup item SFX
     public Image Active;
     Image Activeimg;
 
     public Canvas myCanvas;
     public Chest chestRef;
     public Text keyCountText;
-    public GameObject pressE;   
+    public GameObject pressE;
+    public GameObject pressQ;
     private GameObject keyObject;
     private GameObject chestObject;    
     private GameObject grimisDrinkObject;
@@ -65,12 +68,12 @@ public class Player : MonoBehaviour
     {
         Active = Instantiate(Active, Slot1.transform.position, Quaternion.identity);
         Active.transform.SetParent(myCanvas.transform, false);
-        
+        Active.transform.position = Slot1.transform.position;
         //inventory = new List<GameObject>(new GameObject[4]);
         aimProjectile = Instantiate(aimProjectile, aimDirection, Quaternion.identity);
         
         chestRef = GameObject.Find("Chest").GetComponent<Chest>();
-        UpdateKey(4);
+        UpdateKey(1);
     }
 
     //add picked up item to ui slots
@@ -106,12 +109,15 @@ public class Player : MonoBehaviour
     {
         if (inventory[whatsActive] == null)
         {
+            audioSource4.Play();
             inventory.Insert(whatsActive, itemToAdd);
             GuyzGamezLovesSlots(itemToAdd);
             Destroy(itemToDelete);
         }
         else
         {
+            audioSource6.Play();
+            audioSource6.Play();
             Debug.Log("Greedy Jew, PUT THAT BACK!");
         }
     }
@@ -222,6 +228,7 @@ public class Player : MonoBehaviour
         //shield stuff
         if (!shieldActive)
         {
+            audioSource3.Play();
             shield = Instantiate(shield2Prefab, transform.position, Quaternion.identity);
             shieldActive = true;
         }        
@@ -229,11 +236,13 @@ public class Player : MonoBehaviour
 
     private void UseDrink()
     {
+        audioSource2.Play();
         Debug.Log("used Drink");
     }
 
     public void UpdateKey(int addkey)
     {
+        audioSource.Play();
         keyCountText.text = totalKeys.ToString();
         totalKeys += addkey;
     }
@@ -241,7 +250,6 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       
         RotateAim();
         ticker += Time.deltaTime;
         if (Input.GetMouseButtonDown(0))
@@ -276,27 +284,7 @@ public class Player : MonoBehaviour
             Destroy(keyObject);
         }
 
-        if(onKey)
-        {
-            pressE.SetActive(true);
-        }
-        else if(onChest)
-        {
-            pressE.SetActive(true);
-        }
-        else if (onDoor)
-        {
-            pressE.SetActive(true);
-        }
-        else if(onHeart)
-        {
-            pressE.SetActive(true);
-        }
-        else if(onGrimisDrink)
-        {
-            pressE.SetActive(true);
-        }
-        else if(onShield)
+        if(onKey ||  onGrimisDrink|| onShield)
         {
             pressE.SetActive(true);
         }
@@ -304,29 +292,35 @@ public class Player : MonoBehaviour
         {
             pressE.SetActive(false);
         }
+
+        if(onChest || onDoor)
+        {
+            pressQ.SetActive(true);
+        }
+        else
+        {         
+            pressQ.SetActive(false);
+        }
+        
         //chest stuff
         if(totalKeys > 0)
         {
-            if (onChest && Input.GetKeyDown(KeyCode.E))
+            if (onChest && Input.GetKeyDown(KeyCode.Q))
             {
                 //take key away from player 
-                totalKeys -= 1; 
+                totalKeys -= 1;
+                UpdateKey(0);
                 //spawns a rand gameobject / drop then destroys object
                 chestRef.OpenChest();
             }
         }
 
-        if (onGrimisDrink && Input.GetKeyDown(KeyCode.F))
+        if (onGrimisDrink && Input.GetKeyDown(KeyCode.E))
         {
-            AddToInventory(grimisDrinkPrefab, grimisDrinkObject);
+            AddToInventory(grimisDrinkPrefab, grimisDrinkObject);            
         }
 
-        if (onHeart && Input.GetKeyDown(KeyCode.F))
-        {
-
-        }
-
-        if (onShield && Input.GetKeyDown(KeyCode.F))
+        if (onShield && Input.GetKeyDown(KeyCode.E))
         {
             AddToInventory(shieldPrefab, shieldObject);
         }
@@ -336,23 +330,27 @@ public class Player : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
+            audioSource5.Play();
             whatsActive = 0;
             Active.transform.position = Slot1.transform.position;
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
+            audioSource5.Play();
             whatsActive = 1;
             Active.transform.position = Slot2.transform.position;
 
         }
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
+            audioSource5.Play();
             whatsActive = 2;
             Active.transform.position = Slot3.transform.position;
 
         }
         if (Input.GetKeyDown(KeyCode.Alpha4))
         {
+            audioSource5.Play();
             whatsActive = 3;
             Active.transform.position = Slot4.transform.position;
 
@@ -372,7 +370,7 @@ public class Player : MonoBehaviour
         if (shield != null)
             shield.transform.position = transform.position;
         //door stuff 
-        if (onDoor && Input.GetKeyDown(KeyCode.E))
+        if (onDoor && Input.GetKeyDown(KeyCode.Q))
         {
             FirstStartManager.isFirstStart = false;
             PlayerPrefs.SetInt("PlayerHealth", HealthSystem.health); // Save current health

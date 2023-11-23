@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class EnemyProjectile : MonoBehaviour
 {
+    public AudioSource audioSource;
     // Start is called before the first frame update
     void Start()
     {
@@ -15,10 +16,12 @@ public class EnemyProjectile : MonoBehaviour
         //Check for a match with the specified name on any GameObject that collides with your GameObject
         if (collision.gameObject.tag == "Player")
         {
+            //audioSource.Play();
             Destroy(gameObject);
         }
         if (collision.gameObject.tag == "Shield2.0")
         {
+            //audioSource.Play();
             Destroy(gameObject);
         }
 

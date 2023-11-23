@@ -13,6 +13,9 @@ public class HealthSystem : MonoBehaviour
     public Sprite fullHeart;
     public Sprite emptyHeart;
 
+    public AudioSource audioSource;
+    public AudioSource audioSource2;
+    public AudioSource audioSource3;
     public GameObject pannel;
     public bool benis = false;
     private float ticker = 0;
@@ -38,6 +41,7 @@ public class HealthSystem : MonoBehaviour
         {
             health -= dmg;
             PlayerPrefs.SetInt("PlayerHealth", health); // Save health to PlayerPrefs
+            audioSource2.Play();
         }
     }
 
@@ -45,8 +49,9 @@ public class HealthSystem : MonoBehaviour
     {
         if (health < numOfHearts)
         {
+            audioSource3.Play();
             health += amount;
-            PlayerPrefs.SetInt("PlayerHealth", health); // Save health to PlayerPrefs
+            PlayerPrefs.SetInt("PlayerHealth", health); // Save health to PlayerPrefs            
         }
     }
 
@@ -60,6 +65,7 @@ public class HealthSystem : MonoBehaviour
         //grimis attack
             if (benis)
             {
+                audioSource.Play();
                 pannel.SetActive(true);
                 ticker += Time.deltaTime;
                 if (ticker > 0.3f)
@@ -73,9 +79,9 @@ public class HealthSystem : MonoBehaviour
                 pannel.SetActive(false);
             }
         Debug.Log("HEALTH: "+ health);
-        if(health == 0)
+        if(health <= 0)
         {
-            SceneManager.LoadScene("TitleScreen");
+            SceneManager.LoadScene("GameOver");
             FirstStartManager.isFirstStart = true;
         }
 
