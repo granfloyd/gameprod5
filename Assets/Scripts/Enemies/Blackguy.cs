@@ -17,7 +17,7 @@ public class Blackguy : MonoBehaviour
    
     private float ticker = 0;
 
-    public float fasterfaster = 0.1f;
+    public float fasterfaster = 0.2f;
 
     public bool bHasLOS = false;
 

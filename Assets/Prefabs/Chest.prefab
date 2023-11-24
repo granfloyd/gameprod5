@@ -101,7 +101,8 @@ MonoBehaviour:
   dropList:
   - {fileID: 2665664882185455798, guid: 5a13961d6d3133a49bfa54215bb03225, type: 3}
   - {fileID: 2033005917234892103, guid: 8650b37fea503f34c8f92aea954e93ad, type: 3}
-  - {fileID: 2033005917234892103, guid: 8650b37fea503f34c8f92aea954e93ad, type: 3}
+  - {fileID: 8302433770134027469, guid: a6f82e8c0a6937f419acf3d1acecfb1d, type: 3}
+  - {fileID: 931713315318458010, guid: bc8c9cf30316ed14d82f573bfc81c6f1, type: 3}
 --- !u!61 &2388643431225586676
 BoxCollider2D:
   m_ObjectHideFlags: 0

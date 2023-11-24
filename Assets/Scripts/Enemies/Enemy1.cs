@@ -55,7 +55,11 @@ public class Enemy1 : MonoBehaviour
         }
         if (collision.gameObject.tag == "playerProjectile")
         {
-            GameObject spawnthis = Instantiate(keyObject, transform.position, Quaternion.identity);
+            if (Random.value < 0.5f)
+            {
+                GameObject spawnthis = Instantiate(keyObject, transform.position, Quaternion.identity);
+                
+            }
             Destroy(gameObject);
         }
 

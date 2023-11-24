@@ -8,7 +8,7 @@ public class EnemyProjectile : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        audioSource69 = GameObject.Find("hitSFX").GetComponent<AudioSource>();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -16,7 +16,6 @@ public class EnemyProjectile : MonoBehaviour
         //Check for a match with the specified name on any GameObject that collides with your GameObject
         if (collision.gameObject.tag == "Player")
         {
-            //audioSource.Play();
             Destroy(gameObject);
         }
         if (collision.gameObject.tag == "Shield2.0")
@@ -30,10 +29,12 @@ public class EnemyProjectile : MonoBehaviour
         }
         if (collision.gameObject.tag == "playerProjectile")
         {
+            audioSource69.Play();
             Destroy(gameObject);
         }
         if (collision.gameObject.tag == "GrimisAtk")
         {
+            audioSource69.Play();
             Destroy(gameObject);
         }
 

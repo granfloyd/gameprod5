@@ -15,11 +15,13 @@ public class Player : MonoBehaviour
     public AudioSource audioSource4;//addtoinventory
     public AudioSource audioSource5;//select
     public AudioSource audioSource6;//cant pickup item SFX
+    public AudioSource audioSource7;//heartbeat sfx
     public Image Active;
 
     public Canvas myCanvas;
     public PlayerMovement movementRef;
     public Chest chestRef;
+    public HealthSystem hsRef;
     public Text keyCountText;
     public GameObject pressE;
     public GameObject pressQ;
@@ -78,6 +80,7 @@ public class Player : MonoBehaviour
 
         aimProjectile = Instantiate(aimProjectile, aimDirection, Quaternion.identity);
 
+        hsRef = GameObject.Find("Player").GetComponent<HealthSystem>();
         movementRef = GameObject.Find("Player").GetComponent<PlayerMovement>();
         chestRef = GameObject.Find("Chest").GetComponent<Chest>();
         UpdateKey(1);
@@ -199,6 +202,10 @@ public class Player : MonoBehaviour
                 {
                     UsePowerup69();
                 }
+                else if (inventory[whatsActive] == heartPrefab)
+                {
+                    Useheart();
+                }
                 inventory[whatsActive] = null;
             }
         }
@@ -232,8 +239,15 @@ public class Player : MonoBehaviour
         }
         if (powerup69Active)
         {
+            hsRef.powerup69active.SetActive(true);
+            audioSource7.Play();
             movementRef.speed += bonusSpeed;
         }
+    }
+
+    private void Useheart()
+    {
+        hsRef.HealDamage(1);
     }
     public void UpdateKey(int addkey)
     {
@@ -259,7 +273,7 @@ public class Player : MonoBehaviour
             Destroy(keyObject);
         }
 
-        if(onKey ||  onGrimisDrink|| onShield || onPowerup69)
+        if(onKey ||  onGrimisDrink|| onShield || onPowerup69 || onHeart)
         {
             pressE.SetActive(true);
         }
@@ -294,7 +308,10 @@ public class Player : MonoBehaviour
         {
             AddToInventory(grimisDrinkPrefab, grimisDrinkObject);            
         }
-
+        if (onHeart && Input.GetKeyDown(KeyCode.E))
+        {
+            AddToInventory(heartPrefab, heartObject);
+        }
         if (onShield && Input.GetKeyDown(KeyCode.E))
         {
             AddToInventory(shieldPrefab, shieldObject);
@@ -370,8 +387,10 @@ public class Player : MonoBehaviour
             if (ticker4 > 5)
             {
                 ticker4 = 0;
+                hsRef.powerup69active.SetActive(false);
                 powerup69Active = false;
                 movementRef.speed = 1.0f;
+                audioSource7.Stop();
             }
         }
         //door stuff 
