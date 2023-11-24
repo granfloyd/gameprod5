@@ -16,8 +16,14 @@ public class Room4Spawning : MonoBehaviour
 
     public GameObject Room4Prefab;
 
+    public FirstStartManager fs;
     void Start()
     {
+        //scale to make game harder
+        fs = GameObject.Find("firststartmanager").GetComponent<FirstStartManager>();
+        GameObject[] sameNameObjs = fs.FindGameObjectsWithSameName("firststartmanager");
+        int scale = sameNameObjs.Length;
+
         enemyList.Add(Blackguyprefab);
         enemyList.Add(Grimisprefab);
         enemyList.Add(Roboguyprefab);
@@ -28,6 +34,19 @@ public class Room4Spawning : MonoBehaviour
         spawnPos.Add(new Vector2(0, 1));
         spawnPos.Add(new Vector2(-1.5f, 0));
         spawnPos.Add(new Vector2(1.5f, 0));
+        while (randEnemyList.Count < scale)
+        {
+            int randIndex = Random.Range(0, enemyList.Count);
+            GameObject randEnemy = enemyList[randIndex];
+            randEnemyList.Add(randEnemy);
+        }
+
+        while (randSpawnPos.Count < scale)
+        {
+            int randIndex = Random.Range(0, spawnPos.Count);
+            Vector2 randPos = spawnPos[randIndex];
+            randSpawnPos.Add(randPos);
+        }
         //rand enemy
         for (int i = 0; i < 4; i++)
         {
@@ -37,13 +56,13 @@ public class Room4Spawning : MonoBehaviour
         }
 
         //room2
-        for (int i = 0; i < 2; i++)
+        for (int i = 0; i < scale; i++)
         {
             int randIndex = Random.Range(0, spawnPos.Count);
             Vector2 randPos = spawnPos[randIndex];
             randSpawnPos.Add(randPos);
         }
-        for (int i = 0; i < 2; i++)
+        for (int i = 0; i < scale; i++)
         {
             GameObject spawnthis = Instantiate(randEnemyList[i], Room4Prefab.transform);
             spawnthis.transform.localPosition = randSpawnPos[i];

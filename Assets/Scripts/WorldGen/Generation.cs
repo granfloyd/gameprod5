@@ -31,24 +31,24 @@ public class Generation : MonoBehaviour
         //if i need more
         //2nd ring
         //startes at top middle moves clockwise
-        //roomPos.Add(new Vector3(0,     7.68f, 0));//pos8
-        //roomPos.Add(new Vector3(3.84f, 7.68f, 0));//pos9
-        //roomPos.Add(new Vector3(7.68f, 7.68f, 0));//pos10
-        //roomPos.Add(new Vector3(7.68f, 3.84f, 0));//pos11
-        //roomPos.Add(new Vector3(7.68f, 0, 0));//pos12
-        //roomPos.Add(new Vector3(7.68f, -3.84f, 0));//pos13
-        //roomPos.Add(new Vector3(7.68f, -7.68f, 0));//pos14
+        roomPos.Add(new Vector3(0, 7.68f, 0));//pos8
+        roomPos.Add(new Vector3(3.84f, 7.68f, 0));//pos9
+        roomPos.Add(new Vector3(7.68f, 7.68f, 0));//pos10
+        roomPos.Add(new Vector3(7.68f, 3.84f, 0));//pos11
+        roomPos.Add(new Vector3(7.68f, 0, 0));//pos12
+        roomPos.Add(new Vector3(7.68f, -3.84f, 0));//pos13
+        roomPos.Add(new Vector3(7.68f, -7.68f, 0));//pos14
 
-        //roomPos.Add(new Vector3(3.84f, -7.68f, 0));//pos15  
-        //roomPos.Add(new Vector3(0, -7.68f, 0));//pos16
-        //roomPos.Add(new Vector3(-3.84f, -7.68f, 0));//pos17 
+        roomPos.Add(new Vector3(3.84f, -7.68f, 0));//pos15  
+        roomPos.Add(new Vector3(0, -7.68f, 0));//pos16
+        roomPos.Add(new Vector3(-3.84f, -7.68f, 0));//pos17 
 
-        //roomPos.Add(new Vector3(-7.68f, -7.68f, 0));//pos18  
-        //roomPos.Add(new Vector3(-7.68f, -3.84f, 0));//pos19
-        //roomPos.Add(new Vector3(-7.68f, 0, 0));//pos20
-        //roomPos.Add(new Vector3(-7.68f, 3.84f, 0));//pos21
-        //roomPos.Add(new Vector3(-7.68f, 7.68f, 0));//pos22
-        //roomPos.Add(new Vector3(-3.84f, 7.68f, 0));//pos21 
+        roomPos.Add(new Vector3(-7.68f, -7.68f, 0));//pos18  
+        roomPos.Add(new Vector3(-7.68f, -3.84f, 0));//pos19
+        roomPos.Add(new Vector3(-7.68f, 0, 0));//pos20
+        roomPos.Add(new Vector3(-7.68f, 3.84f, 0));//pos21
+        roomPos.Add(new Vector3(-7.68f, 7.68f, 0));//pos22
+        roomPos.Add(new Vector3(-3.84f, 7.68f, 0));//pos21 
 
         //for(int i =0 ; i < 9; i++)
         //{
@@ -59,7 +59,7 @@ public class Generation : MonoBehaviour
 
         //get a random room
         //x8
-        for (int i = 0; i < 8; i++)
+        for (int i = 0; i < 24; i++)
         {
             //random room range = 0 - room prefab array count
             int randIndex = Random.Range(0, RoomPrefabs.Length);
@@ -67,7 +67,7 @@ public class Generation : MonoBehaviour
             randRoomList.Add(randRoom);
             //Debug.Log(randRoomList[i]);
         }
-        for(int i = 0; i < 8; i++)
+        for(int i = 0; i < 24; i++)
         {
             GameObject roomGen = Instantiate(randRoomList[i], roomPos[i], Quaternion.identity);
         }

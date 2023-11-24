@@ -303,7 +303,29 @@ public class Player : MonoBehaviour
                 chestRef.OpenChest();
             }
         }
-
+        float scroll = Input.GetAxis("Mouse ScrollWheel");
+        if(whatsActive < 4)
+        {
+            if (scroll > 0f)
+            {
+                audioSource5.Play();
+                // Scrolling up
+                whatsActive += 1;
+                Debug.Log(whatsActive);
+            }
+        }
+        
+        if(whatsActive > 0)
+        {
+            if (scroll < 0f)
+            {
+                audioSource5.Play();
+                // Scrolling down
+                whatsActive -= 1;
+                Debug.Log(whatsActive);
+            }
+        }
+        
         if (onGrimisDrink && Input.GetKeyDown(KeyCode.E))
         {
             AddToInventory(grimisDrinkPrefab, grimisDrinkObject);            
@@ -350,7 +372,22 @@ public class Player : MonoBehaviour
             audioSource5.Play();
             whatsActive = 3;
             Active.transform.position = Slot4.transform.position;
-
+        }
+        if(whatsActive == 0)
+        {
+            Active.transform.position = Slot1.transform.position;
+        }
+        else if(whatsActive == 1)
+        {
+            Active.transform.position = Slot2.transform.position;
+        }
+        else if(whatsActive == 2)
+        {
+            Active.transform.position = Slot3.transform.position;
+        }
+        else if(whatsActive == 3)
+        {
+            Active.transform.position = Slot4.transform.position;
         }
 
         //shield stuff
