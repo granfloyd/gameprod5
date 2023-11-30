@@ -17,6 +17,7 @@ public class Player : MonoBehaviour
     public AudioSource audioSource5;//select
     public AudioSource audioSource6;//cant pickup item SFX
     public AudioSource audioSource7;//heartbeat sfx
+    public AudioSource audioSource8;//portal sfx
     public Image Active;
 
     public Canvas myCanvas;
@@ -39,6 +40,7 @@ public class Player : MonoBehaviour
     public GameObject grimisDrinkPrefab;
     public GameObject heartPrefab;
     public GameObject powerup69Prefab;
+    
 
     public GameObject Slot1;
     public GameObject Slot2;
@@ -55,7 +57,7 @@ public class Player : MonoBehaviour
     private float ticker3 = 0; //drink timer
     private float ticker4 = 0; //powerup69 timer
     public int totalKeys = 0;
-    private float bonusSpeed = 5.0f;
+    private float bonusSpeed = 2.0f;
     
     private Vector3 mousePos;
     private Vector2 aimDirection;
@@ -76,6 +78,11 @@ public class Player : MonoBehaviour
 
     public static bool GameIsPaused = false;
     public GameObject pauseMenuUI;
+
+    public int dispair = 0;
+    private bool spawned = false;
+    public GameObject portal2prefab;
+
     void Start()
     {
         Active = Instantiate(Active, Slot1.transform.position, Quaternion.identity);
@@ -88,6 +95,7 @@ public class Player : MonoBehaviour
         movementRef = GameObject.Find("Player").GetComponent<PlayerMovement>();
         chestRef = GameObject.Find("Chest").GetComponent<Chest>();
         UpdateKey(1);
+
     }
 
     private void Shoot()
@@ -182,7 +190,6 @@ public class Player : MonoBehaviour
         {
             audioSource6.Play();
             audioSource6.Play();
-            Debug.Log("Greedy Jew, PUT THAT BACK!");
         }
     }
 
@@ -266,8 +273,8 @@ public class Player : MonoBehaviour
         Cursor.visible = false;
         RotateAim();
         Shoot();
-        Debug.Log(ticker4);
-        if(Input.GetKeyDown(KeyCode.R))
+
+        if (Input.GetKeyDown(KeyCode.R))
         {
             if (whatsActive >= 0 && whatsActive < inventory.Count)
             {
@@ -326,7 +333,7 @@ public class Player : MonoBehaviour
                     totalKeys -= 1;
                     UpdateKey(0);
                     //spawns a rand gameobject / drop then destroys object
-                    chestRef.OpenChest();
+                    chestRef.OpenChest(this.transform);
                 }
             }
             float scroll = Input.GetAxis("Mouse ScrollWheel");
@@ -466,8 +473,8 @@ public class Player : MonoBehaviour
                 SceneManager.LoadScene("Game1");
             }
         }
-            
-
+        SpawnPortal();
+        
     }
     void Resume()
     {
@@ -608,5 +615,19 @@ public class Player : MonoBehaviour
         }
         
     }
-    
+    void SpawnPortal()
+    {
+        if (dispair >= 15)
+        {
+            
+            if (!spawned)                
+            {
+                Instantiate(portal2prefab, transform.position, Quaternion.identity);
+                audioSource8.Play();
+            }
+            
+            spawned = true;
+        }
+             
+    }
 }

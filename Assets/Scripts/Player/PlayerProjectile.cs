@@ -6,11 +6,15 @@ public class PlayerProjectile : MonoBehaviour
 {
     private ScoreManager scoreManagerRef; // The ScoreManager
     private AudioSource audioSource;
+
+    private Player playerRef;
+
     // Start is called before the first frame update
     void Start()
     {
         audioSource = GameObject.Find("hitSFX").GetComponent<AudioSource>();
         scoreManagerRef = GameObject.FindGameObjectWithTag("ScoreManager").GetComponent<ScoreManager>();
+        playerRef = GameObject.Find("Player").GetComponent<Player>();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -21,24 +25,28 @@ public class PlayerProjectile : MonoBehaviour
             audioSource.Play();
             Destroy(gameObject);
             scoreManagerRef.UpdateScore();
+            playerRef.dispair += 1;
         }
         if (collision.gameObject.tag == "Enemy1")
         {
             audioSource.Play();
             Destroy(gameObject);
             scoreManagerRef.UpdateScore();
+            playerRef.dispair += 1;
         }
         if (collision.gameObject.tag == "Blackguy")
         {
             audioSource.Play();
             Destroy(gameObject);
             scoreManagerRef.UpdateScore();
+            playerRef.dispair += 1;
         }
         if (collision.gameObject.tag == "RoboGuy")
         {
             audioSource.Play();
             Destroy(gameObject);
             scoreManagerRef.UpdateScore();
+            playerRef.dispair += 1;
         }
         if (collision.gameObject.tag == "Wall")
         {   
@@ -54,6 +62,7 @@ public class PlayerProjectile : MonoBehaviour
         }
 
     }
+    
     // Update is called once per frame
     void Update()
     {

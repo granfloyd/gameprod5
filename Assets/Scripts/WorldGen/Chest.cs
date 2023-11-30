@@ -11,13 +11,14 @@ public class Chest : MonoBehaviour
         
     }
 
-    public void OpenChest()
+    public void OpenChest(Transform chestTransform)
     {
         int randIndex = Random.Range(0, dropList.Length);
         GameObject randDrop = dropList[randIndex];
 
-        GameObject spawnthis = Instantiate(randDrop, transform.position, Quaternion.identity);
+        GameObject spawnthis = Instantiate(randDrop, chestTransform.position, Quaternion.identity);
     }
+
 
     // Update is called once per frame
     void Update()

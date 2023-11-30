@@ -22,4 +22,18 @@ public class FirstStartManager : MonoBehaviour
     {
         DontDestroyOnLoad(this);
     }
+    private void Update()
+    {
+        if(isFirstStart)
+        { 
+            GameObject[] objs = FindGameObjectsWithSameName("firststartmanager");
+            if (objs.Length > 1)
+            {
+                for (int i = 1; i < objs.Length; i++)
+                {
+                    Destroy(objs[i]);
+                }
+            }
+        }
+    }
 }

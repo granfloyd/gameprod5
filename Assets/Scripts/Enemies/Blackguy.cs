@@ -23,12 +23,15 @@ public class Blackguy : MonoBehaviour
 
     public bool bHasCollided = false;
 
+    public AudioSource audioSource69;
+    private ScoreManager scoreManagerRef; // The ScoreManager
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         playerRef = GameObject.Find("Player").GetComponent<Player>();
-        playerMovementRef = GameObject.Find("Player").GetComponent<PlayerMovement>();
+        scoreManagerRef = GameObject.FindGameObjectWithTag("ScoreManager").GetComponent<ScoreManager>();
+        audioSource69 = GameObject.Find("hitSFX").GetComponent<AudioSource>();
     }
     void OnTriggerEnter2D(Collider2D collider)
     {
@@ -38,6 +41,7 @@ public class Blackguy : MonoBehaviour
             bHasLOS = true;
 
         }
+
     }
 
     private void OnTriggerExit2D(Collider2D collider)
@@ -59,6 +63,12 @@ public class Blackguy : MonoBehaviour
         if (collision.gameObject.tag == "playerProjectile")
         {
             GameObject spawnthis = Instantiate(keyObject, transform.position, Quaternion.identity);
+            Destroy(gameObject);
+        }
+        if (collision.gameObject.tag == "Shield2.0")
+        {
+            audioSource69.Play();
+            scoreManagerRef.UpdateScore();
             Destroy(gameObject);
         }
     }
