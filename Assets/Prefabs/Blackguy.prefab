@@ -151,7 +151,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   keyObject: {fileID: 5483950112051104397, guid: 8afc91131dff8c34091d2c7f74edc59b, type: 3}
   speed: 0.8
-  fasterfaster: 0.1
+  fasterfaster: 0.5
   bHasLOS: 0
   bHasCollided: 0
 --- !u!58 &3755296823709948411

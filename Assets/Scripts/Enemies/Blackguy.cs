@@ -13,11 +13,11 @@ public class Blackguy : MonoBehaviour
 
     public GameObject keyObject;
 
-    public float speed = 0.8f;
+    public float speed = 0.3f;
    
     private float ticker = 0;
 
-    public float fasterfaster = 0.2f;
+    public float fasterfaster = 0.5f;
 
     public bool bHasLOS = false;
 
@@ -100,7 +100,7 @@ public class Blackguy : MonoBehaviour
         {
             speed = 0.8f;
         }
-        if(speed >= 2.0f)
+        if(speed >= 5.0f)
         {
             speed = 0.8f;
         }

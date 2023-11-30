@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -47,6 +48,7 @@ public class Player : MonoBehaviour
     GameObject shield;
     public List<GameObject> inventory = new List<GameObject>();
 
+
     public float projectileSpeed;
     private float ticker = 0;  // shoot timer 
     private float ticker2 = 0; // shield timer
@@ -72,6 +74,8 @@ public class Player : MonoBehaviour
 
     public int whatsActive = 0;
 
+    public static bool GameIsPaused = false;
+    public GameObject pauseMenuUI;
     void Start()
     {
         Active = Instantiate(Active, Slot1.transform.position, Quaternion.identity);
@@ -259,12 +263,32 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Cursor.visible = false;
         RotateAim();
         Shoot();
         Debug.Log(ticker4);
         if(Input.GetKeyDown(KeyCode.R))
         {
-           
+            if (whatsActive >= 0 && whatsActive < inventory.Count)
+            {
+                GameObject itemToDelete = GameObject.Find($"UIImage{whatsActive}");
+                if (itemToDelete != null)
+                {
+                    Destroy(itemToDelete); 
+                    inventory[whatsActive] = null;
+                }
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            if (GameIsPaused)
+            {
+                Resume();
+            }
+            else
+            {
+                Pause();
+            }
         }
         //key stuff
         if (onKey && Input.GetKeyDown(KeyCode.E))
@@ -290,160 +314,187 @@ public class Player : MonoBehaviour
         {         
             pressQ.SetActive(false);
         }
-        
-        //chest stuff
-        if(totalKeys > 0)
+
+        if (!GameIsPaused)
         {
-            if (onChest && Input.GetKeyDown(KeyCode.Q))
+            //chest stuff
+            if (totalKeys > 0)
             {
-                //take key away from player 
-                totalKeys -= 1;
-                UpdateKey(0);
-                //spawns a rand gameobject / drop then destroys object
-                chestRef.OpenChest();
+                if (onChest && Input.GetKeyDown(KeyCode.Q))
+                {
+                    //take key away from player 
+                    totalKeys -= 1;
+                    UpdateKey(0);
+                    //spawns a rand gameobject / drop then destroys object
+                    chestRef.OpenChest();
+                }
             }
-        }
-        float scroll = Input.GetAxis("Mouse ScrollWheel");
-        if(whatsActive < 4)
-        {
-            if (scroll > 0f)
+            float scroll = Input.GetAxis("Mouse ScrollWheel");
+            if (whatsActive < 4)
+            {
+                if (scroll > 0f)
+                {
+                    audioSource5.Play();
+                    // Scrolling up
+                    whatsActive += 1;
+                    Debug.Log(whatsActive);
+                }
+            }
+
+            if (whatsActive > 0)
+            {
+                if (scroll < 0f)
+                {
+                    audioSource5.Play();
+                    // Scrolling down
+                    whatsActive -= 1;
+                    Debug.Log(whatsActive);
+                }
+            }
+
+            if (onGrimisDrink && Input.GetKeyDown(KeyCode.E))
+            {
+                AddToInventory(grimisDrinkPrefab, grimisDrinkObject);
+            }
+            if (onHeart && Input.GetKeyDown(KeyCode.E))
+            {
+                AddToInventory(heartPrefab, heartObject);
+            }
+            if (onShield && Input.GetKeyDown(KeyCode.E))
+            {
+                AddToInventory(shieldPrefab, shieldObject);
+            }
+
+            if (onPowerup69 && Input.GetKeyDown(KeyCode.E))
+            {
+                AddToInventory(powerup69Prefab, powerup69Object);
+            }
+
+
+            if (Input.GetKeyDown(KeyCode.Space))
+                DeleteItemFromInventory();
+
+            if (Input.GetKeyDown(KeyCode.Alpha1))
             {
                 audioSource5.Play();
-                // Scrolling up
-                whatsActive += 1;
-                Debug.Log(whatsActive);
+                whatsActive = 0;
+                Active.transform.position = Slot1.transform.position;
             }
-        }
-        
-        if(whatsActive > 0)
-        {
-            if (scroll < 0f)
+            if (Input.GetKeyDown(KeyCode.Alpha2))
             {
                 audioSource5.Play();
-                // Scrolling down
-                whatsActive -= 1;
-                Debug.Log(whatsActive);
+                whatsActive = 1;
+                Active.transform.position = Slot2.transform.position;
+
             }
-        }
-        
-        if (onGrimisDrink && Input.GetKeyDown(KeyCode.E))
-        {
-            AddToInventory(grimisDrinkPrefab, grimisDrinkObject);            
-        }
-        if (onHeart && Input.GetKeyDown(KeyCode.E))
-        {
-            AddToInventory(heartPrefab, heartObject);
-        }
-        if (onShield && Input.GetKeyDown(KeyCode.E))
-        {
-            AddToInventory(shieldPrefab, shieldObject);
-        }
-
-        if (onPowerup69 && Input.GetKeyDown(KeyCode.E))
-        {
-            AddToInventory(powerup69Prefab, powerup69Object);
-        }
-
-        if (Input.GetKeyDown(KeyCode.Space))
-            DeleteItemFromInventory();
-
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            audioSource5.Play();
-            whatsActive = 0;
-            Active.transform.position = Slot1.transform.position;
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            audioSource5.Play();
-            whatsActive = 1;
-            Active.transform.position = Slot2.transform.position;
-
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            audioSource5.Play();
-            whatsActive = 2;
-            Active.transform.position = Slot3.transform.position;
-
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha4))
-        {
-            audioSource5.Play();
-            whatsActive = 3;
-            Active.transform.position = Slot4.transform.position;
-        }
-        if(whatsActive == 0)
-        {
-            Active.transform.position = Slot1.transform.position;
-        }
-        else if(whatsActive == 1)
-        {
-            Active.transform.position = Slot2.transform.position;
-        }
-        else if(whatsActive == 2)
-        {
-            Active.transform.position = Slot3.transform.position;
-        }
-        else if(whatsActive == 3)
-        {
-            Active.transform.position = Slot4.transform.position;
-        }
-
-        //shield stuff
-        if (shieldActive)
-        {
-            ticker2 += Time.deltaTime;
-
-            if (ticker2 > 10)
+            if (Input.GetKeyDown(KeyCode.Alpha3))
             {
-                Destroy(shield);
-                ticker2 = 0;
-                shieldActive = false;
+                audioSource5.Play();
+                whatsActive = 2;
+                Active.transform.position = Slot3.transform.position;
+
             }
-        }
-        
-        if (shield != null)
-            shield.transform.position = transform.position;
-
-        //drink stuff
-        if (drinkActive)
-        {
-            ticker3 += Time.deltaTime;
-
-            if (ticker3 > 10)
+            if (Input.GetKeyDown(KeyCode.Alpha4))
             {
-                ticker3 = 0;
-                drinkActive = false;
+                audioSource5.Play();
+                whatsActive = 3;
+                Active.transform.position = Slot4.transform.position;
             }
-        }
-        //powerup69 stuff
-        if (powerup69Active)
-        {
-            ticker4 += Time.deltaTime;
-            if (ticker4 > 5)
+            if (whatsActive == 0)
             {
-                ticker4 = 0;
-                hsRef.powerup69active.SetActive(false);
-                powerup69Active = false;
-                movementRef.speed = 1.0f;
-                audioSource7.Stop();
+                Active.transform.position = Slot1.transform.position;
+            }
+            else if (whatsActive == 1)
+            {
+                Active.transform.position = Slot2.transform.position;
+            }
+            else if (whatsActive == 2)
+            {
+                Active.transform.position = Slot3.transform.position;
+            }
+            else if (whatsActive == 3)
+            {
+                Active.transform.position = Slot4.transform.position;
+            }
+
+            //shield stuff
+            if (shieldActive)
+            {
+                ticker2 += Time.deltaTime;
+
+                if (ticker2 > 10)
+                {
+                    Destroy(shield);
+                    ticker2 = 0;
+                    shieldActive = false;
+                }
+            }
+
+            if (shield != null)
+                shield.transform.position = transform.position;
+
+            //drink stuff
+            if (drinkActive)
+            {
+                ticker3 += Time.deltaTime;
+
+                if (ticker3 > 10)
+                {
+                    ticker3 = 0;
+                    drinkActive = false;
+                }
+            }
+            //powerup69 stuff
+            if (powerup69Active)
+            {
+                ticker4 += Time.deltaTime;
+                if (ticker4 > 5)
+                {
+                    ticker4 = 0;
+                    hsRef.powerup69active.SetActive(false);
+                    powerup69Active = false;
+                    movementRef.speed = 1.0f;
+                    audioSource7.Stop();
+                }
+            }
+            //door stuff 
+            if (onDoor && Input.GetKeyDown(KeyCode.Q))
+            {
+                FirstStartManager.isFirstStart = false;
+                PlayerPrefs.SetInt("PlayerHealth", HealthSystem.health); // Save current health
+                PlayerPrefs.SetInt("PlayerScore", ScoreManager.score); // Save current score
+                SceneManager.LoadScene("Game1");
             }
         }
-        //door stuff 
-        if (onDoor && Input.GetKeyDown(KeyCode.Q))
-        {
-            FirstStartManager.isFirstStart = false;
-            PlayerPrefs.SetInt("PlayerHealth", HealthSystem.health); // Save current health
-            PlayerPrefs.SetInt("PlayerScore", ScoreManager.score); // Save current score
-            SceneManager.LoadScene("Game1");
-        }
-
-        
-
+            
 
     }
-    
+    void Resume()
+    {
+        pauseMenuUI.SetActive(false);
+        Time.timeScale = 1f;
+        GameIsPaused = false;
+
+        // Resume all sounds
+        AudioListener.volume = 1;
+
+        // Enable mouse input
+        Cursor.lockState = CursorLockMode.None;
+    }
+
+    void Pause()
+    {
+        pauseMenuUI.SetActive(true);
+        Time.timeScale = 0f;
+        GameIsPaused = true;
+
+        // Pause all sounds
+        AudioListener.volume = 0;
+
+        // Disable mouse input
+        Cursor.lockState = CursorLockMode.Locked;
+        
+    }
     void OnTriggerEnter2D(Collider2D collider)
     {
         if (collider.gameObject.tag == "Key")
@@ -541,17 +592,21 @@ public class Player : MonoBehaviour
     
     void RotateAim()
     {
-         mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-         Vector2 aimDirection = (Vector2)((mousePos - transform.position));
-         aimDirection.Normalize();
-         // Update the position of aimProjectile to follow the player
-         aimProjectile.transform.position = (Vector2)transform.position + aimDirection * 0.3f;
-         
-         //Calculates the angle of aimDirection, adjusting for a sprite that faces up
-         float angle = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg - 90;
-         
-         // Rotate aimProjectile to face towards the mouse cursor
-         aimProjectile.transform.rotation = Quaternion.Euler(0, 0, angle);
+        if(!GameIsPaused)
+        {
+            mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector2 aimDirection = (Vector2)((mousePos - transform.position));
+            aimDirection.Normalize();
+            // Update the position of aimProjectile to follow the player
+            aimProjectile.transform.position = (Vector2)transform.position + aimDirection * 0.3f;
+
+            //Calculates the angle of aimDirection, adjusting for a sprite that faces up
+            float angle = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg - 90;
+
+            // Rotate aimProjectile to face towards the mouse cursor
+            aimProjectile.transform.rotation = Quaternion.Euler(0, 0, angle);
+        }
+        
     }
     
 }

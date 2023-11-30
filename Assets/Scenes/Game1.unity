@@ -1327,6 +1327,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 213094199}
+  - {fileID: 1022573455}
   - {fileID: 409429920}
   - {fileID: 1070977685}
   - {fileID: 525327998}
@@ -2579,6 +2580,81 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6855782555714513498, guid: fade2fedd18b4aa4182e499cd3f6e84e, type: 3}
   m_PrefabInstance: {fileID: 42687999}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1022573454
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1022573455}
+  - component: {fileID: 1022573457}
+  - component: {fileID: 1022573456}
+  m_Layer: 5
+  m_Name: PauseUI
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &1022573455
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1022573454}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 586498426}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1022573456
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1022573454}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.44705883}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 5428c9c31cdfcb441b6183abde648cb9, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1022573457
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1022573454}
+  m_CullTransparentMesh: 0
 --- !u!1 &1070977684
 GameObject:
   m_ObjectHideFlags: 0
@@ -4423,7 +4499,7 @@ MonoBehaviour:
   pressE: {fileID: 1383471972}
   pressQ: {fileID: 1900553317}
   projectilePrefab: {fileID: 4359556194337968328, guid: bce09f4b0eccc4143bb1fa81bf65c5ab, type: 3}
-  aimProjectile: {fileID: 5281869098172473988, guid: afc94af3d0e90314aa460af1cef6e652, type: 3}
+  aimProjectile: {fileID: 5646699100124403957, guid: afc94af3d0e90314aa460af1cef6e652, type: 3}
   shieldPrefab: {fileID: 8302433770134027469, guid: a6f82e8c0a6937f419acf3d1acecfb1d, type: 3}
   shield2Prefab: {fileID: 8302433770134027469, guid: 4f69244ca63663a49bdca65ead0c3be7, type: 3}
   grimisDrinkPrefab: {fileID: 2033005917234892103, guid: 8650b37fea503f34c8f92aea954e93ad, type: 3}
@@ -4441,6 +4517,7 @@ MonoBehaviour:
   projectileSpeed: 4
   totalKeys: 0
   whatsActive: 0
+  pauseMenuUI: {fileID: 1022573454}
 --- !u!61 &2140646134
 BoxCollider2D:
   m_ObjectHideFlags: 0

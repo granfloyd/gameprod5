@@ -9,28 +9,45 @@ public class GameOver : MonoBehaviour
 {
     public Button newGameButton;
     public Button continueButton;
-   
+    public GameObject bg;
     public Image gameoverBG;
     //public Button continueButton;
 
-    public Button exitButton;
 
+    public Button exitButton;
+    public GameObject Cursorgo;
+    private CanvasGroup canvasGroup;
     // Start is called before the first frame update
     void Start()
     {
-        newGameButton.onClick.AddListener(imsofunny);
+
+        newGameButton.onClick.AddListener(LoadGame);
         continueButton.onClick.AddListener(Continue);
         
         exitButton.onClick.AddListener(Exit);
+        // Get the CanvasGroup component
+        canvasGroup = Cursorgo.GetComponent<CanvasGroup>();
+        // If the CanvasGroup component doesn't exist, add one
+        if (canvasGroup == null)
+        {
+            canvasGroup = Cursorgo.AddComponent<CanvasGroup>();
+        }
+
+        canvasGroup.blocksRaycasts = false;
     }
-    void imsofunny()
+    void LoadGame()
     {
         SceneManager.LoadScene("Game1");
     }
     // Update is called once per frame
     void Update()
     {
-        gameoverBG.transform.Rotate(50 * Time.deltaTime, 0, 0 );
+
+        Cursor.visible = false;
+        Vector3 mousePos = Input.mousePosition;
+        mousePos.z = 10;
+        Cursorgo.transform.position = Input.mousePosition;    
+
     }
 
     void Continue()

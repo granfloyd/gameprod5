@@ -16,51 +16,40 @@ public class titlescreen : MonoBehaviour
     public GameObject info;
     public Button exitButton;
 
-    public int peter = 0;
-
-    private Vector3 spawn1 = new Vector3(500, 600, 2);
-    private Vector3 spawn2 = new Vector3(1000, 500, 2);
-    private Vector3 spawn3 = new Vector3(1000, 500, 2);
+    public GameObject Cursorgo;
+    private CanvasGroup canvasGroup;
 
     // Start is called before the first frame update
     void Start()
     {
-        newGameButton.onClick.AddListener(imsofunny);
+
+        newGameButton.onClick.AddListener(LoadGame);
         infoButton.onClick.AddListener(showinfo);
         if(backButton != null)
         backButton.onClick.AddListener(hideinfo);
         exitButton.onClick.AddListener(Exit);
+
+        // Get the CanvasGroup component
+        canvasGroup = Cursorgo.GetComponent<CanvasGroup>();
+        // If the CanvasGroup component doesn't exist, add one
+        if (canvasGroup == null)
+        {
+            canvasGroup = Cursorgo.AddComponent<CanvasGroup>();
+        }
+
+        canvasGroup.blocksRaycasts = false;
     }
-    void imsofunny()
+    void LoadGame()
     {
-        peter += 1;
-        
-        if(newGameButton.transform.position == spawn1)
-        {
-            newGameButton.transform.position = spawn2;
-        }
-        else if(newGameButton.transform.position == spawn2)
-        {
-            newGameButton.transform.position = spawn3;
-        }
-        else if (newGameButton.transform.position == spawn3)
-        {
-            newGameButton.transform.position = spawn1;
-        }
-        else
-        {
-            newGameButton.transform.position = spawn1;
-        }
-        if(peter == 7)
-        {
-            SceneManager.LoadScene("Game1");
-        }
+        SceneManager.LoadScene("Game1");
     }
     // Update is called once per frame
     void Update()
     {
-        TitleScreenBG.transform.Rotate(0, 0, 50 * Time.deltaTime);
-        infoButton.transform.Rotate(0, 0, -50 * Time.deltaTime);
+        Cursor.visible = false;
+        Vector3 mousePos = Input.mousePosition;
+        mousePos.z = -10;
+        Cursorgo.transform.position = Input.mousePosition; 
     }
     void NewGame()
     {
