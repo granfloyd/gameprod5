@@ -40,41 +40,7 @@ public class RoboGuy : MonoBehaviour
         audioSource69 = GameObject.Find("hitSFX").GetComponent<AudioSource>();
     }
 
-    void OnTriggerEnter2D(Collider2D collider)
-    {
-        if (collider.gameObject.tag == "Player")
-        {
-            bHasLOS = true;
-        }
-        
-    }
-
-    private void OnTriggerExit2D(Collider2D collider)
-    {
-        if (collider.gameObject.tag == "Player")
-        {
-            bHasLOS = false;
-        }
-    }
-
-    void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.tag == "playerProjectile")
-        {
-            if (Random.value < 0.5f)
-            {
-                GameObject spawnthis = Instantiate(keyObject, transform.position, Quaternion.identity);
-                
-            }
-            Destroy(gameObject);
-        }
-        if (collision.gameObject.tag == "Shield2.0")
-        {
-            audioSource69.Play();
-            scoreManagerRef.UpdateScore();
-            Destroy(gameObject);
-        }
-    }
+    
 
     void FollowPlayer()
     {
@@ -127,5 +93,41 @@ public class RoboGuy : MonoBehaviour
             reset = false;
         }
 
+    }
+
+    void OnTriggerEnter2D(Collider2D collider)
+    {
+        if (collider.gameObject.tag == "Player")
+        {
+            bHasLOS = true;
+        }
+
+    }
+
+    private void OnTriggerExit2D(Collider2D collider)
+    {
+        if (collider.gameObject.tag == "Player")
+        {
+            bHasLOS = false;
+        }
+    }
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "playerProjectile")
+        {
+            if (Random.value < 0.5f)
+            {
+                GameObject spawnthis = Instantiate(keyObject, transform.position, Quaternion.identity);
+
+            }
+            Destroy(gameObject);
+        }
+        if (collision.gameObject.tag == "Shield2.0")
+        {
+            audioSource69.Play();
+            scoreManagerRef.UpdateScore();
+            Destroy(gameObject);
+        }
     }
 }

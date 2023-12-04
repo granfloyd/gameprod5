@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 961234178105644664}
   - component: {fileID: 2793669373902989896}
   - component: {fileID: 4748840875891121039}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: boss
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -101,8 +101,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bossPrefab: {fileID: 3580511833490471184, guid: 8798164aac1db22408616f078a803a70, type: 3}
+  bossAttack2Prefab: {fileID: 3580511833490471184, guid: f8a2ab404d13ca148acb674272667b48, type: 3}
+  eProjectilePrefab: {fileID: 7986293975911026654, guid: f89b0da5a038f814e8b5f765b7248dd8, type: 3}
   speed: 0.3
   fasterfaster: 0.5
+  eProjectileSpeed: 4
   bHasLOS: 0
   bHasCollided: 0
 --- !u!50 &961234178105644664
@@ -131,7 +134,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!61 &2793669373902989896
 BoxCollider2D:
   m_ObjectHideFlags: 0
