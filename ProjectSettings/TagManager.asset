@@ -23,6 +23,7 @@ TagManager:
   - Shield2.0
   - Powerup69
   - Wall
+  - bossProjectile
   layers:
   - Default
   - TransparentFX

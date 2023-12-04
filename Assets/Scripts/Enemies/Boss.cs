@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Rendering;
 using UnityEngine;
-using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;
 
 public class Boss : MonoBehaviour
 {
+    public AudioSource audioSource69;
+
     private ScoreManager scoreManagerRef; // The ScoreManager
 
     private Player playerRef;
@@ -18,6 +19,8 @@ public class Boss : MonoBehaviour
 
     public GameObject eProjectilePrefab;
 
+    public GameObject bossProjectilePrefab;
+
     private int hp = 10;
 
     public float speed = 0.3f;
@@ -25,6 +28,8 @@ public class Boss : MonoBehaviour
     public float fasterfaster = 0.5f;
 
     public float eProjectileSpeed = 6.0f;
+
+    private float qs = 0;   //timer/cd for boss main slow attack
 
     private float ticker = 0;   //timer for picking rand attack
 
@@ -34,11 +39,7 @@ public class Boss : MonoBehaviour
 
     private float attack2Ticker = 0;
 
-    private float delay = 0.0f;     //for attack1 shoot delay for each bullet
-
-    private int counter = 0;        //for attack1 shoot counter for each bullet
-
-    private bool reset = false;     //for attack1 shoot timer 
+    public bool bHit = false;
 
     public bool bHasLOS = false;
 
@@ -55,16 +56,34 @@ public class Boss : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        audioSource69 = GameObject.Find("hitSFX").GetComponent<AudioSource>();
         rb = GetComponent<Rigidbody2D>();
         playerRef = GameObject.Find("Player").GetComponent<Player>();
         scoreManagerRef = GameObject.FindGameObjectWithTag("ScoreManager").GetComponent<ScoreManager>();
     }
-    
+
     void FollowPlayer()
     {
-        Vector2 pos = Vector2.MoveTowards(transform.position, playerRef.transform.position, speed * Time.deltaTime);
-        rb.MovePosition(pos);
+        float randPosX = (UnityEngine.Random.value > 0.5f) ? 1 : -1;
+        float randPosY = (UnityEngine.Random.value > 0.5f) ? 1 : -1;
+        float distance = Vector3.Distance(playerRef.transform.position, this.transform.position);
+        if(bHit)
+        {
+            Vector3 movehere = new Vector3(playerRef.transform.position.x , playerRef.transform.position.y + randPosY, playerRef.transform.position.z);
+            this.transform.position = movehere;
+            bHit = false;
+        }
+        else if (distance > 2)
+        {
+            if (Random.value < 0.5f)
+            {
+                Vector3 movehere = new Vector3(playerRef.transform.position.x + randPosX, playerRef.transform.position.y, playerRef.transform.position.z);
+                this.transform.position = movehere;
+            }
+        }
+
     }
+
 
     void ShootPlayer(GameObject go)
     {
@@ -79,7 +98,19 @@ public class Boss : MonoBehaviour
         // Destroy the gameobject 2 seconds after creation
         Destroy(eprojectile, 2.0f);
     }
+    void ShootPlayer2()
+    {
+        //clac vector from roboguy - player
+        Vector2 direction = (Vector2)(playerRef.transform.position - transform.position);
+        direction.Normalize();
 
+        GameObject bossprojectile = Instantiate(bossProjectilePrefab, transform.position, Quaternion.identity);
+
+        bossprojectile.GetComponent<Rigidbody2D>().velocity = direction * eProjectileSpeed;
+
+        // Destroy the gameobject 2 seconds after creation
+        Destroy(bossprojectile, 2.0f);
+    }
     //Attack one
     void AttackOne()
     {
@@ -97,8 +128,7 @@ public class Boss : MonoBehaviour
             foreach (Vector3 offset in offsets)
             {
                 GameObject attack1GO = Instantiate(bossPrefab, transform.position + offset, Quaternion.identity);
-                attackOneGameObjectList.Add(attack1GO);
-                
+                attackOneGameObjectList.Add(attack1GO);                
             }            
         }
 
@@ -129,7 +159,7 @@ public class Boss : MonoBehaviour
     private void RandAttack()
     {
         //range 1-2
-        int randAttack = Random.Range(2, 2);
+        int randAttack = Random.Range(1, 3);
         Debug.Log(randAttack);
         switch(randAttack)
         {
@@ -148,14 +178,25 @@ public class Boss : MonoBehaviour
     void FixedUpdate()
     {
         if (bHasLOS)
-           FollowPlayer();
-        //pick attack cd stuff
-        ticker += Time.deltaTime;
-        if(ticker >= 6.0f)
         {
-            RandAttack();
-            ticker = 0;
+            FollowPlayer();
+            //pick attack cd stuff
+            ticker += Time.deltaTime;
+            qs += Time.deltaTime;
+
+            if (ticker >= 6.0f)
+            {
+                RandAttack();
+                ticker = 0;
+            }
+
+            if(qs >4.5f)
+            {
+                ShootPlayer2();
+                qs = 0;
+            }
         }
+
 
         //attack 1 stuff
         if(bIsAttack1Active)
@@ -217,7 +258,7 @@ public class Boss : MonoBehaviour
                 foreach (GameObject attack2GO in attackTwoGameObjectList)
                 {
                     float movement = 0;
-                    float speed = 1f;
+                    float speed = 2f;
                     if (Mathf.Approximately(attack2GO.transform.eulerAngles.z, 90))
                     {
                         movement = -1.0f;
@@ -263,6 +304,7 @@ public class Boss : MonoBehaviour
             bHasLOS = false;
         }
     }
+
     void OnCollisionEnter2D(Collision2D collision)
     {
         //Check for a match with the specified name on any GameObject that collides with your GameObject
@@ -270,7 +312,16 @@ public class Boss : MonoBehaviour
         {
             bHasCollided = true;
         }
+        if (collision.gameObject.tag == "playerProjectile")
+        {
+            audioSource69.Play();
+            Destroy(collision.gameObject);
+            FollowPlayer();
+            bHit = true;
+            hp -= 1;
+        }
     }
+
     void OnCollisionExit2D(Collision2D collision)
     {
         //Check for a match with the specified name on any GameObject that collides with your GameObject

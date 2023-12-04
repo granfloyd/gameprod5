@@ -56,6 +56,10 @@ public class PlayerProjectile : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        if (collision.gameObject.tag == "bossProjectile")
+        {
+            Destroy(gameObject);
+        }
         if (collision.gameObject.tag == "GrimisAtk")
         {
             Destroy(gameObject);

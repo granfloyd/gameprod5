@@ -14,7 +14,7 @@ public class PlayerMovement : MonoBehaviour
     public float speed = 1.0f;
     
     //dash stuff
-    private float dashCD = 10;
+    private float dashCD = 2;
 
     private float dashTimer = 0;
 
@@ -45,13 +45,20 @@ public class PlayerMovement : MonoBehaviour
         {
             bHasCollided = true;
         }
-        
+        if (collision.gameObject.tag == "bossProjectile")
+        {
+            bHasCollided = true;
+        }
     }
 
     void OnCollisionExit2D(Collision2D collision)
     {
         //Check for a match with the specified name on any GameObject that collides with your GameObject
         if (collision.gameObject.tag == "Blackguy")
+        {
+            bHasCollided = false;
+        }
+        if (collision.gameObject.tag == "bossProjectile")
         {
             bHasCollided = false;
         }
@@ -67,6 +74,7 @@ public class PlayerMovement : MonoBehaviour
         {
             isSlowed = true;
             speed = slow;
+            bHasCollided = false;
         }
 
         if (isSlowed)
@@ -79,8 +87,8 @@ public class PlayerMovement : MonoBehaviour
                 speed = 1.0f;
             }
         }
-      
-        if (dashCD > 5.0f)
+        
+        if (dashCD > 2.0f)
         {
             if(Input.GetKey(KeyCode.LeftShift))
             {
@@ -108,8 +116,6 @@ public class PlayerMovement : MonoBehaviour
             rb.MovePosition(rb.position + movement * speed * Time.deltaTime);
         }
         //Debug.Log("dash CD" + dashCD);
-
-
     }
     
     
