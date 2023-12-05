@@ -24,6 +24,9 @@ TagManager:
   - Powerup69
   - Wall
   - bossProjectile
+  - bossAttack2
+  - boss
+  - bossAttack1
   layers:
   - Default
   - TransparentFX
@@ -38,7 +41,7 @@ TagManager:
   - RoboGuy
   - Enemy
   - shield
-  - 
+  - Boss
   - 
   - 
   - 
