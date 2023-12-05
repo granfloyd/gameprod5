@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4051998702372980867}
   - component: {fileID: 4650030903614249920}
-  m_Layer: 10
+  m_Layer: 13
   m_Name: bossprefab
-  m_TagString: Untagged
+  m_TagString: bossAttack1
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

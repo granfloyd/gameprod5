@@ -21,6 +21,8 @@ public class Boss : MonoBehaviour
 
     public GameObject bossProjectilePrefab;
 
+    public GameObject Enemy1Prefab;
+
     private int hp = 10;
 
     public float speed = 0.3f;
@@ -39,6 +41,8 @@ public class Boss : MonoBehaviour
 
     private float attack2Ticker = 0;
 
+    private float attack3Ticker = 0;
+
     public bool bHit = false;
 
     public bool bHasLOS = false;
@@ -49,9 +53,13 @@ public class Boss : MonoBehaviour
 
     private bool bIsAttack2Active = false;
 
+    private bool bIsAttack3Active = false;
+
     private List<GameObject> attackOneGameObjectList = new List<GameObject>();
 
     private List<GameObject> attackTwoGameObjectList = new List<GameObject>();
+
+    private List<GameObject> attackThreeGameObjectList = new List<GameObject>();
 
     // Start is called before the first frame update
     void Start()
@@ -84,7 +92,7 @@ public class Boss : MonoBehaviour
 
     }
 
-
+    //attack 1 method that shoots projectile at player 
     void ShootPlayer(GameObject go)
     {
         // Calculate vector from bossInstance to player
@@ -98,6 +106,8 @@ public class Boss : MonoBehaviour
         // Destroy the gameobject 2 seconds after creation
         Destroy(eprojectile, 2.0f);
     }
+
+    //shoots projectile that slows player
     void ShootPlayer2()
     {
         //clac vector from roboguy - player
@@ -117,10 +127,10 @@ public class Boss : MonoBehaviour
         bIsAttack1Active = true;
         Vector3[] offsets = new Vector3[]
         {
-        new Vector3(0, 1.5f, 10),
-        new Vector3(0, -1.5f, 10),
-        new Vector3(1.5f, 0, 10),
-        new Vector3(-1.5f, 0, 10)
+        new Vector3(0, 1.5f, 0),
+        new Vector3(0, -1.5f, 0),
+        new Vector3(1.5f, 0, 0),
+        new Vector3(-1.5f, 0, 0)
         };
 
         if (bHasLOS)
@@ -139,7 +149,7 @@ public class Boss : MonoBehaviour
         float randPosY = Random.Range(-0.5f, 0.5f);
         float randPosX = (UnityEngine.Random.value > 0.5f) ? 3 : -3;
 
-        Vector3 offset = new Vector3(randPosX, randPosY, 10);
+        Vector3 offset = new Vector3(randPosX, randPosY, 0);
         if (bHasLOS)
         {
             GameObject attack2GO = Instantiate(bossAttack2Prefab, playerRef.transform.position + offset, Quaternion.identity);
@@ -156,10 +166,28 @@ public class Boss : MonoBehaviour
 
         }
     }
+
+    void AttackThree()
+    {
+        bIsAttack3Active = true;
+        int spawnCount = Random.Range(1,10);
+
+        if (bHasLOS)
+        {
+            for(int i = 0; i < spawnCount;i++)
+            {
+                float randPosY = Random.Range(-0.5f, 0.5f);
+                float randPosX = Random.Range(-0.5f, 0.5f);
+                Vector3 randPos = new Vector3(randPosX, randPosY, 0);
+                GameObject attack3GO = Instantiate(Enemy1Prefab, transform.position + randPos, Quaternion.identity);
+                attackThreeGameObjectList.Add(attack3GO);
+            }
+        }
+    }
     private void RandAttack()
     {
-        //range 1-2
-        int randAttack = Random.Range(1, 3);
+        //range 1-3
+        int randAttack = Random.Range(1, 4);
         Debug.Log(randAttack);
         switch(randAttack)
         {
@@ -169,6 +197,9 @@ public class Boss : MonoBehaviour
             case 2:
                 AttackTwo();
                break;
+            case 3:
+                AttackThree();
+                break;
 
         }
 
@@ -184,7 +215,7 @@ public class Boss : MonoBehaviour
             ticker += Time.deltaTime;
             qs += Time.deltaTime;
 
-            if (ticker >= 6.0f)
+            if (ticker >= 5.0f)
             {
                 RandAttack();
                 ticker = 0;
@@ -280,10 +311,26 @@ public class Boss : MonoBehaviour
                         Destroy(attack2GO);
                     }
                 }
+            }
+        }
+        //attack 3 stuff
+        if (bIsAttack3Active)
+        {
+            //timer begin for attack1
+            attack3Ticker += Time.deltaTime;
 
+            //clean up after attack3 is over
+            if (attack3Ticker >= 6)
+            {
+                bIsAttack3Active = false;
+                attack3Ticker = 0;
+                foreach (GameObject attack3GO in attackThreeGameObjectList)
+                {
+                    Destroy(attack3GO);
+                }
+                attackThreeGameObjectList.Clear();
 
             }
-
         }
     }
 

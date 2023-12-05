@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 4051998702372980867}
   - component: {fileID: 4650030903614249920}
   - component: {fileID: 2350184843488445376}
-  m_Layer: 10
+  m_Layer: 13
   m_Name: bossAttack2
-  m_TagString: Untagged
+  m_TagString: bossAttack2
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
