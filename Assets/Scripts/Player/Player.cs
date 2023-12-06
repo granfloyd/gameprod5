@@ -74,6 +74,9 @@ public class Player : MonoBehaviour
     private bool onPowerup69 = false;
     private bool full = false;
 
+    public bool isBossActive = false;
+    public int thing = 0;
+
     public int whatsActive = 0;
 
     public static bool GameIsPaused = false;

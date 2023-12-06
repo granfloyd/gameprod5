@@ -115,47 +115,38 @@ public class HealthSystem : MonoBehaviour
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-
-        ////Check for a match with the specified name on any GameObject that collides with your GameObject
-        if(health >= 0)
+        if (health >= 0)
         {
-            if (collision.gameObject.name == "Grimis")
-            {
-                TakeDamage(1);
-            }
-            if (collision.gameObject.CompareTag("enemyProjectile"))
-            {
+            string collisionTag = collision.gameObject.tag;
 
-                TakeDamage(1);
-            }
-            if (collision.gameObject.CompareTag("Enemy1"))
+            if (collisionTag == "enemyProjectile" || collisionTag == "Enemy1" || collisionTag == "bossProjectile")
             {
                 TakeDamage(1);
             }
-            if (collision.gameObject.CompareTag("Blackguy"))
+            else if (collisionTag == "Blackguy")
             {
-                TakeDamage(3);
+                TakeDamage(2);
             }
         }
-        
-        if (collision.gameObject.CompareTag("GrimisAtk"))
-        {
 
+        if (collision.gameObject.tag == "GrimisAtk")
+        {
             benis = true;
-            TakeDamage(2);
-            
+            TakeDamage(1);
         }
-        
-
     }
-    //private void OnTriggerEnter2D(Collider2D collider)
-    //{
-    //    if (collider.gameObject.CompareTag("Heart"))
-    //    {
-    //        //If the GameObject's name matches the one you suggest, output this message in the console
-    //        HealDamage(1);
-    //    }
-    //}
 
+    private void OnTriggerEnter2D(Collider2D collider)
+    {
+        string colliderTag = collider.gameObject.tag;
 
+        if (colliderTag == "bossAttack2")
+        {
+            TakeDamage(1);
+        }
+        //else if (colliderTag == "Heart")
+        //{
+        //    HealDamage(1);
+        //}
+    }
 }

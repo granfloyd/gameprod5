@@ -2,10 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Rendering;
 using UnityEngine;
-
 public class Boss : MonoBehaviour
 {
+
     public AudioSource audioSource69;
+
+    public AudioSource audioSource99;//song
 
     private ScoreManager scoreManagerRef; // The ScoreManager
 
@@ -23,7 +25,11 @@ public class Boss : MonoBehaviour
 
     public GameObject Enemy1Prefab;
 
-    private int hp = 10;
+    public Renderer rend;
+
+    public int hp;
+
+    public int maxHP = 10;
 
     public float speed = 0.3f;
 
@@ -61,9 +67,15 @@ public class Boss : MonoBehaviour
 
     private List<GameObject> attackThreeGameObjectList = new List<GameObject>();
 
+   
+    
+
     // Start is called before the first frame update
     void Start()
     {
+        audioSource99 = GameObject.Find("bossSFX").GetComponent<AudioSource>();
+        hp = maxHP;
+        rend = GetComponent<Renderer>();
         audioSource69 = GameObject.Find("hitSFX").GetComponent<AudioSource>();
         rb = GetComponent<Rigidbody2D>();
         playerRef = GameObject.Find("Player").GetComponent<Player>();
@@ -72,6 +84,7 @@ public class Boss : MonoBehaviour
 
     void FollowPlayer()
     {
+
         float randPosX = (UnityEngine.Random.value > 0.5f) ? 1 : -1;
         float randPosY = (UnityEngine.Random.value > 0.5f) ? 1 : -1;
         float distance = Vector3.Distance(playerRef.transform.position, this.transform.position);
@@ -208,9 +221,45 @@ public class Boss : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        if (hp < 5)
+        {
+            rend.material.color = new Color(0.5f, 0, 0);
+        }
+        if (hp <= 0)
+        {
+            foreach (GameObject attack1GO in attackOneGameObjectList)
+            {
+                Destroy(attack1GO);
+            }
+            foreach (GameObject attack2GO in attackTwoGameObjectList)
+            {
+                Destroy(attack2GO);
+            }
+            foreach (GameObject attack3GO in attackThreeGameObjectList)
+            {
+                Destroy(attack3GO);
+            }
+            audioSource99.Stop();
+            scoreManagerRef.UpdateScore();
+            attackOneGameObjectList.Clear();
+            attackTwoGameObjectList.Clear();
+            attackThreeGameObjectList.Clear();
+            Destroy(gameObject);
+            
+        }
+            
+
         if (bHasLOS)
         {
-            FollowPlayer();
+            if (!audioSource99.isPlaying)
+            {
+                audioSource99.Play();
+            }
+            if (playerRef.thing <=1)
+            {
+                FollowPlayer();                
+            }
+            
             //pick attack cd stuff
             ticker += Time.deltaTime;
             qs += Time.deltaTime;
@@ -221,16 +270,15 @@ public class Boss : MonoBehaviour
                 ticker = 0;
             }
 
-            if(qs >4.5f)
+            if (qs > 4.5f)
             {
                 ShootPlayer2();
                 qs = 0;
             }
         }
 
-
         //attack 1 stuff
-        if(bIsAttack1Active)
+        if (bIsAttack1Active)
         {
             //timer begin for attack1
             attack1Ticker += Time.deltaTime;
@@ -262,8 +310,8 @@ public class Boss : MonoBehaviour
                         ticker2 = 0;
                     }
                 }
-                
-            }            
+
+            }
         }
 
         //attack 2 stuff
@@ -332,6 +380,7 @@ public class Boss : MonoBehaviour
 
             }
         }
+        
     }
 
     void OnTriggerEnter2D(Collider2D collider)
@@ -340,6 +389,7 @@ public class Boss : MonoBehaviour
         if (collider.gameObject.tag == "Player")
         {
             bHasLOS = true;
+            playerRef.thing += 1;
         }
     }
 
@@ -349,6 +399,7 @@ public class Boss : MonoBehaviour
         if (collider.gameObject.tag == "Player")
         {
             bHasLOS = false;
+            playerRef.thing -= 1;
         }
     }
 
@@ -365,7 +416,7 @@ public class Boss : MonoBehaviour
             Destroy(collision.gameObject);
             FollowPlayer();
             bHit = true;
-            hp -= 1;
+            hp -= 1;        
         }
     }
 

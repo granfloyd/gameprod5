@@ -106,6 +106,9 @@ MonoBehaviour:
   eProjectilePrefab: {fileID: 7986293975911026654, guid: f89b0da5a038f814e8b5f765b7248dd8, type: 3}
   bossProjectilePrefab: {fileID: 7986293975911026654, guid: e716a62d3962f4e4895dd2c0750a49b7, type: 3}
   Enemy1Prefab: {fileID: 3364070151232361827, guid: a6c59aba9fd45624ea2c7b6851b4d5f5, type: 3}
+  rend: {fileID: 4936889976324819335}
+  hp: 0
+  maxHP: 10
   speed: 0.3
   fasterfaster: 0.5
   eProjectileSpeed: 4
