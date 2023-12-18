@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 7321035163142750127}
   - component: {fileID: 472260568605803072}
   - component: {fileID: 56728023011702631}
+  - component: {fileID: -7735731519716234339}
   m_Layer: 11
   m_Name: Enemy1
   m_TagString: Enemy1
@@ -197,4 +198,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33ae352291388834ab5e59f0f3ccbd14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HP: 2
+--- !u!114 &-7735731519716234339
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3364070151232361827}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12dc932b1f1e72346bf08e8d49103d26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioSource69: {fileID: 0}
   keyObject: {fileID: 5483950112051104397, guid: 8afc91131dff8c34091d2c7f74edc59b, type: 3}
+  Speed: 0
+  ff: 0
+  bHasLOS: 0
+  bHasCollided: 0
+  isHit: 0
+  isDead: 0

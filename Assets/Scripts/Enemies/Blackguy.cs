@@ -4,111 +4,48 @@ using UnityEngine;
 
 public class Blackguy : MonoBehaviour
 {
-
-    private Player playerRef;
-
+    private BasicEnemyLOS belos;
     private Rigidbody2D rb;
 
-    public GameObject keyObject;
-
+    //enemy stats
+    public int HP = 2;
     public float speed = 0.3f;
-   
+
+    //cds
     private float ticker = 0;
+    public float fasterfaster = 0.1f;
 
-    public float fasterfaster = 0.5f;
-
-    public bool bHasLOS = false;
-
-    public bool bHasCollided = false;
-
-    public AudioSource audioSource69;
-    private ScoreManager scoreManagerRef; // The ScoreManager
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        playerRef = GameObject.Find("Player").GetComponent<Player>();
-        scoreManagerRef = GameObject.FindGameObjectWithTag("ScoreManager").GetComponent<ScoreManager>();
-        audioSource69 = GameObject.Find("hitSFX").GetComponent<AudioSource>();
-    }
-    void OnTriggerEnter2D(Collider2D collider)
-    {
-        //Check for a match with the specified name on any GameObject that collides with your GameObject
-        if (collider.gameObject.tag == "Player")
-        {
-            bHasLOS = true;
-
-        }
-
+        belos = gameObject.GetComponent<BasicEnemyLOS>();
     }
 
-    private void OnTriggerExit2D(Collider2D collider)
-    {
-        //Check for a match with the specified name on any GameObject that collides with your GameObject
-        if (collider.gameObject.tag == "Player")
-        {
-            bHasLOS = false;
-        }
-    }
-    void OnCollisionEnter2D(Collision2D collision)
-    {
-        //Check for a match with the specified name on any GameObject that collides with your GameObject
-        if (collision.gameObject.tag == "Player")
-        {
-            bHasCollided = true;
-
-        }
-        if (collision.gameObject.tag == "playerProjectile")
-        {
-            GameObject spawnthis = Instantiate(keyObject, transform.position, Quaternion.identity);
-            Destroy(gameObject);
-        }
-        if (collision.gameObject.tag == "Shield2.0")
-        {
-            audioSource69.Play();
-            scoreManagerRef.UpdateScore();
-            Destroy(gameObject);
-        }
-    }
-
-    void OnCollisionExit2D(Collision2D collision)
-    {
-        //Check for a match with the specified name on any GameObject that collides with your GameObject
-        if (collision.gameObject.tag == "Player")
-        {
-            bHasCollided = false;
-        }
-    }
-    void FollowPlayer()
-    {
-        Vector2 pos = Vector2.MoveTowards(transform.position, playerRef.transform.position, speed * Time.deltaTime);
-        rb.MovePosition(pos);
-    }
     // Update is called once per frame
     void FixedUpdate()
     {
-        
+        belos.EnemyTakeDamage(ref HP, Player.playerDamage);
         ticker += Time.deltaTime;
-        if (bHasLOS)
+        if (belos.bHasLOS)
         {
             speed += fasterfaster * Time.deltaTime;
-            
             //if collided with player pause
-            if(bHasCollided)
+            if (belos.bHasCollided)
             {
                 ticker = 0;
             }
             if(ticker > 3.0f)//grace period
             {
-                FollowPlayer();
+                belos.FollowPlayer(rb,speed);
             }
-
+            
         }
         else
         {
             speed = 0.8f;
         }
-        if(speed >= 5.0f)
+        if (speed >= 5.0f)
         {
             speed = 0.8f;
         }

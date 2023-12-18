@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 6263744514087635052}
   - component: {fileID: 4252289231507133302}
   - component: {fileID: 9027084489555225507}
+  - component: {fileID: 5356308017297735211}
   m_Layer: 11
   m_Name: Grimis
   m_TagString: Grimis
@@ -185,11 +186,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   grimisProjectilePrefab: {fileID: 5005327014637351098, guid: a96bf2b86d6ba84458c24a7177591ce2, type: 3}
-  keyObject: {fileID: 5483950112051104397, guid: 8afc91131dff8c34091d2c7f74edc59b, type: 3}
+  HP: 2
   grimisProjectileSpeed: 4
   speed: 0.3
-  bHasLOS: 0
-  bHasCollided: 0
 --- !u!58 &9027084489555225507
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -225,3 +224,23 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 1
+--- !u!114 &5356308017297735211
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3500668215452513334}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12dc932b1f1e72346bf08e8d49103d26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioSource69: {fileID: 0}
+  keyObject: {fileID: 5483950112051104397, guid: 8afc91131dff8c34091d2c7f74edc59b, type: 3}
+  Speed: 0
+  ff: 0
+  bHasLOS: 0
+  bHasCollided: 0
+  isHit: 0
+  isDead: 0

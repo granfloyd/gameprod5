@@ -50,7 +50,7 @@ public class Player : MonoBehaviour
     GameObject shield;
     public List<GameObject> inventory = new List<GameObject>();
 
-
+    public static int playerDamage = 1;
     public float projectileSpeed;
     private float ticker = 0;  // shoot timer 
     private float ticker2 = 0; // shield timer
@@ -72,7 +72,6 @@ public class Player : MonoBehaviour
     private bool onHeart = false;
     private bool onShield = false;
     private bool onPowerup69 = false;
-    private bool full = false;
 
     public bool isBossActive = false;
     public int thing = 0;
@@ -85,6 +84,7 @@ public class Player : MonoBehaviour
     public int dispair = 0;
     private bool spawned = false;
     public GameObject portal2prefab;
+    private object position;
 
     void Start()
     {
@@ -269,11 +269,10 @@ public class Player : MonoBehaviour
         keyCountText.text = totalKeys.ToString();
         totalKeys += addkey;
     }
-
     // Update is called once per frame
     void Update()
     {
-        //Cursor.visible = false;
+        Cursor.visible = false;
         RotateAim();
         Shoot();
 
