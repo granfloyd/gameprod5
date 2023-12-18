@@ -237,6 +237,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource69: {fileID: 0}
+  damageTextPrefab: {fileID: 8190826780014623523, guid: d9e10c4e2e706b746a31c0018e37f181, type: 3}
   keyObject: {fileID: 5483950112051104397, guid: 8afc91131dff8c34091d2c7f74edc59b, type: 3}
   Speed: 0
   ff: 0

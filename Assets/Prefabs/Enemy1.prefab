@@ -183,7 +183,7 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.15401617, y: 0.16569376}
+  m_Offset: {x: 0, y: 0}
   m_Size: {x: 0.34587485, y: 0.34587485}
   m_Direction: 0
 --- !u!114 &56728023011702631
@@ -212,6 +212,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource69: {fileID: 0}
+  damageTextPrefab: {fileID: 8190826780014623523, guid: d9e10c4e2e706b746a31c0018e37f181, type: 3}
   keyObject: {fileID: 5483950112051104397, guid: 8afc91131dff8c34091d2c7f74edc59b, type: 3}
   Speed: 0
   ff: 0
@@ -219,3 +220,6 @@ MonoBehaviour:
   bHasCollided: 0
   isHit: 0
   isDead: 0
+  textmovespeed: 0.5
+  fadeTime: 1
+  destroyTime: 1

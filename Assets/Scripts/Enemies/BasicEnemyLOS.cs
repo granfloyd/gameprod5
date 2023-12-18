@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEditor.Rendering;
 using UnityEngine;
@@ -9,7 +10,7 @@ public class BasicEnemyLOS : MonoBehaviour
     private Player playerRef;
     public AudioSource audioSource69;
     private ScoreManager scoreManagerRef; // The ScoreManager
-
+    public GameObject damageTextPrefab;
     public GameObject keyObject;
     public float Speed;
     public float ff;
@@ -18,6 +19,9 @@ public class BasicEnemyLOS : MonoBehaviour
     public bool isHit = false;
     public bool isDead = false;
 
+    public float textmovespeed = 0.5f; // Speed of the text moving upwards
+    public float fadeTime = 1f; // Time for the text to fade out
+    public float destroyTime = 1f; // Time before the text is destroyed
     void Start()
     {
         playerRef = GameObject.Find("Player").GetComponent<Player>();
@@ -68,20 +72,41 @@ public class BasicEnemyLOS : MonoBehaviour
         }
     }
 
-    public void EnemyTakeDamage(ref int enemyhp,int howmuch)    //to pervent dup methods in enemy scripts 
+    public void EnemyTakeDamage(ref int enemyhp, int howmuch)
     {
-        if(isHit)
+        if (isHit)
         {
-            Debug.Log("enemy hit");
             enemyhp -= howmuch;
+
+            GameObject damageTextObject = Instantiate(damageTextPrefab, transform.position, Quaternion.identity, transform);
+            TextMeshPro damageText = damageTextObject.GetComponent<TextMeshPro>();
+            damageText.text = "-" + howmuch.ToString();
+            StartCoroutine(FadeAndDestroy(damageTextObject, damageText));
             isHit = false;
-        }   
-        if(enemyhp <= 0)
+        }
+        if (enemyhp <= 0)
         {
-            Debug.Log("deleteing enemy");
             isDead = true;
         }
     }
+
+    IEnumerator FadeAndDestroy(GameObject damageTextObject, TextMeshPro damageText)
+    {
+        float fadeTime = 1f;
+        float speed = 0.5f;
+        // Fade out
+        Color originalColor = damageText.color;
+        for (float t = 0; t < fadeTime; t += Time.deltaTime)
+        {
+            damageTextObject.transform.position += Vector3.up * speed * Time.deltaTime;
+            float normalizedTime = t / fadeTime;
+            // Set the alpha
+            damageText.color = Color.Lerp(originalColor, Color.clear, normalizedTime);
+            yield return null;
+        }
+        Destroy(damageTextObject);
+    }
+
     public void OnDeath(GameObject drops)
     {
         if(isDead)
