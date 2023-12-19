@@ -1,13 +1,19 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.Mathematics;
 using Unity.VisualScripting;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
+    Shield shieldItem;
+    Drink drinkItem;
+    Powerup69 powerup69Item;
     GameObject imageObject;
     Image image;
     public AudioSource audioSource;//key
@@ -47,7 +53,7 @@ public class Player : MonoBehaviour
     public GameObject Slot3;
     public GameObject Slot4;
 
-    GameObject shield;
+    //GameObject shield;
     public List<GameObject> inventory = new List<GameObject>();
 
     public static int playerDamage = 1;
@@ -98,6 +104,9 @@ public class Player : MonoBehaviour
         movementRef = GameObject.Find("Player").GetComponent<PlayerMovement>();
         chestRef = GameObject.Find("Chest").GetComponent<Chest>();
         UpdateKey(1);
+        shieldItem = new Shield { duration = 10 };
+        drinkItem = new Drink { duration = 10 };
+        powerup69Item = new Powerup69 { duration = 5 };
 
     }
 
@@ -244,7 +253,21 @@ public class Player : MonoBehaviour
         }
         
     }
-
+    private void RemoveFromInventory()
+    {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            if (whatsActive >= 0 && whatsActive < inventory.Count)
+            {
+                GameObject itemToDelete = GameObject.Find($"UIImage{whatsActive}");
+                if (itemToDelete != null)
+                {
+                    Destroy(itemToDelete);
+                    inventory[whatsActive] = null;
+                }
+            }
+        }
+    }
     private void UsePowerup69()
     {
         if (!powerup69Active)
@@ -259,6 +282,74 @@ public class Player : MonoBehaviour
         }
     }
 
+    private void InteractQ()
+    {
+        if (onChest || onDoor)
+        {
+            pressQ.SetActive(true);
+        }
+        else
+        {
+            pressQ.SetActive(false);
+        }
+        //chest stuff
+        if (totalKeys > 0)
+        {
+            if (onChest && Input.GetKeyDown(KeyCode.Q))
+            {
+                //take key away from player 
+                totalKeys -= 1;
+                UpdateKey(0);
+                //spawns a rand gameobject / drop then destroys object
+                chestRef.OpenChest(this.transform);
+            }
+        }
+        //door stuff 
+        if (onDoor && Input.GetKeyDown(KeyCode.Q))
+        {
+            FirstStartManager.isFirstStart = false;
+            PlayerPrefs.SetInt("PlayerHealth", HealthSystem.health); // Save current health
+            PlayerPrefs.SetInt("PlayerScore", ScoreManager.score); // Save current score
+            SceneManager.LoadScene("Game1");
+        }
+    }
+    private void PickUpE()
+    {
+        //key stuff
+        if (onKey && Input.GetKeyDown(KeyCode.E))
+        {
+            UpdateKey(1);
+            Destroy(keyObject);
+        }
+
+        if (onKey || onGrimisDrink || onShield || onPowerup69 || onHeart)
+        {
+            pressE.SetActive(true);
+        }
+        else
+        {
+            pressE.SetActive(false);
+        }
+
+        if (onGrimisDrink && Input.GetKeyDown(KeyCode.E))
+        {
+            AddToInventory(grimisDrinkPrefab, grimisDrinkObject);
+        }
+        if (onHeart && Input.GetKeyDown(KeyCode.E))
+        {
+            AddToInventory(heartPrefab, heartObject);
+        }
+        if (onShield && Input.GetKeyDown(KeyCode.E))
+        {
+            AddToInventory(shieldPrefab, shieldObject);
+        }
+
+        if (onPowerup69 && Input.GetKeyDown(KeyCode.E))
+        {
+            AddToInventory(powerup69Prefab, powerup69Object);
+        }
+
+    }
     private void Useheart()
     {
         hsRef.HealDamage(1);
@@ -269,25 +360,54 @@ public class Player : MonoBehaviour
         keyCountText.text = totalKeys.ToString();
         totalKeys += addkey;
     }
-    // Update is called once per frame
-    void Update()
+    private void ScrollingControl()
     {
-        Cursor.visible = false;
-        RotateAim();
-        Shoot();
-
-        if (Input.GetKeyDown(KeyCode.R))
+        float scroll = Input.GetAxis("Mouse ScrollWheel");
+        if (whatsActive < 4)
         {
-            if (whatsActive >= 0 && whatsActive < inventory.Count)
+            if (scroll > 0f)
             {
-                GameObject itemToDelete = GameObject.Find($"UIImage{whatsActive}");
-                if (itemToDelete != null)
+                audioSource5.Play();
+                // Scrolling up
+                whatsActive += 1;
+                if (whatsActive > 3)
                 {
-                    Destroy(itemToDelete); 
-                    inventory[whatsActive] = null;
+                    audioSource5.Play();
+                    whatsActive = 0;
                 }
             }
         }
+        if (whatsActive > -1)
+        {
+            if (scroll < 0f)
+            {
+                audioSource5.Play();
+                // Scrolling down
+                whatsActive -= 1;
+                if (whatsActive < 0)
+                {
+                    audioSource5.Play();
+                    whatsActive = 3;
+                }
+            }
+        }
+    }
+    void Update()
+    {
+        shieldItem.Update();
+        drinkItem.Update();
+        powerup69Item.Update();
+        //Cursor.visible = false;
+        SpawnPortal();
+        RotateAim();
+        Shoot();
+        ScrollingControl();
+        RemoveFromInventory();
+        InteractQ();
+        PickUpE();
+        if (Input.GetKeyDown(KeyCode.Space))
+            DeleteItemFromInventory();
+
         if (Input.GetKeyDown(KeyCode.P))
         {
             if (GameIsPaused)
@@ -299,184 +419,60 @@ public class Player : MonoBehaviour
                 Pause();
             }
         }
-        //key stuff
-        if (onKey && Input.GetKeyDown(KeyCode.E))
-        {
-            UpdateKey(1);
-            Destroy(keyObject);
-        }
-
-        if(onKey ||  onGrimisDrink|| onShield || onPowerup69 || onHeart)
-        {
-            pressE.SetActive(true);
-        }
-        else
-        {
-            pressE.SetActive(false);
-        }
-
-        if(onChest || onDoor)
-        {
-            pressQ.SetActive(true);
-        }
-        else
-        {         
-            pressQ.SetActive(false);
-        }
-
         if (!GameIsPaused)
         {
-            //chest stuff
-            if (totalKeys > 0)
+            KeyCode[] keyCodes = { KeyCode.Alpha1, KeyCode.Alpha2, KeyCode.Alpha3, KeyCode.Alpha4 };
+            Transform[] slots = { Slot1.transform, Slot2.transform, Slot3.transform, Slot4.transform };
+
+            for (int i = 0; i < keyCodes.Length; i++)
             {
-                if (onChest && Input.GetKeyDown(KeyCode.Q))
-                {
-                    //take key away from player 
-                    totalKeys -= 1;
-                    UpdateKey(0);
-                    //spawns a rand gameobject / drop then destroys object
-                    chestRef.OpenChest(this.transform);
-                }
-            }
-            float scroll = Input.GetAxis("Mouse ScrollWheel");
-            if (whatsActive < 4)
-            {
-                if (scroll > 0f)
+                if (Input.GetKeyDown(keyCodes[i]))
                 {
                     audioSource5.Play();
-                    // Scrolling up
-                    whatsActive += 1;
-                    Debug.Log(whatsActive);
+                    whatsActive = i;
+                    Active.transform.position = slots[i].position;
                 }
             }
+            ////shield stuff
+            //if (shieldActive)
+            //{
+            //    ticker2 += Time.deltaTime;
 
-            if (whatsActive > 0)
-            {
-                if (scroll < 0f)
-                {
-                    audioSource5.Play();
-                    // Scrolling down
-                    whatsActive -= 1;
-                    Debug.Log(whatsActive);
-                }
-            }
+            //    if (ticker2 > 10)
+            //    {
+            //        Destroy(shield);
+            //        ticker2 = 0;
+            //        shieldActive = false;
+            //    }
+            //}
+            //if (shield != null)
+            //    shield.transform.position = transform.position;
 
-            if (onGrimisDrink && Input.GetKeyDown(KeyCode.E))
-            {
-                AddToInventory(grimisDrinkPrefab, grimisDrinkObject);
-            }
-            if (onHeart && Input.GetKeyDown(KeyCode.E))
-            {
-                AddToInventory(heartPrefab, heartObject);
-            }
-            if (onShield && Input.GetKeyDown(KeyCode.E))
-            {
-                AddToInventory(shieldPrefab, shieldObject);
-            }
+            ////drink stuff
+            //if (drinkActive)
+            //{
+            //    ticker3 += Time.deltaTime;
 
-            if (onPowerup69 && Input.GetKeyDown(KeyCode.E))
-            {
-                AddToInventory(powerup69Prefab, powerup69Object);
-            }
-
-
-            if (Input.GetKeyDown(KeyCode.Space))
-                DeleteItemFromInventory();
-
-            if (Input.GetKeyDown(KeyCode.Alpha1))
-            {
-                audioSource5.Play();
-                whatsActive = 0;
-                Active.transform.position = Slot1.transform.position;
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha2))
-            {
-                audioSource5.Play();
-                whatsActive = 1;
-                Active.transform.position = Slot2.transform.position;
-
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha3))
-            {
-                audioSource5.Play();
-                whatsActive = 2;
-                Active.transform.position = Slot3.transform.position;
-
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha4))
-            {
-                audioSource5.Play();
-                whatsActive = 3;
-                Active.transform.position = Slot4.transform.position;
-            }
-            if (whatsActive == 0)
-            {
-                Active.transform.position = Slot1.transform.position;
-            }
-            else if (whatsActive == 1)
-            {
-                Active.transform.position = Slot2.transform.position;
-            }
-            else if (whatsActive == 2)
-            {
-                Active.transform.position = Slot3.transform.position;
-            }
-            else if (whatsActive == 3)
-            {
-                Active.transform.position = Slot4.transform.position;
-            }
-
-            //shield stuff
-            if (shieldActive)
-            {
-                ticker2 += Time.deltaTime;
-
-                if (ticker2 > 10)
-                {
-                    Destroy(shield);
-                    ticker2 = 0;
-                    shieldActive = false;
-                }
-            }
-
-            if (shield != null)
-                shield.transform.position = transform.position;
-
-            //drink stuff
-            if (drinkActive)
-            {
-                ticker3 += Time.deltaTime;
-
-                if (ticker3 > 10)
-                {
-                    ticker3 = 0;
-                    drinkActive = false;
-                }
-            }
-            //powerup69 stuff
-            if (powerup69Active)
-            {
-                ticker4 += Time.deltaTime;
-                if (ticker4 > 5)
-                {
-                    ticker4 = 0;
-                    hsRef.powerup69active.SetActive(false);
-                    powerup69Active = false;
-                    movementRef.speed = 1.0f;
-                    audioSource7.Stop();
-                }
-            }
-            //door stuff 
-            if (onDoor && Input.GetKeyDown(KeyCode.Q))
-            {
-                FirstStartManager.isFirstStart = false;
-                PlayerPrefs.SetInt("PlayerHealth", HealthSystem.health); // Save current health
-                PlayerPrefs.SetInt("PlayerScore", ScoreManager.score); // Save current score
-                SceneManager.LoadScene("Game1");
-            }
-        }
-        SpawnPortal();
-        
+            //    if (ticker3 > 10)
+            //    {
+            //        ticker3 = 0;
+            //        drinkActive = false;
+            //    }
+            //}
+            ////powerup69 stuff
+            //if (powerup69Active)
+            //{
+            //    ticker4 += Time.deltaTime;
+            //    if (ticker4 > 5)
+            //    {
+            //        ticker4 = 0;
+            //        hsRef.powerup69active.SetActive(false);
+            //        powerup69Active = false;
+            //        movementRef.speed = 1.0f;
+            //        audioSource7.Stop();
+            //    }
+            //} 
+        }        
     }
     void Resume()
     {
@@ -633,3 +629,49 @@ public class Player : MonoBehaviour
              
     }
 }
+//if (whatsActive >= 0 && whatsActive < slots.Length)
+//{
+//    Active.transform.position = slots[whatsActive].position;
+//}
+//if (Input.GetKeyDown(KeyCode.Alpha1))
+//{
+//    audioSource5.Play();
+//    whatsActive = 0;
+//    Active.transform.position = Slot1.transform.position;
+//}
+//if (Input.GetKeyDown(KeyCode.Alpha2))
+//{
+//    audioSource5.Play();
+//    whatsActive = 1;
+//    Active.transform.position = Slot2.transform.position;
+
+//}
+//if (Input.GetKeyDown(KeyCode.Alpha3))
+//{
+//    audioSource5.Play();
+//    whatsActive = 2;
+//    Active.transform.position = Slot3.transform.position;
+
+//}
+//if (Input.GetKeyDown(KeyCode.Alpha4))
+//{
+//    audioSource5.Play();
+//    whatsActive = 3;
+//    Active.transform.position = Slot4.transform.position;
+//}
+//if (whatsActive == 0)
+//{
+//    Active.transform.position = Slot1.transform.position;
+//}
+//else if (whatsActive == 1)
+//{
+//    Active.transform.position = Slot2.transform.position;
+//}
+//else if (whatsActive == 2)
+//{
+//    Active.transform.position = Slot3.transform.position;
+//}
+//else if (whatsActive == 3)
+//{
+//    Active.transform.position = Slot4.transform.position;
+//}
