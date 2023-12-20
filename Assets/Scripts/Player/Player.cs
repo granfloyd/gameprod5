@@ -1,123 +1,66 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.Mathematics;
-using Unity.VisualScripting;
-using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
-    Shield shieldItem;
-    Drink drinkItem;
-    Powerup69 powerup69Item;
+    public PlayerMovement movementRef;
+    public HealthSystem hsRef;
+    public PlayerCollision PC;
+    public Item itemRef;
     GameObject imageObject;
     Image image;
-    public AudioSource audioSource;//key
-    public AudioSource audioSource2;//drink
-    public AudioSource audioSource3;//shield
     public AudioSource audioSource4;//addtoinventory
     public AudioSource audioSource5;//select
     public AudioSource audioSource6;//cant pickup item SFX
-    public AudioSource audioSource7;//heartbeat sfx
     public AudioSource audioSource8;//portal sfx
     public Image Active;
-
     public Canvas myCanvas;
-    public PlayerMovement movementRef;
-    public Chest chestRef;
-    public HealthSystem hsRef;
-    public Text keyCountText;
-    public GameObject pressE;
-    public GameObject pressQ;
-    private GameObject keyObject;
-    private GameObject chestObject;    
-    private GameObject grimisDrinkObject;
-    private GameObject heartObject;
-    private GameObject shieldObject;
-    private GameObject powerup69Object;
     public GameObject projectilePrefab;
     public GameObject aimProjectile;
-    public GameObject shieldPrefab;
-    public GameObject shield2Prefab;
-    public GameObject grimisDrinkPrefab;
-    public GameObject heartPrefab;
-    public GameObject powerup69Prefab;
-    
-
     public GameObject Slot1;
     public GameObject Slot2;
     public GameObject Slot3;
     public GameObject Slot4;
 
+    public float shootCD = 1f;
     //GameObject shield;
     public List<GameObject> inventory = new List<GameObject>();
-
     public static int playerDamage = 1;
     public float projectileSpeed;
     private float ticker = 0;  // shoot timer 
-    private float ticker2 = 0; // shield timer
-    private float ticker3 = 0; //drink timer
-    private float ticker4 = 0; //powerup69 timer
-    public int totalKeys = 0;
-    private float bonusSpeed = 2.0f;
-    
     private Vector3 mousePos;
     private Vector2 aimDirection;
-
-    private bool onKey = false;
-    private bool onChest = false; 
-    private bool onDoor = false;   
-    private bool shieldActive = false;
-    private bool drinkActive = false;
-    private bool powerup69Active = false;
-    private bool onGrimisDrink = false;
-    private bool onHeart = false;
-    private bool onShield = false;
-    private bool onPowerup69 = false;
-
     public bool isBossActive = false;
     public int thing = 0;
-
     public int whatsActive = 0;
-
     public static bool GameIsPaused = false;
     public GameObject pauseMenuUI;
-
     public int dispair = 0;
     private bool spawned = false;
     public GameObject portal2prefab;
     private object position;
-
     void Start()
     {
         Active = Instantiate(Active, Slot1.transform.position, Quaternion.identity);
         Active.transform.SetParent(myCanvas.transform, false);
         Active.transform.position = Slot1.transform.position;
-
         aimProjectile = Instantiate(aimProjectile, aimDirection, Quaternion.identity);
 
         hsRef = GameObject.Find("Player").GetComponent<HealthSystem>();
         movementRef = GameObject.Find("Player").GetComponent<PlayerMovement>();
-        chestRef = GameObject.Find("Chest").GetComponent<Chest>();
-        UpdateKey(1);
-        shieldItem = new Shield { duration = 10 };
-        drinkItem = new Drink { duration = 10 };
-        powerup69Item = new Powerup69 { duration = 5 };
-
+        PC = GetComponent<PlayerCollision>();
+        itemRef = GetComponent<Item>();
     }
 
     private void Shoot()
     {
         ticker += Time.deltaTime;
-        if (!drinkActive)
         {
             if (Input.GetMouseButton(0))
             {
-                if (ticker >= 1)
+                if (ticker >= shootCD)
                 {
                     mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                     //calcs a vector from player -  mouse pos
@@ -133,29 +76,6 @@ public class Player : MonoBehaviour
                     // Resets ticker
                     ticker = 0;
 
-                }
-            }
-        }
-        else
-        {
-            if (Input.GetMouseButton(0))
-            {
-                if (ticker >= 0.3)
-                {
-                    mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                    //calcs a vector from player -  mouse pos
-                    Vector2 direction = (Vector2)((mousePos - transform.position));
-                    direction.Normalize();
-
-                    GameObject projectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
-
-                    projectile.GetComponent<Rigidbody2D>().velocity = direction * projectileSpeed;
-
-                    //// Destroy the gameobject 5 seconds after creation
-                    Destroy(projectile, 5.0f);
-                    // Resets ticker
-                    ticker = 0;
-                    Debug.Log("drink active");
                 }
             }
         }
@@ -188,7 +108,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void AddToInventory(GameObject itemToAdd,GameObject itemToDelete)
+    public void AddToInventory(GameObject itemToAdd,GameObject itemToDelete)
     {
         if (inventory[whatsActive] == null)
         {
@@ -213,45 +133,25 @@ public class Player : MonoBehaviour
             if (itemToDelete != null)
             {
                 Destroy(itemToDelete);
-                if (inventory[whatsActive] == grimisDrinkPrefab)
+                if (inventory[whatsActive] == itemRef.grimisDrinkPrefab)
                 {
-                    UseDrink();
+                    itemRef.Ability(() => itemRef.StartCoroutine(itemRef.UseDrink(10)));
                 }
-                else if (inventory[whatsActive] == shieldPrefab)
+                else if (inventory[whatsActive] == itemRef.shieldPrefab)
                 {
-                    UseShield();
+                    itemRef.Ability(() => itemRef.StartCoroutine(itemRef.UseShield(10)));
                 }
-                else if (inventory[whatsActive] == powerup69Prefab)
+                else if (inventory[whatsActive] == itemRef.powerup69Prefab)
                 {
-                    UsePowerup69();
+                    itemRef.Ability(() => itemRef.StartCoroutine(itemRef.UsePowerup69(10)));
                 }
-                else if (inventory[whatsActive] == heartPrefab)
+                else if (inventory[whatsActive] == itemRef.heartPrefab)
                 {
-                    Useheart();
+                    itemRef.Ability(itemRef.Useheart);
                 }
                 inventory[whatsActive] = null;
             }
         }
-    }
-    private void UseShield()
-    {
-        //shield stuff
-        if (!shieldActive)
-        {
-            audioSource3.Play();
-            shield = Instantiate(shield2Prefab, transform.position, Quaternion.identity);
-            shieldActive = true;
-        }        
-    }
-
-    private void UseDrink()
-    {
-        if (!drinkActive)
-        {
-            audioSource2.Play();
-            drinkActive = true;
-        }
-        
     }
     private void RemoveFromInventory()
     {
@@ -267,98 +167,6 @@ public class Player : MonoBehaviour
                 }
             }
         }
-    }
-    private void UsePowerup69()
-    {
-        if (!powerup69Active)
-        {
-            powerup69Active = true;
-        }
-        if (powerup69Active)
-        {
-            hsRef.powerup69active.SetActive(true);
-            audioSource7.Play();
-            movementRef.speed += bonusSpeed;
-        }
-    }
-
-    private void InteractQ()
-    {
-        if (onChest || onDoor)
-        {
-            pressQ.SetActive(true);
-        }
-        else
-        {
-            pressQ.SetActive(false);
-        }
-        //chest stuff
-        if (totalKeys > 0)
-        {
-            if (onChest && Input.GetKeyDown(KeyCode.Q))
-            {
-                //take key away from player 
-                totalKeys -= 1;
-                UpdateKey(0);
-                //spawns a rand gameobject / drop then destroys object
-                chestRef.OpenChest(this.transform);
-            }
-        }
-        //door stuff 
-        if (onDoor && Input.GetKeyDown(KeyCode.Q))
-        {
-            FirstStartManager.isFirstStart = false;
-            PlayerPrefs.SetInt("PlayerHealth", HealthSystem.health); // Save current health
-            PlayerPrefs.SetInt("PlayerScore", ScoreManager.score); // Save current score
-            SceneManager.LoadScene("Game1");
-        }
-    }
-    private void PickUpE()
-    {
-        //key stuff
-        if (onKey && Input.GetKeyDown(KeyCode.E))
-        {
-            UpdateKey(1);
-            Destroy(keyObject);
-        }
-
-        if (onKey || onGrimisDrink || onShield || onPowerup69 || onHeart)
-        {
-            pressE.SetActive(true);
-        }
-        else
-        {
-            pressE.SetActive(false);
-        }
-
-        if (onGrimisDrink && Input.GetKeyDown(KeyCode.E))
-        {
-            AddToInventory(grimisDrinkPrefab, grimisDrinkObject);
-        }
-        if (onHeart && Input.GetKeyDown(KeyCode.E))
-        {
-            AddToInventory(heartPrefab, heartObject);
-        }
-        if (onShield && Input.GetKeyDown(KeyCode.E))
-        {
-            AddToInventory(shieldPrefab, shieldObject);
-        }
-
-        if (onPowerup69 && Input.GetKeyDown(KeyCode.E))
-        {
-            AddToInventory(powerup69Prefab, powerup69Object);
-        }
-
-    }
-    private void Useheart()
-    {
-        hsRef.HealDamage(1);
-    }
-    public void UpdateKey(int addkey)
-    {
-        audioSource.Play();
-        keyCountText.text = totalKeys.ToString();
-        totalKeys += addkey;
     }
     private void ScrollingControl()
     {
@@ -394,17 +202,13 @@ public class Player : MonoBehaviour
     }
     void Update()
     {
-        shieldItem.Update();
-        drinkItem.Update();
-        powerup69Item.Update();
         //Cursor.visible = false;
         SpawnPortal();
         RotateAim();
         Shoot();
         ScrollingControl();
         RemoveFromInventory();
-        InteractQ();
-        PickUpE();
+
         if (Input.GetKeyDown(KeyCode.Space))
             DeleteItemFromInventory();
 
@@ -421,57 +225,48 @@ public class Player : MonoBehaviour
         }
         if (!GameIsPaused)
         {
-            KeyCode[] keyCodes = { KeyCode.Alpha1, KeyCode.Alpha2, KeyCode.Alpha3, KeyCode.Alpha4 };
-            Transform[] slots = { Slot1.transform, Slot2.transform, Slot3.transform, Slot4.transform };
-
-            for (int i = 0; i < keyCodes.Length; i++)
+            if (Input.GetKeyDown(KeyCode.Alpha1))
             {
-                if (Input.GetKeyDown(keyCodes[i]))
-                {
-                    audioSource5.Play();
-                    whatsActive = i;
-                    Active.transform.position = slots[i].position;
-                }
+                audioSource5.Play();
+                whatsActive = 0;
+                Active.transform.position = Slot1.transform.position;
             }
-            ////shield stuff
-            //if (shieldActive)
-            //{
-            //    ticker2 += Time.deltaTime;
+            if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                audioSource5.Play();
+                whatsActive = 1;
+                Active.transform.position = Slot2.transform.position;
 
-            //    if (ticker2 > 10)
-            //    {
-            //        Destroy(shield);
-            //        ticker2 = 0;
-            //        shieldActive = false;
-            //    }
-            //}
-            //if (shield != null)
-            //    shield.transform.position = transform.position;
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha3))
+            {
+                audioSource5.Play();
+                whatsActive = 2;
+                Active.transform.position = Slot3.transform.position;
 
-            ////drink stuff
-            //if (drinkActive)
-            //{
-            //    ticker3 += Time.deltaTime;
-
-            //    if (ticker3 > 10)
-            //    {
-            //        ticker3 = 0;
-            //        drinkActive = false;
-            //    }
-            //}
-            ////powerup69 stuff
-            //if (powerup69Active)
-            //{
-            //    ticker4 += Time.deltaTime;
-            //    if (ticker4 > 5)
-            //    {
-            //        ticker4 = 0;
-            //        hsRef.powerup69active.SetActive(false);
-            //        powerup69Active = false;
-            //        movementRef.speed = 1.0f;
-            //        audioSource7.Stop();
-            //    }
-            //} 
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha4))
+            {
+                audioSource5.Play();
+                whatsActive = 3;
+                Active.transform.position = Slot4.transform.position;
+            }
+            if (whatsActive == 0)
+            {
+                Active.transform.position = Slot1.transform.position;
+            }
+            else if (whatsActive == 1)
+            {
+                Active.transform.position = Slot2.transform.position;
+            }
+            else if (whatsActive == 2)
+            {
+                Active.transform.position = Slot3.transform.position;
+            }
+            else if (whatsActive == 3)
+            {
+                Active.transform.position = Slot4.transform.position;
+            }
         }        
     }
     void Resume()
@@ -499,100 +294,6 @@ public class Player : MonoBehaviour
         // Disable mouse input
         Cursor.lockState = CursorLockMode.Locked;
         
-    }
-    void OnTriggerEnter2D(Collider2D collider)
-    {
-        if (collider.gameObject.tag == "Key")
-        {
-            onKey = true;
-            keyObject = collider.gameObject;
-        }
-        if (collider.gameObject.tag == "Chest")
-        {
-            onChest = true;
-            chestObject = collider.gameObject;
-        }
-        if (collider.gameObject.tag == "Door")
-        {
-            onDoor = true;            
-        }
-        if (collider.gameObject.tag == "GrimisDrink")
-        {
-           onGrimisDrink = true;
-            grimisDrinkObject = collider.gameObject;
-        }
-        if (collider.gameObject.tag == "Heart")
-        {
-            onHeart = true;
-            heartObject = collider.gameObject;
-        }
-        if (collider.gameObject.tag == "Shield")
-        {
-            onShield = true;
-            shieldObject = collider.gameObject;
-        }
-        if (collider.gameObject.tag == "Powerup69")
-        {
-            onPowerup69 = true;
-            powerup69Object = collider.gameObject;
-        }
-    }
-
-    private void OnTriggerStay2D(Collider2D collider)
-    {
-        if (collider.gameObject.tag == "Key")
-        {
-            if(!onKey)
-            {
-                onKey = true;
-                keyObject = collider.gameObject;
-            }
-
-        }
-        if (collider.gameObject.tag == "Chest")
-        {
-            if (!onChest)
-            {
-                onChest = true;
-            }
-        }
-
-    }
-    private void OnTriggerExit2D(Collider2D collider)
-    {
-        if (collider.gameObject.tag == "Key")
-        {
-            onKey = false;
-            keyObject = collider.gameObject;
-        }
-        if (collider.gameObject.tag == "Chest")
-        {
-            onChest = false;
-        }
-        if (collider.gameObject.tag == "Door")
-        {
-            onDoor = false;
-        }
-        if (collider.gameObject.tag == "GrimisDrink")
-        {
-            onGrimisDrink = false;
-            grimisDrinkObject = collider.gameObject;
-        }
-        if (collider.gameObject.tag == "Heart")
-        {
-            onHeart = false;
-            heartObject = collider.gameObject;
-        }
-        if (collider.gameObject.tag == "Shield")
-        {
-            onShield = false;
-            shieldObject = collider.gameObject;
-        }
-        if (collider.gameObject.tag == "Powerup69")
-        {
-            onPowerup69 = false;
-            powerup69Object = collider.gameObject;
-        }
     }
     
     void RotateAim()
@@ -629,49 +330,3 @@ public class Player : MonoBehaviour
              
     }
 }
-//if (whatsActive >= 0 && whatsActive < slots.Length)
-//{
-//    Active.transform.position = slots[whatsActive].position;
-//}
-//if (Input.GetKeyDown(KeyCode.Alpha1))
-//{
-//    audioSource5.Play();
-//    whatsActive = 0;
-//    Active.transform.position = Slot1.transform.position;
-//}
-//if (Input.GetKeyDown(KeyCode.Alpha2))
-//{
-//    audioSource5.Play();
-//    whatsActive = 1;
-//    Active.transform.position = Slot2.transform.position;
-
-//}
-//if (Input.GetKeyDown(KeyCode.Alpha3))
-//{
-//    audioSource5.Play();
-//    whatsActive = 2;
-//    Active.transform.position = Slot3.transform.position;
-
-//}
-//if (Input.GetKeyDown(KeyCode.Alpha4))
-//{
-//    audioSource5.Play();
-//    whatsActive = 3;
-//    Active.transform.position = Slot4.transform.position;
-//}
-//if (whatsActive == 0)
-//{
-//    Active.transform.position = Slot1.transform.position;
-//}
-//else if (whatsActive == 1)
-//{
-//    Active.transform.position = Slot2.transform.position;
-//}
-//else if (whatsActive == 2)
-//{
-//    Active.transform.position = Slot3.transform.position;
-//}
-//else if (whatsActive == 3)
-//{
-//    Active.transform.position = Slot4.transform.position;
-//}

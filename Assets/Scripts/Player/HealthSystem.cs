@@ -79,7 +79,6 @@ public class HealthSystem : MonoBehaviour
                 ticker = 0;
                 pannel.SetActive(false);
             }
-        Debug.Log("HEALTH: "+ health);
         if(health <= 0)
         {
             SceneManager.LoadScene("GameOver");

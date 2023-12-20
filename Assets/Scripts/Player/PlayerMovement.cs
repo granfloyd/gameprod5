@@ -12,7 +12,9 @@ public class PlayerMovement : MonoBehaviour
     public Vector2 movement;
 
     public float speed = 1.0f;
-    
+
+    public const int originalSpeed = 1;
+
     //dash stuff
     private float dashCD = 2;
 

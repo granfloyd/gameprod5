@@ -77,10 +77,23 @@ public class BasicEnemyLOS : MonoBehaviour
         if (isHit)
         {
             enemyhp -= howmuch;
-
+            bool isCrit = false;
+            int critHit = howmuch;
+            int randNumber = Random.Range(1, 5);
+            if (critHit == randNumber)
+            {
+                isCrit = true;
+                howmuch = howmuch += critHit;
+            }
             GameObject damageTextObject = Instantiate(damageTextPrefab, transform.position, Quaternion.identity, transform);
             TextMeshPro damageText = damageTextObject.GetComponent<TextMeshPro>();
             damageText.text = "-" + howmuch.ToString();
+            if(isCrit)
+            {
+                damageText.fontStyle = FontStyles.Bold;
+                damageText.fontSize += 0.3f;
+                damageText.color = new Color32(200, 190, 40, 255); // Change color to #FBF236
+            }
             StartCoroutine(FadeAndDestroy(damageTextObject, damageText));
             isHit = false;
         }
