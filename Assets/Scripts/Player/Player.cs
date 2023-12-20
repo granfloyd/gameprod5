@@ -1,46 +1,53 @@
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
+    //refs//
     public PlayerMovement movementRef;
     public HealthSystem hsRef;
     public PlayerCollision PC;
     public Item itemRef;
-    GameObject imageObject;
-    Image image;
+    //audio stuff//
     public AudioSource audioSource4;//addtoinventory
     public AudioSource audioSource5;//select
     public AudioSource audioSource6;//cant pickup item SFX
-    public AudioSource audioSource8;//portal sfx
-    public Image Active;
-    public Canvas myCanvas;
+    public AudioSource audioSource8;//portal sfx   
+    //gameobjects//
     public GameObject projectilePrefab;
     public GameObject aimProjectile;
+    private GameObject imageObject;//display item to ui 
     public GameObject Slot1;
     public GameObject Slot2;
     public GameObject Slot3;
     public GameObject Slot4;
-
+    public GameObject pauseMenuUI;
+    public GameObject portal2prefab;
+    //UI stuff//
+    public Canvas myCanvas;
+    public Image Active;//selctor square
+    private Image image;//for ui slots
+    //player stats//
     public float shootCD = 1f;
-    //GameObject shield;
-    public List<GameObject> inventory = new List<GameObject>();
     public static int playerDamage = 1;
     public float projectileSpeed;
     private float ticker = 0;  // shoot timer 
+    //player inventory//
+    public List<GameObject> inventory = new List<GameObject>();
+    public int whatsActive = 0;
+    //other//
     private Vector3 mousePos;
     private Vector2 aimDirection;
+    public static bool GameIsPaused = false;
+    //for boss / part of cleanup 2//
     public bool isBossActive = false;
     public int thing = 0;
-    public int whatsActive = 0;
-    public static bool GameIsPaused = false;
-    public GameObject pauseMenuUI;
-    public int dispair = 0;
-    private bool spawned = false;
-    public GameObject portal2prefab;
-    private object position;
+    public int dispair = 0;//for portal
+    private bool spawned = false;//for portal    
+
     void Start()
     {
         Active = Instantiate(Active, Slot1.transform.position, Quaternion.identity);
@@ -48,8 +55,8 @@ public class Player : MonoBehaviour
         Active.transform.position = Slot1.transform.position;
         aimProjectile = Instantiate(aimProjectile, aimDirection, Quaternion.identity);
 
-        hsRef = GameObject.Find("Player").GetComponent<HealthSystem>();
-        movementRef = GameObject.Find("Player").GetComponent<PlayerMovement>();
+        hsRef = GetComponent<HealthSystem>();
+        movementRef = GetComponent<PlayerMovement>();
         PC = GetComponent<PlayerCollision>();
         itemRef = GetComponent<Item>();
     }
@@ -57,26 +64,23 @@ public class Player : MonoBehaviour
     private void Shoot()
     {
         ticker += Time.deltaTime;
+        if (Input.GetMouseButton(0))
         {
-            if (Input.GetMouseButton(0))
+            if (ticker >= shootCD)
             {
-                if (ticker >= shootCD)
-                {
-                    mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                    //calcs a vector from player -  mouse pos
-                    Vector2 direction = (Vector2)((mousePos - transform.position));
-                    direction.Normalize();
+                mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                //calcs a vector from player -  mouse pos
+                Vector2 direction = (Vector2)((mousePos - transform.position));
+                direction.Normalize();
 
-                    GameObject projectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
+                GameObject projectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
 
-                    projectile.GetComponent<Rigidbody2D>().velocity = direction * projectileSpeed;
+                projectile.GetComponent<Rigidbody2D>().velocity = direction * projectileSpeed;
 
-                    //// Destroy the gameobject 5 seconds after creation
-                    Destroy(projectile, 5.0f);
-                    // Resets ticker
-                    ticker = 0;
-
-                }
+                //// Destroy the gameobject 5 seconds after creation
+                Destroy(projectile, 5.0f);
+                // Resets ticker
+                ticker = 0;
             }
         }
     }
@@ -110,18 +114,38 @@ public class Player : MonoBehaviour
 
     public void AddToInventory(GameObject itemToAdd,GameObject itemToDelete)
     {
-        if (inventory[whatsActive] == null)
+        int inventorySize = inventory.Count;
+        for (int i = whatsActive; i < inventorySize; i++)
         {
-            inventory.RemoveAt(whatsActive);
-            audioSource4.Play();
-            inventory.Insert(whatsActive, itemToAdd);
-            GuyzGamezLovesSlots(itemToAdd);
-            Destroy(itemToDelete);
+            if (inventory[i] == null)
+            {
+                whatsActive = i;
+                inventory.RemoveAt(i);
+                audioSource4.Play();
+                inventory.Insert(i, itemToAdd);
+                GuyzGamezLovesSlots(itemToAdd);
+                Destroy(itemToDelete);
+                return;
+            }
         }
-        else
+        for (int i = whatsActive; i < inventorySize; i--)
         {
-            audioSource6.Play();
-            audioSource6.Play();
+            if (i < 0)
+            {
+                audioSource6.Play();//NO SPACE LEFT
+                audioSource6.Play();//NO SPACE LEFT
+                return;
+            }
+            else if (inventory[i] == null)
+            {
+                whatsActive = i;
+                inventory.RemoveAt(i);
+                audioSource4.Play();
+                inventory.Insert(i, itemToAdd);
+                GuyzGamezLovesSlots(itemToAdd);
+                Destroy(itemToDelete);
+                return;
+            }
         }
     }
 
@@ -209,10 +233,10 @@ public class Player : MonoBehaviour
         ScrollingControl();
         RemoveFromInventory();
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space))//use item
             DeleteItemFromInventory();
 
-        if (Input.GetKeyDown(KeyCode.P))
+        if (Input.GetKeyDown(KeyCode.P))//pause
         {
             if (GameIsPaused)
             {
@@ -223,34 +247,30 @@ public class Player : MonoBehaviour
                 Pause();
             }
         }
+
         if (!GameIsPaused)
         {
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {
                 audioSource5.Play();
                 whatsActive = 0;
-                Active.transform.position = Slot1.transform.position;
             }
-            if (Input.GetKeyDown(KeyCode.Alpha2))
+            else if (Input.GetKeyDown(KeyCode.Alpha2))
             {
                 audioSource5.Play();
                 whatsActive = 1;
-                Active.transform.position = Slot2.transform.position;
-
             }
-            if (Input.GetKeyDown(KeyCode.Alpha3))
+            else if (Input.GetKeyDown(KeyCode.Alpha3))
             {
                 audioSource5.Play();
                 whatsActive = 2;
-                Active.transform.position = Slot3.transform.position;
-
             }
-            if (Input.GetKeyDown(KeyCode.Alpha4))
+            else if (Input.GetKeyDown(KeyCode.Alpha4))
             {
                 audioSource5.Play();
                 whatsActive = 3;
-                Active.transform.position = Slot4.transform.position;
             }
+
             if (whatsActive == 0)
             {
                 Active.transform.position = Slot1.transform.position;

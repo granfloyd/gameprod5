@@ -13,14 +13,9 @@ public class Item : MonoBehaviour
     public GameObject heartPrefab;
     public GameObject powerup69Prefab;
     public GameObject shield;
-    public float ticker2 = 0; // shield timer
-    public float ticker3 = 0; //drink timer
-    public float ticker4 = 0; //powerup69 timer
+
     public float crackSpeed = 3.0f;
 
-    public bool drinkActive = false;
-    public bool powerup69Active = false;
-    public bool shieldActive = false;
     public AudioSource audioSource2;//drink
     public AudioSource audioSource3;//shield
     public AudioSource audioSource7;//heartbeat sfx
@@ -41,7 +36,6 @@ public class Item : MonoBehaviour
         newCD = playerRef.shootCD * buff;
         while (Time.time - startTime < duration)//time from when called
         {
-
             playerRef.shootCD = newCD;
             yield return null; // Wait for the next frame
         }
@@ -84,7 +78,6 @@ public class Item : MonoBehaviour
     }
     public void Useheart()
     {
-        Debug.Log("Hallo");
         hsRef.HealDamage(1);
     }
     public delegate void UseThisItem();

@@ -92,7 +92,7 @@ public class BasicEnemyLOS : MonoBehaviour
             {
                 damageText.fontStyle = FontStyles.Bold;
                 damageText.fontSize += 0.3f;
-                damageText.color = new Color32(200, 190, 40, 255); // Change color to #FBF236
+                damageText.color = new Color32(200, 190, 40, 255);
             }
             StartCoroutine(FadeAndDestroy(damageTextObject, damageText));
             isHit = false;

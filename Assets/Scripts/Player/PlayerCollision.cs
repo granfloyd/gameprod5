@@ -12,35 +12,35 @@ public class PlayerCollision : MonoBehaviour
     public Chest chestRef;
     public Item itemRef;
 
-    public GameObject keyObject;
-    public GameObject chestObject;
-    public GameObject grimisDrinkObject;
-    public GameObject heartObject;
-    public GameObject shieldObject;
-    public GameObject powerup69Object;
+    private GameObject keyObject;
+    private GameObject chestObject;
+    private GameObject grimisDrinkObject;
+    private GameObject heartObject;
+    private GameObject shieldObject;
+    private GameObject powerup69Object;
     public GameObject pressE;
     public GameObject pressQ;
 
     public AudioSource audioSource;//key
 
     public Text keyCountText;
-    public int totalKeys = 0;
+    public int totalKeys;
 
-    public bool onKey = false;
-    public bool onChest = false;
-    public bool onDoor = false;
-    public bool onGrimisDrink = false;
-    public bool onHeart = false;
-    public bool onShield = false;
-    public bool onPowerup69 = false;
+    private bool onKey = false;
+    private bool onChest = false;
+    private bool onDoor = false;
+    private bool onGrimisDrink = false;
+    private bool onHeart = false;
+    private bool onShield = false;
+    private bool onPowerup69 = false;
 
     // Start is called before the first frame update
     void Start()
     {
+        totalKeys = 0;
         chestRef = GameObject.Find("Chest").GetComponent<Chest>();
         playerRef = GetComponent<Player>();
         itemRef = GetComponent<Item>();
-        UpdateKey(1);
     }
     
 
@@ -52,8 +52,8 @@ public class PlayerCollision : MonoBehaviour
     public void UpdateKey(int addkey)
     {
         audioSource.Play();
-        keyCountText.text = totalKeys.ToString();
         totalKeys += addkey;
+        keyCountText.text = totalKeys.ToString();       
     }
     private void InteractQ()
     {
@@ -119,8 +119,6 @@ public class PlayerCollision : MonoBehaviour
         {
             playerRef.AddToInventory(itemRef.powerup69Prefab, powerup69Object);
         }
-        
-
     }
     void OnTriggerEnter2D(Collider2D collider)
     {
