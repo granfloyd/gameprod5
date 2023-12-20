@@ -50,7 +50,7 @@ public class BasicEnemyLOS : MonoBehaviour
         {
             isHit = true;
             bHasCollided = true;
-            //Destroy(gameObject);
+            bHasCollided = false;
         }
         if (collision.gameObject.tag == "Shield2.0")
         {
@@ -68,6 +68,11 @@ public class BasicEnemyLOS : MonoBehaviour
         //Check for a match with the specified name on any GameObject that collides with your GameObject
         if (collision.gameObject.tag == "Player")
         {
+            bHasCollided = false;
+        }
+        if (collision.gameObject.tag == "playerProjectile")
+        {
+            Debug.Log("LLLL");
             bHasCollided = false;
         }
     }
