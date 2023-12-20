@@ -96,11 +96,10 @@ public class BasicEnemyLOS : MonoBehaviour
             }
             StartCoroutine(FadeAndDestroy(damageTextObject, damageText));
             isHit = false;
+            if (enemyhp <= 0)
+                isDead = true;
         }
-        if (enemyhp <= 0)
-        {
-            isDead = true;
-        }
+        
     }
 
     IEnumerator FadeAndDestroy(GameObject damageTextObject, TextMeshPro damageText)
