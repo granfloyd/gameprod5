@@ -13,9 +13,9 @@ public class HealthSystem : MonoBehaviour
     public Sprite fullHeart;
     public Sprite emptyHeart;
 
-    public AudioSource audioSource;//grimis
-    public AudioSource audioSource2;//take dmg
-    public AudioSource audioSource3;//heal dmg
+    //public AudioSource audioSource;//grimis
+    //public AudioSource audioSource2;//take dmg
+    //public AudioSource audioSource3;//heal dmg
     public GameObject pannel;
     public GameObject powerup69active;
     public bool benis = false;
@@ -42,7 +42,7 @@ public class HealthSystem : MonoBehaviour
         {
             health -= dmg;
             PlayerPrefs.SetInt("PlayerHealth", health); // Save health to PlayerPrefs
-            audioSource2.Play();
+            //audioSource2.Play();
         }
     }
 
@@ -50,7 +50,7 @@ public class HealthSystem : MonoBehaviour
     {
         if (health < numOfHearts)
         {
-            audioSource3.Play();
+            //audioSource3.Play();
             health += amount;
             PlayerPrefs.SetInt("PlayerHealth", health); // Save health to PlayerPrefs            
         }
@@ -66,7 +66,7 @@ public class HealthSystem : MonoBehaviour
         //grimis attack
             if (benis)
             {
-                audioSource.Play();
+                //audioSource.Play();
                 pannel.SetActive(true);
                 ticker += Time.deltaTime;
                 if (ticker > 0.3f)

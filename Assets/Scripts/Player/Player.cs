@@ -12,10 +12,10 @@ public class Player : MonoBehaviour
     public PlayerCollision PC;
     public Item itemRef;
     //audio stuff//
-    public AudioSource audioSource4;//addtoinventory
-    public AudioSource audioSource5;//select
-    public AudioSource audioSource6;//cant pickup item SFX
-    public AudioSource audioSource8;//portal sfx   
+    //public AudioSource audioSource4;//addtoinventory
+    //public AudioSource audioSource5;//select
+    //public AudioSource audioSource6;//cant pickup item SFX
+    //public AudioSource audioSource8;//portal sfx   
     //gameobjects//
     public GameObject projectilePrefab;
     public GameObject aimProjectile;
@@ -121,7 +121,7 @@ public class Player : MonoBehaviour
             {
                 whatsActive = i;
                 inventory.RemoveAt(i);
-                audioSource4.Play();
+                //audioSource4.Play();
                 inventory.Insert(i, itemToAdd);
                 GuyzGamezLovesSlots(itemToAdd);
                 Destroy(itemToDelete);
@@ -132,15 +132,15 @@ public class Player : MonoBehaviour
         {
             if (i < 0)
             {
-                audioSource6.Play();//NO SPACE LEFT
-                audioSource6.Play();//NO SPACE LEFT
+                //audioSource6.Play();//NO SPACE LEFT
+                //audioSource6.Play();//NO SPACE LEFT
                 return;
             }
             else if (inventory[i] == null)
             {
                 whatsActive = i;
                 inventory.RemoveAt(i);
-                audioSource4.Play();
+                //audioSource4.Play();
                 inventory.Insert(i, itemToAdd);
                 GuyzGamezLovesSlots(itemToAdd);
                 Destroy(itemToDelete);
@@ -199,12 +199,12 @@ public class Player : MonoBehaviour
         {
             if (scroll > 0f)
             {
-                audioSource5.Play();
+                //audioSource5.Play();
                 // Scrolling up
                 whatsActive += 1;
                 if (whatsActive > 3)
                 {
-                    audioSource5.Play();
+                    //audioSource5.Play();
                     whatsActive = 0;
                 }
             }
@@ -213,12 +213,12 @@ public class Player : MonoBehaviour
         {
             if (scroll < 0f)
             {
-                audioSource5.Play();
+                //audioSource5.Play();
                 // Scrolling down
                 whatsActive -= 1;
                 if (whatsActive < 0)
                 {
-                    audioSource5.Play();
+                    //audioSource5.Play();
                     whatsActive = 3;
                 }
             }
@@ -252,22 +252,22 @@ public class Player : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {
-                audioSource5.Play();
+                //audioSource5.Play();
                 whatsActive = 0;
             }
             else if (Input.GetKeyDown(KeyCode.Alpha2))
             {
-                audioSource5.Play();
+                //audioSource5.Play();
                 whatsActive = 1;
             }
             else if (Input.GetKeyDown(KeyCode.Alpha3))
             {
-                audioSource5.Play();
+                //audioSource5.Play();
                 whatsActive = 2;
             }
             else if (Input.GetKeyDown(KeyCode.Alpha4))
             {
-                audioSource5.Play();
+                //audioSource5.Play();
                 whatsActive = 3;
             }
 
@@ -342,7 +342,7 @@ public class Player : MonoBehaviour
             if (!spawned)                
             {
                 Instantiate(portal2prefab, transform.position, Quaternion.identity);
-                audioSource8.Play();
+                //audioSource8.Play();
             }
             
             spawned = true;

@@ -21,7 +21,7 @@ public class PlayerCollision : MonoBehaviour
     public GameObject pressE;
     public GameObject pressQ;
 
-    public AudioSource audioSource;//key
+    //public AudioSource audioSource;//key
 
     public Text keyCountText;
     public int totalKeys;
@@ -51,7 +51,7 @@ public class PlayerCollision : MonoBehaviour
     }
     public void UpdateKey(int addkey)
     {
-        audioSource.Play();
+        //audioSource.Play();
         totalKeys += addkey;
         keyCountText.text = totalKeys.ToString();       
     }
@@ -176,24 +176,6 @@ public class PlayerCollision : MonoBehaviour
                 onChest = true;
             }
         }
-        //string tag = collider.gameObject.tag;
-
-        //switch (tag)
-        //{
-            //case "Key":
-                //if (!onKey)
-                //{
-                    //onKey = true;
-                    //keyObject = collider.gameObject;
-                //}
-                //break;
-            //case "Chest":
-                //if (!onChest)
-                //{
-                    //onChest = true;
-                //}
-                //break;
-        //}
 
     }
     private void OnTriggerExit2D(Collider2D collider)
@@ -208,6 +190,7 @@ public class PlayerCollision : MonoBehaviour
                 break;
             case "Chest":
                 onChest = false;
+                chestObject = collider.gameObject;
                 break;
             case "Door":
                 onDoor = false;

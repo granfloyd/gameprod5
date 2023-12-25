@@ -5,16 +5,16 @@ using UnityEngine;
 public class PlayerProjectile : MonoBehaviour
 {
     private ScoreManager scoreManagerRef; // The ScoreManager
-    private AudioSource audioSource;
+    //private AudioSource audioSource;
 
     private Player playerRef;
 
     // Start is called before the first frame update
     void Start()
     {
-        audioSource = GameObject.Find("hitSFX").GetComponent<AudioSource>();
+        //audioSource = GameObject.Find("hitSFX").GetComponent<AudioSource>();
         scoreManagerRef = GameObject.FindGameObjectWithTag("ScoreManager").GetComponent<ScoreManager>();
-        playerRef = GameObject.Find("Player").GetComponent<Player>();
+        playerRef = GetComponent<Player>();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -22,28 +22,28 @@ public class PlayerProjectile : MonoBehaviour
         //Check for a match with the specified name on any GameObject that collides with your GameObject
         if (collision.gameObject.tag == "Grimis")
         {
-            audioSource.Play();
+            //audioSource.Play();
             Destroy(gameObject);
             scoreManagerRef.UpdateScore();
             playerRef.dispair += 1;
         }
         if (collision.gameObject.tag == "Enemy1")
         {
-            audioSource.Play();
+            //audioSource.Play();
             Destroy(gameObject);
             scoreManagerRef.UpdateScore();
             playerRef.dispair += 1;
         }
         if (collision.gameObject.tag == "Blackguy")
         {
-            audioSource.Play();
+            //audioSource.Play();
             Destroy(gameObject);
             scoreManagerRef.UpdateScore();
             playerRef.dispair += 1;
         }
         if (collision.gameObject.tag == "RoboGuy")
         {
-            audioSource.Play();
+            //audioSource.Play();
             Destroy(gameObject);
             scoreManagerRef.UpdateScore();
             playerRef.dispair += 1;

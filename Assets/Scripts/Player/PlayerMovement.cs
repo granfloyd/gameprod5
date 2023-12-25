@@ -5,39 +5,28 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public Blackguy blackguyRef;
-
     private Rigidbody2D rb;
-
     public Vector2 movement;
 
     public float speed = 1.0f;
-
     public const int originalSpeed = 1;
 
     //dash stuff
     private float dashCD = 2;
-
     private float dashTimer = 0;
-
     private float dash = 2.0f;
-
     private bool isDashing = false;
 
     //slow stuff 
     private float slow = 0.2f;
-
     public float slowDuration = 0;
-
     public bool isSlowed = false;
-
     public bool bHasCollided = false;
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        blackguyRef = GameObject.Find("Blackguy").GetComponent<Blackguy>();
     }
 
     void OnCollisionEnter2D(Collision2D collision)
@@ -117,7 +106,6 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.MovePosition(rb.position + movement * speed * Time.deltaTime);
         }
-        //Debug.Log("dash CD" + dashCD);
     }
     
     
