@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEditor.Rendering;
 using UnityEngine;
 
-public class RoboGuy : MonoBehaviour
+public class RoboGuy : NetworkBehaviour
 {
     private BasicEnemyLOS belos;
     private Rigidbody2D rb;

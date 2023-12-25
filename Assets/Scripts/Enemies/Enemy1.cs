@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEditor.Rendering;
 using UnityEngine;
 
-public class Enemy1 : MonoBehaviour
+public class Enemy1 : NetworkBehaviour
 {
     private BasicEnemyLOS belos;
     private Rigidbody2D rb;

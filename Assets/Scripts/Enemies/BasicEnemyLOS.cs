@@ -1,14 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEditor.Rendering;
 using UnityEngine;
 
-public class BasicEnemyLOS : MonoBehaviour
+public class BasicEnemyLOS : NetworkBehaviour
 {
     private Player playerRef;
-    public AudioSource audioSource69;
+    public GameObject playerGO;
+    ///public AudioSource audioSource69;
     private ScoreManager scoreManagerRef; // The ScoreManager
     public GameObject damageTextPrefab;
     public GameObject keyObject;
@@ -24,9 +26,11 @@ public class BasicEnemyLOS : MonoBehaviour
     public float destroyTime = 1f; // Time before the text is destroyed
     void Start()
     {
-        playerRef = GameObject.Find("Player").GetComponent<Player>();
-        scoreManagerRef = GameObject.FindGameObjectWithTag("ScoreManager").GetComponent<ScoreManager>();
-        audioSource69 = GameObject.Find("hitSFX").GetComponent<AudioSource>();
+        playerRef = playerGO.GetComponent<Player>();
+
+        scoreManagerRef = playerGO.GetComponent<ScoreManager>();
+
+        //audioSource69 = GameObject.Find("hitSFX").GetComponent<AudioSource>();
     }
     void OnTriggerEnter2D(Collider2D collider)
     {
@@ -55,7 +59,7 @@ public class BasicEnemyLOS : MonoBehaviour
         if (collision.gameObject.tag == "Shield2.0")
         {
             isHit = true;
-            audioSource69.Play();
+            //audioSource69.Play();
            
         }
         if (collision.gameObject.tag == "Player")

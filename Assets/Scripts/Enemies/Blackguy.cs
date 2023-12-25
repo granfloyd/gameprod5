@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
-public class Blackguy : MonoBehaviour
+public class Blackguy : NetworkBehaviour
 {
     private BasicEnemyLOS belos;
     private Rigidbody2D rb;

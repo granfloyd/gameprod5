@@ -1,10 +1,11 @@
 using System.Collections.Generic;
 using System.Linq;
+using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Player : MonoBehaviour
+public class Player : NetworkBehaviour
 {
     //refs//
     public PlayerMovement movementRef;
@@ -53,7 +54,7 @@ public class Player : MonoBehaviour
     void Start()
     {
         //Instantiate(playerUI1, transform.position, Quaternion.identity);
-        aimProjectile = Instantiate(aimProjectile, aimDirection, Quaternion.identity);
+        //aimProjectile = Instantiate(aimProjectile, aimDirection, Quaternion.identity);
         inventoryRef = GetComponent<Inventory>();
         hsRef = GetComponent<HealthSystem>();
         movementRef = GetComponent<PlayerMovement>();

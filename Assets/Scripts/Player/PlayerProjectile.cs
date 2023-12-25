@@ -1,19 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
-public class PlayerProjectile : MonoBehaviour
+public class PlayerProjectile : NetworkBehaviour
 {
     private ScoreManager scoreManagerRef; // The ScoreManager
     //private AudioSource audioSource;
 
     public Player playerRef;
+    public GameObject playerGO;
 
     // Start is called before the first frame update
     void Start()
     {
         //audioSource = GameObject.Find("hitSFX").GetComponent<AudioSource>();
-        scoreManagerRef = GameObject.FindGameObjectWithTag("ScoreManager").GetComponent<ScoreManager>();
+        scoreManagerRef = playerGO.GetComponent<ScoreManager>();
         playerRef = GetComponent<Player>();
     }
 

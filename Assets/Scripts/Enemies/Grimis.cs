@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
-public class Grimis : MonoBehaviour
+public class Grimis : NetworkBehaviour
 {
     private BasicEnemyLOS belos;
     public GameObject grimisProjectilePrefab;
