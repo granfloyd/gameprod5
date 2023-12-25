@@ -5,12 +5,16 @@ using UnityEditor;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System.IO;
+using Unity.Netcode;
 
 public class titlescreen : MonoBehaviour
 {
     public Button playButton;
     public Button newGameButton;
     public Image TitleScreenBG;
+    public Button hostButton;
+    public Button serverButton;
+    public Button clientButton;
     //public Button continueButton;
     public Button infoButton;
     public Button backButton;
@@ -34,6 +38,10 @@ public class titlescreen : MonoBehaviour
         exitButton.onClick.AddListener(Exit);
         playmainbackButton.onClick.AddListener(Exit2);
         playButton.onClick.AddListener(HideMain);
+
+        hostButton.onClick.AddListener(Host);
+        serverButton.onClick.AddListener(Server);
+        clientButton.onClick.AddListener(Client);
         // Get the CanvasGroup component
         canvasGroup = Cursorgo.GetComponent<CanvasGroup>();
         // If the CanvasGroup component doesn't exist, add one
@@ -43,6 +51,20 @@ public class titlescreen : MonoBehaviour
         }
 
         canvasGroup.blocksRaycasts = false;
+    }
+    void Host()
+    {
+        NetworkManager.Singleton.StartHost();
+    }
+
+    void Server()
+    {
+        NetworkManager.Singleton.StartServer();
+    }
+
+    void Client()
+    {
+        NetworkManager.Singleton.StartClient();
     }
     void LoadGame()
     {
