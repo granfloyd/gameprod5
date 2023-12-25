@@ -5,22 +5,30 @@ using UnityEngine;
 
 public class SmoothCam : NetworkBehaviour
 {
-    public GameObject playerGO;
-
     [SerializeField] private Vector3 offset;
     [SerializeField] private float damping;
 
-    //public Transform target;
+    private Transform target;
     private Vector3 vel = Vector3.zero;
+
+    void Start()
+    {
+        GameObject playerGO = GameObject.FindWithTag("Player");
+        if (playerGO != null)
+        {
+            target = playerGO.transform;
+        }
+    }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        transform.position = playerGO.transform.position + offset;
-        //Vector3 targetpos = target.position + offset;
-        
-
-
-        //transform.position = Vector3.SmoothDamp(transform.position, playerGO., ref vel, damping);
+        if (target != null)
+        {
+            Vector3 targetpos = target.position + offset;
+            targetpos.z = transform.position.z;
+            Debug.Log(targetpos);
+            transform.position = Vector3.SmoothDamp(transform.position, targetpos, ref vel, damping);
+        }
     }
 }
