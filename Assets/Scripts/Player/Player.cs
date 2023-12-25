@@ -11,6 +11,7 @@ public class Player : MonoBehaviour
     public HealthSystem hsRef;
     public PlayerCollision PC;
     public Item itemRef;
+    public Inventory inventoryRef;
     //audio stuff//
     //public AudioSource audioSource4;//addtoinventory
     //public AudioSource audioSource5;//select
@@ -19,18 +20,19 @@ public class Player : MonoBehaviour
     //gameobjects//
     public GameObject projectilePrefab;
     public GameObject aimProjectile;
-    private GameObject imageObject;//display item to ui 
-    public GameObject Slot1;
-    public GameObject Slot2;
-    public GameObject Slot3;
-    public GameObject Slot4;
-    public GameObject pauseMenuUI;
+    //private GameObject imageObject;//display item to ui 
+    //public GameObject Slot1;
+    //public GameObject Slot2;
+    //public GameObject Slot3;
+    //public GameObject Slot4;
+    //public GameObject pauseMenuUI;
     public GameObject portal2prefab;
-    //UI stuff//
-    public Canvas myCanvas;
-    public Image Active;//selctor square
-    private Image image;//for ui slots
+    ////UI stuff//
+    //public Canvas myCanvas;
+    ///public Image Active;//selctor square
+    //private Image image;//for ui slots
     //player stats//
+    public GameObject playerUI1;
     public float shootCD = 1f;
     public static int playerDamage = 1;
     public float projectileSpeed;
@@ -50,11 +52,9 @@ public class Player : MonoBehaviour
 
     void Start()
     {
-        Active = Instantiate(Active, Slot1.transform.position, Quaternion.identity);
-        Active.transform.SetParent(myCanvas.transform, false);
-        Active.transform.position = Slot1.transform.position;
+        //Instantiate(playerUI1, transform.position, Quaternion.identity);
         aimProjectile = Instantiate(aimProjectile, aimDirection, Quaternion.identity);
-
+        inventoryRef = GetComponent<Inventory>();
         hsRef = GetComponent<HealthSystem>();
         movementRef = GetComponent<PlayerMovement>();
         PC = GetComponent<PlayerCollision>();
@@ -88,26 +88,26 @@ public class Player : MonoBehaviour
     //add picked up item to ui slots
     private void GuyzGamezLovesSlots(GameObject type)
     {
-        imageObject = new GameObject("UIImage" + whatsActive);
-        imageObject.transform.SetParent(myCanvas.transform, false);
-        image = imageObject.AddComponent<Image>();        
+        inventoryRef.imageObject = new GameObject("UIImage" + whatsActive);
+        inventoryRef.imageObject.transform.SetParent(inventoryRef.GeneralUI.transform, false);
+        inventoryRef.image = inventoryRef.imageObject.AddComponent<Image>();        
         if (inventory.Any())
         {
             type = inventory.ElementAt(whatsActive);
             if (type != null)
             {
                 if (whatsActive == 0)
-                    image.transform.position = Slot1.transform.position;                  
+                    inventoryRef.image.transform.position = inventoryRef.Slot1.transform.position;                  
                 if (whatsActive == 1)
-                    image.transform.position = Slot2.transform.position;                   
+                    inventoryRef.image.transform.position = inventoryRef.Slot2.transform.position;                   
                 if (whatsActive == 2)
-                    image.transform.position = Slot3.transform.position;                    
+                    inventoryRef.image.transform.position = inventoryRef.Slot3.transform.position;                    
                 if (whatsActive == 3)
-                    image.transform.position = Slot4.transform.position;
+                    inventoryRef.image.transform.position = inventoryRef.Slot4.transform.position;
                   
                 // Update the sprite of the existing UI Image
                 SpriteRenderer sr = type.GetComponent<SpriteRenderer>();
-                image.sprite = sr.sprite;
+                inventoryRef.image.sprite = sr.sprite;
             }
         }
     }
@@ -273,25 +273,25 @@ public class Player : MonoBehaviour
 
             if (whatsActive == 0)
             {
-                Active.transform.position = Slot1.transform.position;
+                inventoryRef.SelectorIMG.transform.position = inventoryRef.Slot1.transform.position;
             }
             else if (whatsActive == 1)
             {
-                Active.transform.position = Slot2.transform.position;
+                inventoryRef.SelectorIMG.transform.position = inventoryRef.Slot2.transform.position;
             }
             else if (whatsActive == 2)
             {
-                Active.transform.position = Slot3.transform.position;
+                inventoryRef.SelectorIMG.transform.position = inventoryRef.Slot3.transform.position;
             }
             else if (whatsActive == 3)
             {
-                Active.transform.position = Slot4.transform.position;
+                inventoryRef.SelectorIMG.transform.position = inventoryRef.Slot4.transform.position;
             }
         }        
     }
     void Resume()
     {
-        pauseMenuUI.SetActive(false);
+        //pauseMenuUI.SetActive(false);
         Time.timeScale = 1f;
         GameIsPaused = false;
 
@@ -304,7 +304,7 @@ public class Player : MonoBehaviour
 
     void Pause()
     {
-        pauseMenuUI.SetActive(true);
+        //pauseMenuUI.SetActive(true);
         Time.timeScale = 0f;
         GameIsPaused = true;
 

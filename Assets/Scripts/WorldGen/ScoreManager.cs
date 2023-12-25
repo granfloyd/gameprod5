@@ -71,7 +71,7 @@ public class ScoreManager : MonoBehaviour
 
     public void UpdateHighScoreText()
     {
-        highscoreText.text = savehighscore.ToString();
+        //highscoreText.text = savehighscore.ToString();
     }
 
     void Update()

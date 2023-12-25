@@ -38,7 +38,7 @@ public class PlayerCollision : MonoBehaviour
     void Start()
     {
         totalKeys = 0;
-        chestRef = GameObject.Find("Chest").GetComponent<Chest>();
+        //chestRef = GameObject.Find("Chest").GetComponent<Chest>();
         playerRef = GetComponent<Player>();
         itemRef = GetComponent<Item>();
     }
