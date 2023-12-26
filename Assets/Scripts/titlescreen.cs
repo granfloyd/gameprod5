@@ -27,7 +27,7 @@ public class titlescreen : MonoBehaviour
     public GameObject Cursorgo;
     private CanvasGroup canvasGroup;
 
-    [SerializeField] private string gameplaySceneName = "Game1";
+    [SerializeField] private string gameplaySceneName = "T";//maingame "Game1"//testing "T"
     // Start is called before the first frame update
     void Start()
     {
@@ -68,7 +68,7 @@ public class titlescreen : MonoBehaviour
     void Client()
     {
         NetworkManager.Singleton.StartClient();
-        NetworkManager.Singleton.SceneManager.LoadScene(gameplaySceneName, LoadSceneMode.Single);
+        //NetworkManager.Singleton.SceneManager.LoadScene(gameplaySceneName, LoadSceneMode.Single);
     }
     void LoadGame()
     {

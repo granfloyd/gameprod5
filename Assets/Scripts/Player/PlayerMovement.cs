@@ -1,10 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using Unity.Netcode;
-using UnityEditor.Rendering;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : NetworkBehaviour
 {
     private Rigidbody2D rb;
     public Vector2 movement;
@@ -57,6 +54,7 @@ public class PlayerMovement : MonoBehaviour
     }
     void FixedUpdate()
     {
+        if (!IsOwner) return;
         movement.x = Input.GetAxisRaw("Horizontal");
         movement.y = Input.GetAxisRaw("Vertical");
         
