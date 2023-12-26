@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
-public class SmoothCam : NetworkBehaviour
+public class SmoothCam : MonoBehaviour
 {
     [SerializeField] private Vector3 offset;
     [SerializeField] private float damping;

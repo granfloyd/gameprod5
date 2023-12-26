@@ -2056,14 +2056,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Main Camera
       objectReference: {fileID: 0}
-    - target: {fileID: 5533463136137833135, guid: b3101dd8a5565434eb30b486604188e0, type: 3}
-      propertyPath: target
-      value: 
+    - target: {fileID: 4872456401306134471, guid: b3101dd8a5565434eb30b486604188e0, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5533463136137833135, guid: b3101dd8a5565434eb30b486604188e0, type: 3}
-      propertyPath: playerGO
-      value: 
-      objectReference: {fileID: 4864749207398539638, guid: 3a1bacbc6592bcc408356f1a9dd1a3be, type: 3}
     - target: {fileID: 5633739156557135196, guid: b3101dd8a5565434eb30b486604188e0, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 2143258135

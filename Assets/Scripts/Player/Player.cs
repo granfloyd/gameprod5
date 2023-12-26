@@ -5,7 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Player : NetworkBehaviour
+public class Player : MonoBehaviour
 {
     //refs//
     public PlayerMovement movementRef;

@@ -31,7 +31,7 @@ public class titlescreen : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
         newGameButton.onClick.AddListener(LoadGame);
         infoButton.onClick.AddListener(showinfo);
         if(backButton != null)
@@ -68,6 +68,7 @@ public class titlescreen : MonoBehaviour
     void Client()
     {
         NetworkManager.Singleton.StartClient();
+        NetworkManager.Singleton.SceneManager.LoadScene(gameplaySceneName, LoadSceneMode.Single);
     }
     void LoadGame()
     {
@@ -76,10 +77,16 @@ public class titlescreen : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         Cursor.visible = false;
         Vector3 mousePos = Input.mousePosition;
         mousePos.z = -10;
         Cursorgo.transform.position = Input.mousePosition; 
+    }
+
+    void OnClientConnected(ulong clientId)
+    {
+        Debug.Log("Client connected with ID: " + clientId);
     }
     void NewGame()
     {
