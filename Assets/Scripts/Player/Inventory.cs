@@ -24,7 +24,8 @@ public class Inventory : MonoBehaviour
     void Start()
     {
         //playerRef = playerGO.GetComponent<Player>();
-        SelectorIMG = Instantiate(SelectorIMGPrefab, Slot1.transform.position, Quaternion.identity);
+        //SelectorIMG = Instantiate(SelectorIMGPrefab, Slot1.transform.position, Quaternion.identity);
+        SelectorIMGPrefab = SelectorIMG.GetComponent<Image>(); 
         SelectorIMG.transform.SetParent(GeneralUI.transform, false);
         SelectorIMG.transform.position = Slot1.transform.position;
     }

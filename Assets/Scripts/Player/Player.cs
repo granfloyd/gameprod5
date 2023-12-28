@@ -14,24 +14,15 @@ public class Player : MonoBehaviour
     public Item itemRef;
     public Inventory inventoryRef;
     //audio stuff//
-    //public AudioSource audioSource4;//addtoinventory
-    //public AudioSource audioSource5;//select
-    //public AudioSource audioSource6;//cant pickup item SFX
-    //public AudioSource audioSource8;//portal sfx   
+    public AudioSource audioSourceAddToTory;//addtoinventory
+    public AudioSource audioSourceSelector;//select
+    public AudioSource audioSourceCant;//cant pickup item SFX
+    public AudioSource audioSourcePortalSpawn;//portal sfx   
     //gameobjects//
     public GameObject projectilePrefab;
     public GameObject aimProjectile;
-    //private GameObject imageObject;//display item to ui 
-    //public GameObject Slot1;
-    //public GameObject Slot2;
-    //public GameObject Slot3;
-    //public GameObject Slot4;
-    //public GameObject pauseMenuUI;
+    public GameObject pauseMenuUI;
     public GameObject portal2prefab;
-    ////UI stuff//
-    //public Canvas myCanvas;
-    ///public Image Active;//selctor square
-    //private Image image;//for ui slots
     //player stats//
     public GameObject playerUI1;
     public float shootCD = 1f;
@@ -54,7 +45,7 @@ public class Player : MonoBehaviour
     void Start()
     {
         //Instantiate(playerUI1, transform.position, Quaternion.identity);
-        //aimProjectile = Instantiate(aimProjectile, aimDirection, Quaternion.identity);
+        aimProjectile = Instantiate(aimProjectile, aimDirection, Quaternion.identity);
         inventoryRef = GetComponent<Inventory>();
         hsRef = GetComponent<HealthSystem>();
         movementRef = GetComponent<PlayerMovement>();
@@ -122,7 +113,7 @@ public class Player : MonoBehaviour
             {
                 whatsActive = i;
                 inventory.RemoveAt(i);
-                //audioSource4.Play();
+                audioSourceAddToTory.Play();
                 inventory.Insert(i, itemToAdd);
                 GuyzGamezLovesSlots(itemToAdd);
                 Destroy(itemToDelete);
@@ -133,15 +124,15 @@ public class Player : MonoBehaviour
         {
             if (i < 0)
             {
-                //audioSource6.Play();//NO SPACE LEFT
-                //audioSource6.Play();//NO SPACE LEFT
+                audioSourceCant.Play();//NO SPACE LEFT
+                audioSourceCant.Play();//NO SPACE LEFT
                 return;
             }
             else if (inventory[i] == null)
             {
                 whatsActive = i;
                 inventory.RemoveAt(i);
-                //audioSource4.Play();
+                audioSourceAddToTory.Play();
                 inventory.Insert(i, itemToAdd);
                 GuyzGamezLovesSlots(itemToAdd);
                 Destroy(itemToDelete);
@@ -200,12 +191,12 @@ public class Player : MonoBehaviour
         {
             if (scroll > 0f)
             {
-                //audioSource5.Play();
+                audioSourceSelector.Play();
                 // Scrolling up
                 whatsActive += 1;
                 if (whatsActive > 3)
                 {
-                    //audioSource5.Play();
+                    audioSourceSelector.Play();
                     whatsActive = 0;
                 }
             }
@@ -214,12 +205,12 @@ public class Player : MonoBehaviour
         {
             if (scroll < 0f)
             {
-                //audioSource5.Play();
+                audioSourceSelector.Play();
                 // Scrolling down
                 whatsActive -= 1;
                 if (whatsActive < 0)
                 {
-                    //audioSource5.Play();
+                    audioSourceSelector.Play();
                     whatsActive = 3;
                 }
             }
@@ -253,22 +244,22 @@ public class Player : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {
-                //audioSource5.Play();
+                audioSourceSelector.Play();
                 whatsActive = 0;
             }
             else if (Input.GetKeyDown(KeyCode.Alpha2))
             {
-                //audioSource5.Play();
+                audioSourceSelector.Play();
                 whatsActive = 1;
             }
             else if (Input.GetKeyDown(KeyCode.Alpha3))
             {
-                //audioSource5.Play();
+                audioSourceSelector.Play();
                 whatsActive = 2;
             }
             else if (Input.GetKeyDown(KeyCode.Alpha4))
             {
-                //audioSource5.Play();
+                audioSourceSelector.Play();
                 whatsActive = 3;
             }
 
@@ -343,7 +334,7 @@ public class Player : MonoBehaviour
             if (!spawned)                
             {
                 Instantiate(portal2prefab, transform.position, Quaternion.identity);
-                //audioSource8.Play();
+                audioSourcePortalSpawn.Play();
             }
             
             spawned = true;

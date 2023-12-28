@@ -1,9 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.Netcode;
 using UnityEngine;
 
-public class Grimis : NetworkBehaviour
+public class Grimis : MonoBehaviour
 {
     private BasicEnemyLOS belos;
     public GameObject grimisProjectilePrefab;
@@ -17,6 +14,7 @@ public class Grimis : NetworkBehaviour
     private int counter = 0;
     private bool reset = false;
 
+    public GameObject drop;
     // Start is called before the first frame update
     void Start()
     {

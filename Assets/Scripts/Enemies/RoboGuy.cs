@@ -1,10 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.Netcode;
-using UnityEditor.Rendering;
 using UnityEngine;
 
-public class RoboGuy : NetworkBehaviour
+public class RoboGuy : MonoBehaviour
 {
     private BasicEnemyLOS belos;
     private Rigidbody2D rb;
@@ -21,7 +17,7 @@ public class RoboGuy : NetworkBehaviour
     private int counter = 0;
     private bool reset = false;
 
-    
+    public GameObject drop;
     // Start is called before the first frame update
     void Start()
     {

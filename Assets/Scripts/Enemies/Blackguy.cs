@@ -1,9 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.Netcode;
 using UnityEngine;
 
-public class Blackguy : NetworkBehaviour
+public class Blackguy : MonoBehaviour
 {
     private BasicEnemyLOS belos;
     private Rigidbody2D rb;
@@ -16,6 +13,7 @@ public class Blackguy : NetworkBehaviour
     private float ticker = 0;
     public float fasterfaster = 0.1f;
 
+    public GameObject drop;
     // Start is called before the first frame update
     void Start()
     {

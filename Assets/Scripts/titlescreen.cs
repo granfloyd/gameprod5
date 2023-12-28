@@ -12,10 +12,7 @@ public class titlescreen : MonoBehaviour
     public Button playButton;
     public Button newGameButton;
     public Image TitleScreenBG;
-    public Button hostButton;
-    public Button serverButton;
-    public Button clientButton;
-    //public Button continueButton;
+    public Button continueButton;
     public Button infoButton;
     public Button backButton;
     public Button playmainbackButton;
@@ -27,12 +24,11 @@ public class titlescreen : MonoBehaviour
     public GameObject Cursorgo;
     private CanvasGroup canvasGroup;
 
-    [SerializeField] private string gameplaySceneName = "T";//maingame "Game1"//testing "T"
     // Start is called before the first frame update
     void Start()
     {
-        NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
-        newGameButton.onClick.AddListener(LoadGame);
+        newGameButton.onClick.AddListener(NewGame);
+        continueButton.onClick.AddListener(LoadGame);
         infoButton.onClick.AddListener(showinfo);
         if(backButton != null)
         backButton.onClick.AddListener(hideinfo);
@@ -40,9 +36,6 @@ public class titlescreen : MonoBehaviour
         playmainbackButton.onClick.AddListener(Exit2);
         playButton.onClick.AddListener(HideMain);
 
-        hostButton.onClick.AddListener(Host);
-        serverButton.onClick.AddListener(Server);
-        clientButton.onClick.AddListener(Client);
         // Get the CanvasGroup component
         canvasGroup = Cursorgo.GetComponent<CanvasGroup>();
         // If the CanvasGroup component doesn't exist, add one
@@ -53,44 +46,23 @@ public class titlescreen : MonoBehaviour
 
         canvasGroup.blocksRaycasts = false;
     }
-    void Host()
-    {
-        NetworkManager.Singleton.StartHost();
-        NetworkManager.Singleton.SceneManager.LoadScene(gameplaySceneName, LoadSceneMode.Single);
-    }
 
-    void Server()
-    {
-        NetworkManager.Singleton.StartServer();
-        NetworkManager.Singleton.SceneManager.LoadScene(gameplaySceneName, LoadSceneMode.Single);
-    }
-
-    void Client()
-    {
-        NetworkManager.Singleton.StartClient();
-        //NetworkManager.Singleton.SceneManager.LoadScene(gameplaySceneName, LoadSceneMode.Single);
-    }
     void LoadGame()
     {
-        SceneManager.LoadScene("Game1");
+        Debug.Log("get a life,said the wind - schizoblitzo");
+        //SceneManager.LoadScene("OverWorld");
     }
     // Update is called once per frame
     void Update()
     {
-
         Cursor.visible = false;
         Vector3 mousePos = Input.mousePosition;
         mousePos.z = -10;
         Cursorgo.transform.position = Input.mousePosition; 
     }
-
-    void OnClientConnected(ulong clientId)
-    {
-        Debug.Log("Client connected with ID: " + clientId);
-    }
     void NewGame()
     {
-        SceneManager.LoadScene("Game1");
+        SceneManager.LoadScene("OverWorld");
     }
     void showinfo()
     {

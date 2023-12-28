@@ -1,7 +1,6 @@
-using Unity.Netcode;
 using UnityEngine;
 
-public class PlayerMovement : NetworkBehaviour
+public class PlayerMovement : MonoBehaviour
 {
     private Rigidbody2D rb;
     public Vector2 movement;
@@ -20,6 +19,10 @@ public class PlayerMovement : NetworkBehaviour
     public float slowDuration = 0;
     public bool isSlowed = false;
     public bool bHasCollided = false;
+
+    private float recovery = 0.5f;
+    private float recoveryTimer = 0;
+    private bool isRecovering = false;
 
     // Start is called before the first frame update
     void Start()
@@ -54,10 +57,9 @@ public class PlayerMovement : NetworkBehaviour
     }
     void FixedUpdate()
     {
-        if (!IsOwner) return;
         movement.x = Input.GetAxisRaw("Horizontal");
         movement.y = Input.GetAxisRaw("Vertical");
-        
+
         dashCD += Time.deltaTime;
 
         if (bHasCollided && !isSlowed)
@@ -87,21 +89,33 @@ public class PlayerMovement : NetworkBehaviour
                 dashCD = 0;
             }            
         }
-        
-        if(isDashing)
+
+        if (isDashing)
         {
             dashTimer += Time.deltaTime;
             rb.MovePosition(rb.position + movement * speed * dash * Time.deltaTime);
 
             Debug.Log("Zoom");
-            if(dashTimer > 0.5f)
+            if (dashTimer > 0.5f)
             {
                 isDashing = false;
                 dashTimer = 0;
-                
+                isRecovering = true; // start recovery after dash
             }
         }
-        if(!isDashing)
+        else if (isRecovering)
+        {
+            recoveryTimer += Time.deltaTime;
+            rb.MovePosition(rb.position + movement * speed * recovery * Time.deltaTime); // slow down during recovery
+
+            Debug.Log("Recovering");
+            if (recoveryTimer > 0.2f) // recovery lasts for 0.2 seconds
+            {
+                isRecovering = false;
+                recoveryTimer = 0;
+            }
+        }
+        else
         {
             rb.MovePosition(rb.position + movement * speed * Time.deltaTime);
         }

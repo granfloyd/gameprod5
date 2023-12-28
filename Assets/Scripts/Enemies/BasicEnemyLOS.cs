@@ -1,16 +1,13 @@
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
-using Unity.Netcode;
-using Unity.VisualScripting;
-using UnityEditor.Rendering;
 using UnityEngine;
 
-public class BasicEnemyLOS : NetworkBehaviour
+public class BasicEnemyLOS : MonoBehaviour
 {
     private Player playerRef;
     public GameObject playerGO;
-    ///public AudioSource audioSource69;
+    public AudioSource audioSourceHit;
+    public GameObject[] drops;
     private ScoreManager scoreManagerRef; // The ScoreManager
     public GameObject damageTextPrefab;
     public GameObject keyObject;
@@ -26,11 +23,11 @@ public class BasicEnemyLOS : NetworkBehaviour
     public float destroyTime = 1f; // Time before the text is destroyed
     void Start()
     {
-        playerRef = playerGO.GetComponent<Player>();
+        playerRef = GameObject.Find("Player").GetComponent<Player>();
 
         scoreManagerRef = playerGO.GetComponent<ScoreManager>();
 
-        //audioSource69 = GameObject.Find("hitSFX").GetComponent<AudioSource>();
+    
     }
     void OnTriggerEnter2D(Collider2D collider)
     {
@@ -59,8 +56,8 @@ public class BasicEnemyLOS : NetworkBehaviour
         if (collision.gameObject.tag == "Shield2.0")
         {
             isHit = true;
-            //audioSource69.Play();
-           
+            audioSourceHit.Play();
+
         }
         if (collision.gameObject.tag == "Player")
         {
@@ -136,11 +133,13 @@ public class BasicEnemyLOS : NetworkBehaviour
             scoreManagerRef.UpdateScore();
             if (Random.value < 0.5f)    
             {
-                GameObject spawnthis = Instantiate(keyObject, transform.position, Quaternion.identity);
+                Debug.Log("on death called!2");
+                Instantiate(drops, transform.position, Quaternion.identity);
             }
             if(drops != null)
             {
-                GameObject spawnthis2 = Instantiate(keyObject, transform.position, Quaternion.identity);
+                Debug.Log("on death called!1");
+                Instantiate(keyObject, transform.position, Quaternion.identity);
             }
             
             //play deathsound here 
@@ -148,7 +147,7 @@ public class BasicEnemyLOS : NetworkBehaviour
             isDead = false;
         }
     }
-    public void ShootPlayer(GameObject enemyProjectile,float speed)
+    public void ShootPlayer(GameObject enemyProjectile, float speed)
     {
         Vector2 direction = (Vector2)(playerRef.transform.position - transform.position);
         direction.Normalize();
@@ -162,7 +161,6 @@ public class BasicEnemyLOS : NetworkBehaviour
         Vector2 pos = Vector2.MoveTowards(transform.position, playerRef.transform.position, speed * Time.deltaTime);
         rb.MovePosition(pos);
     }
-
     // Update is called once per frame
     void Update()
     {

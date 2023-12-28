@@ -1,15 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.Netcode;
 using UnityEngine;
 
-public class EnemyProjectile : NetworkBehaviour
+public class EnemyProjectile : MonoBehaviour
 {
-    public AudioSource audioSource69;
+    public AudioSource audioSourceHit;
     // Start is called before the first frame update
     void Start()
     {
-        audioSource69 = GameObject.Find("hitSFX").GetComponent<AudioSource>();
+
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -21,7 +18,7 @@ public class EnemyProjectile : NetworkBehaviour
         }
         if (collision.gameObject.tag == "Shield2.0")
         {
-            audioSource69.Play();
+            audioSourceHit.Play();
             Destroy(gameObject);
         }
         if (collision.gameObject.tag == "Wall")
@@ -30,12 +27,12 @@ public class EnemyProjectile : NetworkBehaviour
         }
         if (collision.gameObject.tag == "playerProjectile")
         {
-            audioSource69.Play();
+            audioSourceHit.Play();
             Destroy(gameObject);
         }
         if (collision.gameObject.tag == "GrimisAtk")
         {
-            audioSource69.Play();
+            audioSourceHit.Play();
             Destroy(gameObject);
         }
 

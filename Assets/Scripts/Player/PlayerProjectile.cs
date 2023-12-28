@@ -1,12 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.Netcode;
 using UnityEngine;
 
-public class PlayerProjectile : NetworkBehaviour
+public class PlayerProjectile : MonoBehaviour
 {
     private ScoreManager scoreManagerRef; // The ScoreManager
-    //private AudioSource audioSource;
+    public AudioSource audioSourceHit;
 
     public Player playerRef;
     public GameObject playerGO;
@@ -14,7 +11,7 @@ public class PlayerProjectile : NetworkBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //audioSource = GameObject.Find("hitSFX").GetComponent<AudioSource>();
+        audioSourceHit = GameObject.Find("ehitSFX").GetComponent<AudioSource>();
         scoreManagerRef = playerGO.GetComponent<ScoreManager>();
         playerRef = GetComponent<Player>();
     }
@@ -24,28 +21,28 @@ public class PlayerProjectile : NetworkBehaviour
         //Check for a match with the specified name on any GameObject that collides with your GameObject
         if (collision.gameObject.tag == "Grimis")
         {
-            //audioSource.Play();
+            audioSourceHit.Play();
             Destroy(gameObject);
             scoreManagerRef.UpdateScore();
             //playerRef.dispair += 1;
         }
         if (collision.gameObject.tag == "Enemy1")
         {
-            //audioSource.Play();
+            audioSourceHit.Play();
             Destroy(gameObject);
             scoreManagerRef.UpdateScore();
             //playerRef.dispair += 1;
         }
         if (collision.gameObject.tag == "Blackguy")
         {
-            //audioSource.Play();
+            audioSourceHit.Play();
             Destroy(gameObject);
             scoreManagerRef.UpdateScore();
             //playerRef.dispair += 1;
         }
         if (collision.gameObject.tag == "RoboGuy")
         {
-            //audioSource.Play();
+            audioSourceHit.Play();
             Destroy(gameObject);
             scoreManagerRef.UpdateScore();
             //playerRef.dispair += 1;
