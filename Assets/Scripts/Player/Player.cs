@@ -26,7 +26,7 @@ public class Player : MonoBehaviour
     //player stats//
     public GameObject playerUI1;
     public float shootCD = 1f;
-    public static int playerDamage = 1;
+    public int playerDamage = 1;
     public float projectileSpeed;
     private float ticker = 0;  // shoot timer 
     //player inventory//
@@ -44,7 +44,6 @@ public class Player : MonoBehaviour
 
     void Start()
     {
-        //Instantiate(playerUI1, transform.position, Quaternion.identity);
         aimProjectile = Instantiate(aimProjectile, aimDirection, Quaternion.identity);
         inventoryRef = GetComponent<Inventory>();
         hsRef = GetComponent<HealthSystem>();

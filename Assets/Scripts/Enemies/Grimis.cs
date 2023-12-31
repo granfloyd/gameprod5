@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class Grimis : MonoBehaviour
 {
+    public Player playerRef;
     private BasicEnemyLOS belos;
     public GameObject grimisProjectilePrefab;
     private Rigidbody2D rb;
@@ -18,13 +19,15 @@ public class Grimis : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        playerRef = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         belos = gameObject.GetComponent<BasicEnemyLOS>();
         rb = GetComponent<Rigidbody2D>();
     }
     
     void Update()
     {
-        belos.EnemyTakeDamage(ref HP, Player.playerDamage);
+        belos.OnDeath(drop);
+        belos.EnemyTakeDamage(ref HP, playerRef.playerDamage);
         ticker += Time.deltaTime;
         if (belos.bHasLOS)
         {

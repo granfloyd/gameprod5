@@ -318,6 +318,7 @@ MonoBehaviour:
   HP: 2
   grimisProjectileSpeed: 4
   speed: 0.3
+  drop: {fileID: 2033005917234892103, guid: 8650b37fea503f34c8f92aea954e93ad, type: 3}
 --- !u!58 &9027084489555225507
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -367,6 +368,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerGO: {fileID: 4864749207398539638, guid: 3a1bacbc6592bcc408356f1a9dd1a3be, type: 3}
   audioSourceHit: {fileID: 2317255173941767109}
+  drops: []
   damageTextPrefab: {fileID: 8190826780014623523, guid: d9e10c4e2e706b746a31c0018e37f181, type: 3}
   keyObject: {fileID: 5483950112051104397, guid: 8afc91131dff8c34091d2c7f74edc59b, type: 3}
   Speed: 0

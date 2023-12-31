@@ -23,8 +23,6 @@ public class Inventory : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //playerRef = playerGO.GetComponent<Player>();
-        //SelectorIMG = Instantiate(SelectorIMGPrefab, Slot1.transform.position, Quaternion.identity);
         SelectorIMGPrefab = SelectorIMG.GetComponent<Image>(); 
         SelectorIMG.transform.SetParent(GeneralUI.transform, false);
         SelectorIMG.transform.position = Slot1.transform.position;

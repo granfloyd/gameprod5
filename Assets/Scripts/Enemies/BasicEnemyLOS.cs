@@ -7,7 +7,6 @@ public class BasicEnemyLOS : MonoBehaviour
     private Player playerRef;
     public GameObject playerGO;
     public AudioSource audioSourceHit;
-    public GameObject[] drops;
     private ScoreManager scoreManagerRef; // The ScoreManager
     public GameObject damageTextPrefab;
     public GameObject keyObject;
@@ -89,7 +88,7 @@ public class BasicEnemyLOS : MonoBehaviour
             if (critHit == randNumber)
             {
                 isCrit = true;
-                howmuch = howmuch += critHit;
+                howmuch = howmuch + critHit;
             }
             GameObject damageTextObject = Instantiate(damageTextPrefab, transform.position, Quaternion.identity, transform);
             TextMeshPro damageText = damageTextObject.GetComponent<TextMeshPro>();
@@ -164,6 +163,6 @@ public class BasicEnemyLOS : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        OnDeath(null);
+        //OnDeath(null);
     }
 }

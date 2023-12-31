@@ -10,13 +10,11 @@ public class Chest : MonoBehaviour
     {
         
     }
-
-    public void OpenChest(Transform chestTransform)
+    public void OpenChest()
     {
         int randIndex = Random.Range(0, dropList.Length);
         GameObject randDrop = dropList[randIndex];
-
-        GameObject spawnthis = Instantiate(randDrop, chestTransform.position, Quaternion.identity);
+        Instantiate(randDrop, transform.position, Quaternion.identity);
     }
 
 

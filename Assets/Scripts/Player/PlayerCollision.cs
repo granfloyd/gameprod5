@@ -38,7 +38,7 @@ public class PlayerCollision : MonoBehaviour
     void Start()
     {
         totalKeys = 0;
-        //chestRef = GameObject.Find("Chest").GetComponent<Chest>();
+        chestRef = GameObject.Find("Chest").GetComponent<Chest>();
         playerRef = GetComponent<Player>();
         itemRef = GetComponent<Item>();
     }
@@ -74,7 +74,7 @@ public class PlayerCollision : MonoBehaviour
                 totalKeys -= 1;
                 UpdateKey(0);
                 //spawns a rand gameobject / drop then destroys object
-                chestRef.OpenChest(this.transform);
+                chestRef.OpenChest();
             }
         }
         //door stuff 
