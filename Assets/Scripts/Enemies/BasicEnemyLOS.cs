@@ -72,7 +72,6 @@ public class BasicEnemyLOS : MonoBehaviour
         }
         if (collision.gameObject.tag == "playerProjectile")
         {
-            Debug.Log("LLLL");
             bHasCollided = false;
         }
     }
@@ -81,15 +80,16 @@ public class BasicEnemyLOS : MonoBehaviour
     {
         if (isHit)
         {
-            enemyhp -= howmuch;
+           
             bool isCrit = false;
             int critHit = howmuch;
             int randNumber = Random.Range(1, 5);
             if (critHit == randNumber)
             {
                 isCrit = true;
-                howmuch = howmuch + critHit;
+                howmuch = howmuch * 2;
             }
+            enemyhp -= howmuch;
             GameObject damageTextObject = Instantiate(damageTextPrefab, transform.position, Quaternion.identity, transform);
             TextMeshPro damageText = damageTextObject.GetComponent<TextMeshPro>();
             damageText.text = "-" + howmuch.ToString();
@@ -128,18 +128,16 @@ public class BasicEnemyLOS : MonoBehaviour
     {
         if(isDead)
         {
-            Debug.Log("on death called!");
             scoreManagerRef.UpdateScore();
-            if (Random.value < 0.5f)    
+            if (drops != null)
             {
-                Debug.Log("on death called!2");
-                Instantiate(drops, transform.position, Quaternion.identity);
-            }
-            if(drops != null)
-            {
-                Debug.Log("on death called!1");
                 Instantiate(keyObject, transform.position, Quaternion.identity);
             }
+            else if (Random.value < 0.5f)    
+            {
+                Instantiate(drops, transform.position, Quaternion.identity);
+            }
+            
             
             //play deathsound here 
             Destroy(gameObject);
@@ -160,9 +158,8 @@ public class BasicEnemyLOS : MonoBehaviour
         Vector2 pos = Vector2.MoveTowards(transform.position, playerRef.transform.position, speed * Time.deltaTime);
         rb.MovePosition(pos);
     }
-    // Update is called once per frame
+
     void Update()
-    {
-        //OnDeath(null);
+    { 
     }
 }

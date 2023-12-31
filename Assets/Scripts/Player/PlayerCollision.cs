@@ -9,19 +9,15 @@ using UnityEngine.UI;
 public class PlayerCollision : MonoBehaviour
 {
     public Player playerRef;
-    public Chest chestRef;
     public Item itemRef;
 
     private GameObject keyObject;
-    private GameObject chestObject;
     private GameObject grimisDrinkObject;
     private GameObject heartObject;
     private GameObject shieldObject;
     private GameObject powerup69Object;
     public GameObject pressE;
     public GameObject pressQ;
-
-    //public AudioSource audioSource;//key
 
     public Text keyCountText;
     public int totalKeys;
@@ -38,7 +34,6 @@ public class PlayerCollision : MonoBehaviour
     void Start()
     {
         totalKeys = 0;
-        chestRef = GameObject.Find("Chest").GetComponent<Chest>();
         playerRef = GetComponent<Player>();
         itemRef = GetComponent<Item>();
     }
@@ -65,18 +60,7 @@ public class PlayerCollision : MonoBehaviour
         {
             pressQ.SetActive(false);
         }
-        //chest stuff
-        if (totalKeys > 0)
-        {
-            if (onChest && Input.GetKeyDown(KeyCode.Q))
-            {
-                //take key away from player 
-                totalKeys -= 1;
-                UpdateKey(0);
-                //spawns a rand gameobject / drop then destroys object
-                chestRef.OpenChest();
-            }
-        }
+
         //door stuff 
         if (onDoor && Input.GetKeyDown(KeyCode.Q))
         {
@@ -130,10 +114,6 @@ public class PlayerCollision : MonoBehaviour
                 onKey = true;
                 keyObject = collider.gameObject;
                 break;
-            case "Chest":
-                onChest = true;
-                chestObject = collider.gameObject;
-                break;
             case "Door":
                 onDoor = true;
                 break;
@@ -163,7 +143,6 @@ public class PlayerCollision : MonoBehaviour
             if (!onKey)
             {
                 onKey = true;
-                Debug.Log("hallo");
                 keyObject = collider.gameObject;
             }
 
@@ -172,7 +151,6 @@ public class PlayerCollision : MonoBehaviour
         {
             if (!onChest)
             {
-                Debug.Log("hallo");
                 onChest = true;
             }
         }
@@ -187,10 +165,6 @@ public class PlayerCollision : MonoBehaviour
             case "Key":
                 onKey = false;
                 keyObject = collider.gameObject;
-                break;
-            case "Chest":
-                onChest = false;
-                chestObject = collider.gameObject;
                 break;
             case "Door":
                 onDoor = false;

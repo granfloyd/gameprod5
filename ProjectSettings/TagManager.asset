@@ -27,6 +27,7 @@ TagManager:
   - bossAttack2
   - boss
   - bossAttack1
+  - Plant
   layers:
   - Default
   - TransparentFX
