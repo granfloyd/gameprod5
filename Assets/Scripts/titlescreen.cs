@@ -1,11 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using System.IO;
-using Unity.Netcode;
 
 public class titlescreen : MonoBehaviour
 {
@@ -28,13 +23,13 @@ public class titlescreen : MonoBehaviour
     void Start()
     {
         newGameButton.onClick.AddListener(NewGame);
-        continueButton.onClick.AddListener(LoadGame);
-        infoButton.onClick.AddListener(showinfo);
-        if(backButton != null)
-        backButton.onClick.AddListener(hideinfo);
-        exitButton.onClick.AddListener(Exit);
-        playmainbackButton.onClick.AddListener(Exit2);
-        playButton.onClick.AddListener(HideMain);
+        //continueButton.onClick.AddListener(LoadGame);
+        //infoButton.onClick.AddListener(showinfo);
+        //if(backButton != null)
+        //backButton.onClick.AddListener(hideinfo);
+        //exitButton.onClick.AddListener(Exit);
+        //playmainbackButton.onClick.AddListener(Exit2);
+        //playButton.onClick.AddListener(HideMain);
 
         // Get the CanvasGroup component
         canvasGroup = Cursorgo.GetComponent<CanvasGroup>();
