@@ -364,7 +364,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Don't Fall Asleep
+  m_text: Forest Kid
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 768bee2212a06d24195f5e25f4059459, type: 2}
   m_sharedMaterial: {fileID: -960743201904400841, guid: 768bee2212a06d24195f5e25f4059459, type: 2}
@@ -1382,7 +1382,7 @@ GameObject:
   - component: {fileID: 956901835}
   - component: {fileID: 956901834}
   m_Layer: 5
-  m_Name: Text (Legacy)
+  m_Name: byguyzgamez
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2150,7 +2150,7 @@ GameObject:
   - component: {fileID: 1621737085}
   - component: {fileID: 1621737084}
   m_Layer: 5
-  m_Name: title (1)
+  m_Name: roguelite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2195,7 +2195,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Rouge Lite
+  m_text: Rogue Lite
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 768bee2212a06d24195f5e25f4059459, type: 2}
   m_sharedMaterial: {fileID: -960743201904400841, guid: 768bee2212a06d24195f5e25f4059459, type: 2}
@@ -2942,11 +2942,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7732893236507138980, guid: f2483cb73ec3b844e9174e9b489b0981, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 100
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 7732893236507138980, guid: f2483cb73ec3b844e9174e9b489b0981, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 100
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 7732893236507138980, guid: f2483cb73ec3b844e9174e9b489b0981, type: 3}
       propertyPath: m_LocalPosition.x

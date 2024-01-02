@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5897086292456591628}
   - component: {fileID: 2212702502261736380}
   - component: {fileID: -4350472585277108556}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: plant1
   m_TagString: Plant
   m_Icon: {fileID: 0}
@@ -108,7 +108,8 @@ MonoBehaviour:
   - {fileID: 2665664882185455798, guid: 5a13961d6d3133a49bfa54215bb03225, type: 3}
   audioSourceHit: {fileID: 0}
   playerRef: {fileID: 0}
-  belos: {fileID: 0}
+  rend: {fileID: 0}
+  MaxHP: 0
 --- !u!50 &2212702502261736380
 Rigidbody2D:
   serializedVersion: 4

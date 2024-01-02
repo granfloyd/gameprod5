@@ -12,7 +12,7 @@ public class Player : MonoBehaviour
     public HealthSystem hsRef;
     public PlayerCollision PC;
     public Item itemRef;
-    public Inventory inventoryRef;
+    public GeneralUI genUIRef;
     //audio stuff//
     public AudioSource audioSourceAddToTory;//addtoinventory
     public AudioSource audioSourceSelector;//select
@@ -45,7 +45,7 @@ public class Player : MonoBehaviour
     void Start()
     {
         aimProjectile = Instantiate(aimProjectile, aimDirection, Quaternion.identity);
-        inventoryRef = GetComponent<Inventory>();
+        genUIRef = GameObject.Find("GeneralUI").GetComponent<GeneralUI>();
         hsRef = GetComponent<HealthSystem>();
         movementRef = GetComponent<PlayerMovement>();
         PC = GetComponent<PlayerCollision>();
@@ -79,26 +79,26 @@ public class Player : MonoBehaviour
     //add picked up item to ui slots
     private void GuyzGamezLovesSlots(GameObject type)
     {
-        inventoryRef.imageObject = new GameObject("UIImage" + whatsActive);
-        inventoryRef.imageObject.transform.SetParent(inventoryRef.GeneralUI.transform, false);
-        inventoryRef.image = inventoryRef.imageObject.AddComponent<Image>();        
+        genUIRef.imageObject = new GameObject("UIImage" + whatsActive);
+        genUIRef.imageObject.transform.SetParent(genUIRef.genUIcanvan.transform, false);
+        genUIRef.image = genUIRef.imageObject.AddComponent<Image>();        
         if (inventory.Any())
         {
             type = inventory.ElementAt(whatsActive);
             if (type != null)
             {
                 if (whatsActive == 0)
-                    inventoryRef.image.transform.position = inventoryRef.Slot1.transform.position;                  
+                    genUIRef.image.transform.position = genUIRef.Slot1.transform.position;                  
                 if (whatsActive == 1)
-                    inventoryRef.image.transform.position = inventoryRef.Slot2.transform.position;                   
+                    genUIRef.image.transform.position = genUIRef.Slot2.transform.position;                   
                 if (whatsActive == 2)
-                    inventoryRef.image.transform.position = inventoryRef.Slot3.transform.position;                    
+                    genUIRef.image.transform.position = genUIRef.Slot3.transform.position;                    
                 if (whatsActive == 3)
-                    inventoryRef.image.transform.position = inventoryRef.Slot4.transform.position;
+                    genUIRef.image.transform.position = genUIRef.Slot4.transform.position;
                   
                 // Update the sprite of the existing UI Image
                 SpriteRenderer sr = type.GetComponent<SpriteRenderer>();
-                inventoryRef.image.sprite = sr.sprite;
+                genUIRef.image.sprite = sr.sprite;
             }
         }
     }
@@ -264,19 +264,19 @@ public class Player : MonoBehaviour
 
             if (whatsActive == 0)
             {
-                inventoryRef.SelectorIMG.transform.position = inventoryRef.Slot1.transform.position;
+                genUIRef.SelectorIMG.transform.position = genUIRef.Slot1.transform.position;
             }
             else if (whatsActive == 1)
             {
-                inventoryRef.SelectorIMG.transform.position = inventoryRef.Slot2.transform.position;
+                genUIRef.SelectorIMG.transform.position = genUIRef.Slot2.transform.position;
             }
             else if (whatsActive == 2)
             {
-                inventoryRef.SelectorIMG.transform.position = inventoryRef.Slot3.transform.position;
+                genUIRef.SelectorIMG.transform.position = genUIRef.Slot3.transform.position;
             }
             else if (whatsActive == 3)
             {
-                inventoryRef.SelectorIMG.transform.position = inventoryRef.Slot4.transform.position;
+                genUIRef.SelectorIMG.transform.position = genUIRef.Slot4.transform.position;
             }
         }        
     }

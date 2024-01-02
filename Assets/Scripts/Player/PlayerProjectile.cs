@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PlayerProjectile : MonoBehaviour
 {
-    private ScoreManager scoreManagerRef; // The ScoreManager
+    //private ScoreManager scoreManagerRef; // The ScoreManager
     public AudioSource audioSourceHit;
 
     public Player playerRef;
@@ -12,7 +12,6 @@ public class PlayerProjectile : MonoBehaviour
     void Start()
     {
         audioSourceHit = GameObject.Find("ehitSFX").GetComponent<AudioSource>();
-        scoreManagerRef = playerGO.GetComponent<ScoreManager>();
         playerRef = GetComponent<Player>();
     }
 
@@ -23,29 +22,21 @@ public class PlayerProjectile : MonoBehaviour
         {
             audioSourceHit.Play();
             Destroy(gameObject);
-            scoreManagerRef.UpdateScore();
-            //playerRef.dispair += 1;
         }
         if (collision.gameObject.tag == "Enemy1")
         {
             audioSourceHit.Play();
             Destroy(gameObject);
-            scoreManagerRef.UpdateScore();
-            //playerRef.dispair += 1;
         }
         if (collision.gameObject.tag == "Blackguy")
         {
             audioSourceHit.Play();
             Destroy(gameObject);
-            scoreManagerRef.UpdateScore();
-            //playerRef.dispair += 1;
         }
         if (collision.gameObject.tag == "RoboGuy")
         {
             audioSourceHit.Play();
             Destroy(gameObject);
-            scoreManagerRef.UpdateScore();
-            //playerRef.dispair += 1;
         }
         if (collision.gameObject.tag == "Wall")
         {   

@@ -465,8 +465,10 @@ MonoBehaviour:
   audioSourceHit: {fileID: 7111848080143813261}
   audioSourceCritHit: {fileID: 7155469876710178368}
   audioSourceBossSoundTrack: {fileID: 0}
+  audioSourceBossDeath: {fileID: 0}
   damageTextPrefab: {fileID: 8190826780014623523, guid: d9e10c4e2e706b746a31c0018e37f181, type: 3}
   keyObject: {fileID: 5483950112051104397, guid: 8afc91131dff8c34091d2c7f74edc59b, type: 3}
+  genUIGO: {fileID: 8296125715447715480, guid: cf6366588d5ddd94bb45b4069d93397a, type: 3}
   Speed: 0
   ff: 0
   bHasLOS: 0

@@ -474,8 +474,11 @@ MonoBehaviour:
   playerGO: {fileID: 4864749207398539638, guid: 3a1bacbc6592bcc408356f1a9dd1a3be, type: 3}
   audioSourceHit: {fileID: 3282178964545835230}
   audioSourceCritHit: {fileID: 2286317402292936851}
+  audioSourceBossSoundTrack: {fileID: 0}
+  audioSourceBossDeath: {fileID: 0}
   damageTextPrefab: {fileID: 8190826780014623523, guid: d9e10c4e2e706b746a31c0018e37f181, type: 3}
   keyObject: {fileID: 5483950112051104397, guid: 8afc91131dff8c34091d2c7f74edc59b, type: 3}
+  genUIGO: {fileID: 8296125715447715480, guid: cf6366588d5ddd94bb45b4069d93397a, type: 3}
   Speed: 0
   ff: 0
   bHasLOS: 0
@@ -486,3 +489,4 @@ MonoBehaviour:
   textmovespeed: 0.5
   fadeTime: 1
   destroyTime: 1
+  isBoss: 0

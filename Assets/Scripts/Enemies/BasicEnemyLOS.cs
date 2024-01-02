@@ -10,9 +10,10 @@ public class BasicEnemyLOS : MonoBehaviour
     public AudioSource audioSourceCritHit;
     public AudioSource audioSourceBossSoundTrack;
     public AudioSource audioSourceBossDeath;
-    private ScoreManager scoreManagerRef; // The ScoreManager
+    private GeneralUI genUIRef; // The ScoreManager
     public GameObject damageTextPrefab;
     public GameObject keyObject;
+    public GameObject genUIGO;
     public float Speed;
     public float ff;
     public bool bHasLOS = false;
@@ -28,7 +29,7 @@ public class BasicEnemyLOS : MonoBehaviour
     {
         playerRef = GameObject.Find("Player").GetComponent<Player>();
 
-        scoreManagerRef = playerGO.GetComponent<ScoreManager>();
+        genUIRef = genUIGO.GetComponent<GeneralUI>();
         if(isBoss)
         {
             audioSourceBossDeath = GameObject.Find("BossDeath").GetComponent<AudioSource>();
@@ -154,7 +155,7 @@ public class BasicEnemyLOS : MonoBehaviour
     {
         if(isDead)
         {
-            scoreManagerRef.UpdateScore();
+            genUIRef.UpdateScore();
             if (drops != null)
             {
                 Instantiate(keyObject, transform.position, Quaternion.identity);

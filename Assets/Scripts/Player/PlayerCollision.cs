@@ -10,7 +10,7 @@ public class PlayerCollision : MonoBehaviour
 {
     public Player playerRef;
     public Item itemRef;
-
+    public GeneralUI genUIRef;
     private GameObject keyObject;
     private GameObject grimisDrinkObject;
     private GameObject heartObject;
@@ -18,10 +18,6 @@ public class PlayerCollision : MonoBehaviour
     private GameObject powerup69Object;
     public GameObject pressE;
     public GameObject pressQ;
-
-    public Text keyCountText;
-    public int totalKeys;
-
     private bool onKey = false;
     private bool onChest = false;
     private bool onDoor = false;
@@ -33,7 +29,7 @@ public class PlayerCollision : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        totalKeys = 0;
+        genUIRef = GameObject.Find("GeneralUI").GetComponent<GeneralUI>();
         playerRef = GetComponent<Player>();
         itemRef = GetComponent<Item>();
     }
@@ -44,12 +40,7 @@ public class PlayerCollision : MonoBehaviour
         InteractQ();
         PickUpE();
     }
-    public void UpdateKey(int addkey)
-    {
-        //audioSource.Play();
-        totalKeys += addkey;
-        keyCountText.text = totalKeys.ToString();       
-    }
+    
     private void InteractQ()
     {
         if (onChest || onDoor)
@@ -66,7 +57,8 @@ public class PlayerCollision : MonoBehaviour
         {
             FirstStartManager.isFirstStart = false;
             PlayerPrefs.SetInt("PlayerHealth", HealthSystem.health); // Save current health
-            PlayerPrefs.SetInt("PlayerScore", ScoreManager.score); // Save current score
+            PlayerPrefs.SetInt("PlayerScore", GeneralUI.score); // Save current score
+            PlayerPrefs.SetInt("PlayerKeys", GeneralUI.totalKeys);
             SceneManager.LoadScene("OverWorld");
         }
     }
@@ -75,7 +67,7 @@ public class PlayerCollision : MonoBehaviour
         //key stuff
         if (onKey && Input.GetKeyDown(KeyCode.E))
         {
-            UpdateKey(1);
+            genUIRef.UpdateKey(1);
             Destroy(keyObject);
         }
 
