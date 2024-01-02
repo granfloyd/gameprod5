@@ -1,6 +1,6 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
-using UnityEngine.Lumin;
 
 public class RoomSpawning : MonoBehaviour
 {
@@ -11,9 +11,11 @@ public class RoomSpawning : MonoBehaviour
     public GameObject Plant1Prefab;
     public GameObject Plant2Prefab;
     public GameObject Plant3Prefab;
+    
     public GameObject[] PlantPrefabs;
     List<GameObject> enemyList = new List<GameObject>();
     List<GameObject> plantList = new List<GameObject>();
+    public Dictionary<GameObject, List<GameObject>> roomEnemies = new Dictionary<GameObject, List<GameObject>>();
     public GameObject RoomPrefab;
     public FirstStartManager fs;
 
@@ -32,7 +34,7 @@ public class RoomSpawning : MonoBehaviour
         plantList.Add(Plant1Prefab);
         plantList.Add(Plant2Prefab);
         plantList.Add(Plant3Prefab);
-
+        
         for (int i = 0; i < scale; i++)
         {
             int randIndex = Random.Range(0, enemyList.Count);
@@ -50,7 +52,11 @@ public class RoomSpawning : MonoBehaviour
             Vector2 randPos2 = new Vector2(randX2, randY2);
             GameObject spawnthis = Instantiate(randEnemy, RoomPrefab.transform);
             spawnthis.transform.localPosition = randPos;
-
+            if (!roomEnemies.ContainsKey(RoomPrefab))
+            {
+                roomEnemies[RoomPrefab] = new List<GameObject>();
+            }
+            roomEnemies[RoomPrefab].Add(spawnthis);
             GameObject spawnthisPlant = Instantiate(randPlant, RoomPrefab.transform);
             spawnthisPlant.transform.localPosition = randPos2;
         }

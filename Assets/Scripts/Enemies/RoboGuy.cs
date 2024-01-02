@@ -4,6 +4,7 @@ public class RoboGuy : MonoBehaviour
 {
     public Player playerRef;
     private BasicEnemyLOS belos;
+    private SpriteRenderer spriteRenderer;
     private Rigidbody2D rb;
     public GameObject eProjectilePrefab;   
 
@@ -22,6 +23,7 @@ public class RoboGuy : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        spriteRenderer = GetComponent<SpriteRenderer>();
         playerRef = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         belos = gameObject.GetComponent<BasicEnemyLOS>();
         rb = GetComponent<Rigidbody2D>();
@@ -30,7 +32,7 @@ public class RoboGuy : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        belos.OnDeath(drop);
+        belos.OnDeath(drop, spriteRenderer);
         belos.EnemyTakeDamage(ref HP, playerRef.playerDamage);
         ticker += Time.deltaTime;
         if (belos.bHasLOS)

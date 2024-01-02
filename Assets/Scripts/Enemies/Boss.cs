@@ -4,92 +4,63 @@ using UnityEditor.Rendering;
 using UnityEngine;
 public class Boss : MonoBehaviour
 {
-    public AudioSource audioSource69;
-
-    public AudioSource audioSource99;//song
-
-    private ScoreManager scoreManagerRef; // The ScoreManager
-
+    public AudioSource audioSourceMainTheme;
+    public AudioSource audioSourceTP;
+    //private ScoreManager scoreManagerRef; // The ScoreManager
+    private BasicEnemyLOS belos;
     private Player playerRef;
-
+    private SpriteRenderer spriteRenderer;
     private Rigidbody2D rb;
-
     public GameObject bossPrefab;
-
     public GameObject bossAttack2Prefab;
-
     public GameObject eProjectilePrefab;
-
     public GameObject bossProjectilePrefab;
-
     public GameObject Enemy1Prefab;
-
+    public GameObject drop;
     public Renderer rend;
-
-    public int hp;
-
+    public int HP;
     public int maxHP = 10;
-
     public float speed = 0.3f;
-
     public float fasterfaster = 0.5f;
-
     public float eProjectileSpeed = 6.0f;
-
     private float qs = 0;   //timer/cd for boss main slow attack
-
     private float ticker = 0;   //timer for picking rand attack
-
     private float ticker2 = 0;   //timer/cd to shoot player
-
     private float attack1Ticker = 0;
-
     private float attack2Ticker = 0;
-
     private float attack3Ticker = 0;
-
     public bool bHit = false;
-
     public bool bHasLOS = false;
-
     public bool bHasCollided = false;
-
     private bool bIsAttack1Active = false;
-
     private bool bIsAttack2Active = false;
-
     private bool bIsAttack3Active = false;
-
     private List<GameObject> attackOneGameObjectList = new List<GameObject>();
-
     private List<GameObject> attackTwoGameObjectList = new List<GameObject>();
-
-    private List<GameObject> attackThreeGameObjectList = new List<GameObject>();
-
-   
-    
+    private List<GameObject> attackThreeGameObjectList = new List<GameObject>(); 
 
     // Start is called before the first frame update
     void Start()
     {
-        audioSource99 = GameObject.Find("bossSFX").GetComponent<AudioSource>();
-        hp = maxHP;
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        HP = maxHP;
         rend = GetComponent<Renderer>();
-        audioSource69 = GameObject.Find("hitSFX").GetComponent<AudioSource>();
         rb = GetComponent<Rigidbody2D>();
+        belos = gameObject.GetComponent<BasicEnemyLOS>();
         playerRef = GameObject.Find("Player").GetComponent<Player>();
-        scoreManagerRef = GameObject.FindGameObjectWithTag("ScoreManager").GetComponent<ScoreManager>();
+        //scoreManagerRef = GameObject.FindGameObjectWithTag("ScoreManager").GetComponent<ScoreManager>();
+        audioSourceMainTheme = GameObject.Find("MainTheme").GetComponent<AudioSource>();
     }
 
     void FollowPlayer()
     {
-
         float randPosX = (UnityEngine.Random.value > 0.5f) ? 1 : -1;
         float randPosY = (UnityEngine.Random.value > 0.5f) ? 1 : -1;
         float distance = Vector3.Distance(playerRef.transform.position, this.transform.position);
-        if(bHit)
+        if (bHit)
         {
-            Vector3 movehere = new Vector3(playerRef.transform.position.x , playerRef.transform.position.y + randPosY, playerRef.transform.position.z);
+            audioSourceTP.Play();
+            Vector3 movehere = new Vector3(playerRef.transform.position.x, playerRef.transform.position.y + randPosY, playerRef.transform.position.z);
             this.transform.position = movehere;
             bHit = false;
         }
@@ -97,12 +68,14 @@ public class Boss : MonoBehaviour
         {
             if (Random.value < 0.5f)
             {
+                audioSourceTP.Play();
                 Vector3 movehere = new Vector3(playerRef.transform.position.x + randPosX, playerRef.transform.position.y, playerRef.transform.position.z);
                 this.transform.position = movehere;
             }
         }
-
     }
+
+
 
     //attack 1 method that shoots projectile at player 
     void ShootPlayer(GameObject go)
@@ -110,11 +83,8 @@ public class Boss : MonoBehaviour
         // Calculate vector from bossInstance to player
         Vector2 direction = (Vector2)(playerRef.transform.position - go.transform.position);
         direction.Normalize();
-
         GameObject eprojectile = Instantiate(eProjectilePrefab, go.transform.position, Quaternion.identity);
-
         eprojectile.GetComponent<Rigidbody2D>().velocity = direction * eProjectileSpeed;
-
         // Destroy the gameobject 2 seconds after creation
         Destroy(eprojectile, 2.0f);
     }
@@ -125,11 +95,8 @@ public class Boss : MonoBehaviour
         //clac vector from roboguy - player
         Vector2 direction = (Vector2)(playerRef.transform.position - transform.position);
         direction.Normalize();
-
         GameObject bossprojectile = Instantiate(bossProjectilePrefab, transform.position, Quaternion.identity);
-
         bossprojectile.GetComponent<Rigidbody2D>().velocity = direction * eProjectileSpeed;
-
         // Destroy the gameobject 2 seconds after creation
         Destroy(bossprojectile, 2.0f);
     }
@@ -144,7 +111,6 @@ public class Boss : MonoBehaviour
         new Vector3(1.5f, 0, 0),
         new Vector3(-1.5f, 0, 0)
         };
-
         if (bHasLOS)
         {
             foreach (Vector3 offset in offsets)
@@ -175,7 +141,6 @@ public class Boss : MonoBehaviour
                 attack2GO.transform.Rotate(0, 0, 90);
             }
             attackTwoGameObjectList.Add(attack2GO);
-
         }
     }
 
@@ -183,7 +148,6 @@ public class Boss : MonoBehaviour
     {
         bIsAttack3Active = true;
         int spawnCount = Random.Range(1,10);
-
         if (bHasLOS)
         {
             for(int i = 0; i < spawnCount;i++)
@@ -220,11 +184,16 @@ public class Boss : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (hp < 5)
+        belos.EnemyTakeDamage(ref HP, playerRef.playerDamage);
+        if (audioSourceMainTheme.isPlaying && belos.bHasLOS)
+        {
+            audioSourceMainTheme.Stop();
+        }
+        if (HP < 5)
         {
             rend.material.color = new Color(0.5f, 0, 0);
         }
-        if (hp <= 0)
+        if (HP <= 0)
         {
             foreach (GameObject attack1GO in attackOneGameObjectList)
             {
@@ -238,22 +207,17 @@ public class Boss : MonoBehaviour
             {
                 Destroy(attack3GO);
             }
-            audioSource99.Stop();
-            scoreManagerRef.UpdateScore();
+            audioSourceMainTheme.Play();
+            //scoreManagerRef.UpdateScore();
             attackOneGameObjectList.Clear();
             attackTwoGameObjectList.Clear();
             attackThreeGameObjectList.Clear();
-            Destroy(gameObject);
-            
+            belos.OnDeath(drop, spriteRenderer);
         }
             
 
         if (bHasLOS)
         {
-            if (!audioSource99.isPlaying)
-            {
-                audioSource99.Play();
-            }
             if (playerRef.thing <=1)
             {
                 FollowPlayer();                
@@ -397,6 +361,8 @@ public class Boss : MonoBehaviour
         //Check for a match with the specified name on any GameObject that collides with your GameObject
         if (collider.gameObject.tag == "Player")
         {
+            if(!audioSourceMainTheme.isPlaying)
+            audioSourceMainTheme.Play();
             bHasLOS = false;
             playerRef.thing -= 1;
         }
@@ -411,11 +377,11 @@ public class Boss : MonoBehaviour
         }
         if (collision.gameObject.tag == "playerProjectile")
         {
-            audioSource69.Play();
+            //audioSourceHit.Play();
             Destroy(collision.gameObject);
             FollowPlayer();
             bHit = true;
-            hp -= 1;        
+            //hp -= 1;        
         }
     }
 

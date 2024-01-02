@@ -4,6 +4,7 @@ public class Grimis : MonoBehaviour
 {
     public Player playerRef;
     private BasicEnemyLOS belos;
+    private SpriteRenderer spriteRenderer;
     public GameObject grimisProjectilePrefab;
     private Rigidbody2D rb;
     public int HP = 2;
@@ -19,6 +20,7 @@ public class Grimis : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        spriteRenderer = GetComponent<SpriteRenderer>();
         playerRef = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         belos = gameObject.GetComponent<BasicEnemyLOS>();
         rb = GetComponent<Rigidbody2D>();
@@ -26,7 +28,7 @@ public class Grimis : MonoBehaviour
     
     void Update()
     {
-        belos.OnDeath(drop);
+        belos.OnDeath(drop, spriteRenderer);
         belos.EnemyTakeDamage(ref HP, playerRef.playerDamage);
         ticker += Time.deltaTime;
         if (belos.bHasLOS)

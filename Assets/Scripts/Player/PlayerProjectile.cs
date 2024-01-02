@@ -53,14 +53,17 @@ public class PlayerProjectile : MonoBehaviour
         }
         if (collision.gameObject.tag == "enemyProjectile")
         {
+            audioSourceHit.Play();
             Destroy(gameObject);
         }
         if (collision.gameObject.tag == "bossProjectile")
         {
+            audioSourceHit.Play();
             Destroy(gameObject);
         }
         if (collision.gameObject.tag == "GrimisAtk")
         {
+            audioSourceHit.Play();
             Destroy(gameObject);
         }
 

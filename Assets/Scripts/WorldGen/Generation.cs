@@ -1,14 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Generation : MonoBehaviour
 {
     GameObject[] RoomPrefabs;
+    public AudioSource spawnSFX;
     List<Vector3> roomPos = new List<Vector3>();
     List<GameObject> randRoomList = new List<GameObject>();
-
-    void Start()
+    public List<RoomSpawning> roomSpawningScripts = new List<RoomSpawning>();
+    public RoomSpawning roomSpawning;
+    public GameObject portalPrefab;
+    public bool isSpawned = false;
+    void Awake()
     {
         RoomPrefabs = Resources.LoadAll<GameObject>("Rooms");
         GenerateRoomPositions();
@@ -18,7 +23,12 @@ public class Generation : MonoBehaviour
             int randIndex = Random.Range(0, RoomPrefabs.Length);
             GameObject randRoom = RoomPrefabs[randIndex];
             randRoomList.Add(randRoom);
-            Instantiate(randRoomList[i], roomPos[i], Quaternion.identity);
+            GameObject room = Instantiate(randRoomList[i], roomPos[i], Quaternion.identity);
+            RoomSpawning roomSpawning = room.GetComponent<RoomSpawning>();
+            if (roomSpawning != null)
+            {
+                roomSpawningScripts.Add(roomSpawning);
+            }
         }
     }
 
@@ -35,6 +45,19 @@ public class Generation : MonoBehaviour
                     roomPos.Add(pos);
                 }
             }
+        }
+    }
+    void Update()
+    {
+        if (roomSpawningScripts.All(roomSpawning => roomSpawning.roomEnemies.All(room => room.Value.All(enemy => enemy == null))))
+        {
+            if(!isSpawned)
+            {
+                spawnSFX.Play();
+                Instantiate(portalPrefab, Vector3.zero, Quaternion.identity);
+                isSpawned = true;
+            }
+            
         }
     }
 }

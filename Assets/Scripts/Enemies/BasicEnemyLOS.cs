@@ -7,6 +7,9 @@ public class BasicEnemyLOS : MonoBehaviour
     private Player playerRef;
     public GameObject playerGO;
     public AudioSource audioSourceHit;
+    public AudioSource audioSourceCritHit;
+    public AudioSource audioSourceBossSoundTrack;
+    public AudioSource audioSourceBossDeath;
     private ScoreManager scoreManagerRef; // The ScoreManager
     public GameObject damageTextPrefab;
     public GameObject keyObject;
@@ -16,16 +19,20 @@ public class BasicEnemyLOS : MonoBehaviour
     public bool bHasCollided = false;
     public bool isHit = false;
     public bool isDead = false;
-
+    public bool isCrit = false;
     public float textmovespeed = 0.5f; // Speed of the text moving upwards
     public float fadeTime = 1f; // Time for the text to fade out
     public float destroyTime = 1f; // Time before the text is destroyed
+    [SerializeField] private bool isBoss;
     void Start()
     {
         playerRef = GameObject.Find("Player").GetComponent<Player>();
 
         scoreManagerRef = playerGO.GetComponent<ScoreManager>();
-
+        if(isBoss)
+        {
+            audioSourceBossDeath = GameObject.Find("BossDeath").GetComponent<AudioSource>();
+        }
     
     }
     void OnTriggerEnter2D(Collider2D collider)
@@ -55,8 +62,6 @@ public class BasicEnemyLOS : MonoBehaviour
         if (collision.gameObject.tag == "Shield2.0")
         {
             isHit = true;
-            audioSourceHit.Play();
-
         }
         if (collision.gameObject.tag == "Player")
         {
@@ -80,8 +85,6 @@ public class BasicEnemyLOS : MonoBehaviour
     {
         if (isHit)
         {
-           
-            bool isCrit = false;
             int critHit = howmuch;
             int randNumber = Random.Range(1, 5);
             if (critHit == randNumber)
@@ -95,11 +98,14 @@ public class BasicEnemyLOS : MonoBehaviour
             damageText.text = "-" + howmuch.ToString();
             if(isCrit)
             {
+                audioSourceHit.Stop();//dont play both sounds
+                audioSourceCritHit.Play();
                 damageText.fontStyle = FontStyles.Bold;
                 damageText.fontSize += 0.3f;
                 damageText.color = new Color32(200, 190, 40, 255);
             }
             StartCoroutine(FadeAndDestroy(damageTextObject, damageText));
+            isCrit = false;
             isHit = false;
             if (enemyhp <= 0)
                 isDead = true;
@@ -123,8 +129,28 @@ public class BasicEnemyLOS : MonoBehaviour
         }
         Destroy(damageTextObject);
     }
+    IEnumerator FadeAndDestroySprite(GameObject spriteObject, SpriteRenderer spriteRenderer)
+    {
+        float fadeTime = 0.1f;
+        // Fade out
+        Color originalColor = spriteRenderer.color;
+        if (isBoss)
+        {
+            Debug.Log("TTT");
+            audioSourceBossDeath.Play();
+        }
+            
+        for (float t = 0; t < fadeTime; t += Time.deltaTime)
+        {
+            float normalizedTime = t / fadeTime;
+            // Set the alpha
+            spriteRenderer.color = Color.Lerp(originalColor, Color.clear, normalizedTime);
+            yield return null;
+        }
+        Destroy(spriteObject);
+    }
 
-    public void OnDeath(GameObject drops)
+    public void OnDeath(GameObject drops,SpriteRenderer spriteRenderer)
     {
         if(isDead)
         {
@@ -136,11 +162,9 @@ public class BasicEnemyLOS : MonoBehaviour
             else if (Random.value < 0.5f)    
             {
                 Instantiate(drops, transform.position, Quaternion.identity);
-            }
+            } 
             
-            
-            //play deathsound here 
-            Destroy(gameObject);
+            StartCoroutine(FadeAndDestroySprite(gameObject, spriteRenderer));
             isDead = false;
         }
     }
@@ -161,5 +185,29 @@ public class BasicEnemyLOS : MonoBehaviour
 
     void Update()
     { 
+        if(isHit)//sfx to play when hit
+        {
+            audioSourceHit.Play();
+        }
+        if(isBoss )
+        {
+            if(bHasLOS)
+            {
+                if (!audioSourceBossSoundTrack.isPlaying)
+                {
+                    audioSourceBossSoundTrack.Play();
+                }
+            }
+            else
+            {
+                if (audioSourceBossSoundTrack.isPlaying)
+                {
+                    audioSourceBossSoundTrack.Stop();
+                }
+            }
+            
+
+        }
     }
+
 }

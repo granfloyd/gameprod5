@@ -67,7 +67,7 @@ public class PlayerCollision : MonoBehaviour
             FirstStartManager.isFirstStart = false;
             PlayerPrefs.SetInt("PlayerHealth", HealthSystem.health); // Save current health
             PlayerPrefs.SetInt("PlayerScore", ScoreManager.score); // Save current score
-            SceneManager.LoadScene("Game1");
+            SceneManager.LoadScene("OverWorld");
         }
     }
     private void PickUpE()

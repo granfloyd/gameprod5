@@ -4,6 +4,7 @@ public class Blackguy : MonoBehaviour
 {
     public Player playerRef;
     private BasicEnemyLOS belos;
+    private SpriteRenderer spriteRenderer;
     private Rigidbody2D rb;
     
     //enemy stats
@@ -18,6 +19,7 @@ public class Blackguy : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        spriteRenderer = GetComponent<SpriteRenderer>();
         playerRef = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         rb = GetComponent<Rigidbody2D>();
         belos = gameObject.GetComponent<BasicEnemyLOS>();
@@ -26,7 +28,7 @@ public class Blackguy : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        belos.OnDeath(drop);
+        belos.OnDeath(drop, spriteRenderer);
         belos.EnemyTakeDamage(ref HP, playerRef.playerDamage);
         ticker += Time.deltaTime;
         if (belos.bHasLOS)

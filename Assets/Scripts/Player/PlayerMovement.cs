@@ -20,9 +20,6 @@ public class PlayerMovement : MonoBehaviour
     public bool isSlowed = false;
     public bool bHasCollided = false;
 
-    private float recovery = 0.5f;
-    private float recoveryTimer = 0;
-    private bool isRecovering = false;
 
     // Start is called before the first frame update
     void Start()
@@ -100,19 +97,6 @@ public class PlayerMovement : MonoBehaviour
             {
                 isDashing = false;
                 dashTimer = 0;
-                isRecovering = true; // start recovery after dash
-            }
-        }
-        else if (isRecovering)
-        {
-            recoveryTimer += Time.deltaTime;
-            rb.MovePosition(rb.position + movement * speed * recovery * Time.deltaTime); // slow down during recovery
-
-            Debug.Log("Recovering");
-            if (recoveryTimer > 0.2f) // recovery lasts for 0.2 seconds
-            {
-                isRecovering = false;
-                recoveryTimer = 0;
             }
         }
         else

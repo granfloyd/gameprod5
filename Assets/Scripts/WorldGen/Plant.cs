@@ -4,16 +4,19 @@ using UnityEngine;
 
 public class Plant : MonoBehaviour
 {
-    public int HP = 2;
+    public int HP = 4;
     public bool isDead = false;
     public GameObject[] dropList;
     public AudioSource audioSourceHit;
     public Player playerRef;
-
+    public Renderer rend;
+    public int MaxHP;
     void Start()
     {
+        rend = GetComponent<Renderer>();
         playerRef = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         audioSourceHit = GameObject.Find("ehitSFX").GetComponent<AudioSource>();
+        MaxHP = HP;
     }
 
     void OnCollisionEnter2D(Collision2D collision)
@@ -32,14 +35,18 @@ public class Plant : MonoBehaviour
         GameObject randDrop = dropList[randIndex];
         Instantiate(randDrop, transform.position, Quaternion.identity);
         Destroy(gameObject);
-        Debug.Log("i am dead");
     }
 
 
     // Update is called once per frame
     void Update()
     {
-        if(HP <= 0)
+        if (HP < MaxHP)//for when half hp 
+        {
+            Debug.Log("Hallo");
+            rend.material.color = new Color(0.5f, 0, 0);
+        }
+        if (HP <= 0)
         {
             isDead = true;
         }
