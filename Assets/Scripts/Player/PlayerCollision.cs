@@ -110,6 +110,8 @@ public class PlayerCollision : MonoBehaviour
             PlayerPrefs.SetInt("PlayerHealth", HealthSystem.health); // Save current health
             PlayerPrefs.SetInt("PlayerScore", GeneralUI.score); // Save current score
             PlayerPrefs.SetInt("PlayerKeys", GeneralUI.totalKeys);
+            PlayerPrefs.SetInt("PlayerShootSpread", GeneralUI.shootSpread);
+            PlayerPrefs.SetInt("PlayerHomingCharges", GeneralUI.homingCharges);
             SceneManager.LoadScene("OverWorld");
         }
         if(onChest && Input.GetKeyDown(KeyCode.Q))

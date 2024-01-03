@@ -203,6 +203,7 @@ public class Boss : MonoBehaviour
         }
         if (HP <= 0)
         {
+            audioSourceBossSoundTrack.Stop();
             foreach (GameObject attack1GO in attackOneGameObjectList)
             {
                 Destroy(attack1GO);

@@ -37,8 +37,8 @@ public class RoomSpawning : MonoBehaviour
 
         int randIndexPlants = Random.Range(0, plantList.Count);
         GameObject randPlant = plantList[randIndexPlants];
-        float randX2 = Random.Range(0f, 1.2f);//rand pos for plant diffrent from enemy 
-        float randY2 = Random.Range(0f, 1.2f);
+        float randX2 = Random.Range(-1.7f, 1.7f);//rand pos for plant diffrent from enemy 
+        float randY2 = Random.Range(-1.7f, 1.7f);
         Vector2 randPos2 = new Vector2(randX2, randY2);
         GameObject spawnthisPlant = Instantiate(randPlant, RoomPrefab.transform);
         spawnthisPlant.transform.localPosition = randPos2;
@@ -46,8 +46,8 @@ public class RoomSpawning : MonoBehaviour
         {
             int randIndex = Random.Range(0, enemyList.Count);
             GameObject randEnemy = enemyList[randIndex];
-            float randX = Random.Range(0f, 1.2f);
-            float randY = Random.Range(0f, 1.2f);
+            float randX = Random.Range(-1.7f, 1.7f);
+            float randY = Random.Range(-1.7f, 1.7f);
             Vector2 randPos = new Vector2(randX, randY);
             GameObject spawnthis = Instantiate(randEnemy, RoomPrefab.transform);
             spawnthis.transform.localPosition = randPos;
