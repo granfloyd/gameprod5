@@ -34,22 +34,21 @@ public class RoomSpawning : MonoBehaviour
         plantList.Add(Plant1Prefab);
         plantList.Add(Plant2Prefab);
         plantList.Add(Plant3Prefab);
-        
+
+        int randIndexPlants = Random.Range(0, plantList.Count);
+        GameObject randPlant = plantList[randIndexPlants];
+        float randX2 = Random.Range(0f, 1.2f);//rand pos for plant diffrent from enemy 
+        float randY2 = Random.Range(0f, 1.2f);
+        Vector2 randPos2 = new Vector2(randX2, randY2);
+        GameObject spawnthisPlant = Instantiate(randPlant, RoomPrefab.transform);
+        spawnthisPlant.transform.localPosition = randPos2;
         for (int i = 0; i < scale; i++)
         {
             int randIndex = Random.Range(0, enemyList.Count);
             GameObject randEnemy = enemyList[randIndex];
-
-            int randIndexPlants = Random.Range(0, plantList.Count);
-            GameObject randPlant = plantList[randIndexPlants];
-
             float randX = Random.Range(0f, 1.2f);
             float randY = Random.Range(0f, 1.2f);
             Vector2 randPos = new Vector2(randX, randY);
-
-            float randX2 = Random.Range(0f, 1.2f);//rand pos for plant diffrent from enemy 
-            float randY2= Random.Range(0f, 1.2f);
-            Vector2 randPos2 = new Vector2(randX2, randY2);
             GameObject spawnthis = Instantiate(randEnemy, RoomPrefab.transform);
             spawnthis.transform.localPosition = randPos;
             if (!roomEnemies.ContainsKey(RoomPrefab))
@@ -57,8 +56,7 @@ public class RoomSpawning : MonoBehaviour
                 roomEnemies[RoomPrefab] = new List<GameObject>();
             }
             roomEnemies[RoomPrefab].Add(spawnthis);
-            GameObject spawnthisPlant = Instantiate(randPlant, RoomPrefab.transform);
-            spawnthisPlant.transform.localPosition = randPos2;
+            
         }
     }
 }

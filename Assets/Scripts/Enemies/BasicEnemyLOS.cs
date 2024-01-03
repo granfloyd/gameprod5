@@ -8,7 +8,6 @@ public class BasicEnemyLOS : MonoBehaviour
     public GameObject playerGO;
     public AudioSource audioSourceHit;
     public AudioSource audioSourceCritHit;
-    public AudioSource audioSourceBossSoundTrack;
     public AudioSource audioSourceBossDeath;
     private GeneralUI genUIRef; // The ScoreManager
     public GameObject damageTextPrefab;
@@ -41,6 +40,11 @@ public class BasicEnemyLOS : MonoBehaviour
         if (collider.gameObject.tag == "Player")
         {
             bHasLOS = true;
+            if(isBoss)
+            {
+                playerRef.thing += 1;
+            }
+                
         }
     }
 
@@ -49,6 +53,11 @@ public class BasicEnemyLOS : MonoBehaviour
         if (collider.gameObject.tag == "Player")
         {
             bHasLOS = false;
+            if(isBoss)
+            {
+                playerRef.thing -= 1;
+            }
+                
         }
     }
 
@@ -137,7 +146,6 @@ public class BasicEnemyLOS : MonoBehaviour
         Color originalColor = spriteRenderer.color;
         if (isBoss)
         {
-            Debug.Log("TTT");
             audioSourceBossDeath.Play();
         }
             
@@ -189,25 +197,6 @@ public class BasicEnemyLOS : MonoBehaviour
         if(isHit)//sfx to play when hit
         {
             audioSourceHit.Play();
-        }
-        if(isBoss )
-        {
-            if(bHasLOS)
-            {
-                if (!audioSourceBossSoundTrack.isPlaying)
-                {
-                    audioSourceBossSoundTrack.Play();
-                }
-            }
-            else
-            {
-                if (audioSourceBossSoundTrack.isPlaying)
-                {
-                    audioSourceBossSoundTrack.Stop();
-                }
-            }
-            
-
         }
     }
 

@@ -37,7 +37,7 @@ public class GameOver : MonoBehaviour
     }
     void LoadGame()
     {
-        SceneManager.LoadScene("Game1");
+        SceneManager.LoadScene("OverWorld");
     }
     // Update is called once per frame
     void Update()

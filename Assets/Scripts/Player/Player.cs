@@ -1,7 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using Unity.Netcode;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -23,8 +21,8 @@ public class Player : MonoBehaviour
     public GameObject aimProjectile;
     public GameObject pauseMenuUI;
     public GameObject portal2prefab;
+    public Canvas healthUI;
     //player stats//
-    public GameObject playerUI1;
     public float shootCD = 1f;
     public int playerDamage = 1;
     public float projectileSpeed;
@@ -63,14 +61,14 @@ public class Player : MonoBehaviour
                 //calcs a vector from player -  mouse pos
                 Vector2 direction = (Vector2)((mousePos - transform.position));
                 direction.Normalize();
-
-                GameObject projectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
-
-                projectile.GetComponent<Rigidbody2D>().velocity = direction * projectileSpeed;
-
-                //// Destroy the gameobject 5 seconds after creation
-                Destroy(projectile, 5.0f);
-                // Resets ticker
+                //3 projectiles with directions deviated by -35, 0, 35 degrees
+                for (int i = -GeneralUI.shootSpread; i <= GeneralUI.shootSpread; i++)
+                {
+                    GameObject projectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
+                    Vector2 rotatedDirection = Quaternion.Euler(0, 0, i * 10) * direction; // You can adjust the value '10' to control the angle between projectiles
+                    projectile.GetComponent<Rigidbody2D>().velocity = rotatedDirection * projectileSpeed;
+                    Destroy(projectile, 5.0f);
+                }
                 ticker = 0;
             }
         }
@@ -218,7 +216,6 @@ public class Player : MonoBehaviour
     void Update()
     {
         //Cursor.visible = false;
-        SpawnPortal();
         RotateAim();
         Shoot();
         ScrollingControl();
@@ -231,10 +228,13 @@ public class Player : MonoBehaviour
         {
             if (GameIsPaused)
             {
+                genUIRef.UpdatePermishPowerUpsUI();
+                genUIRef.page.SetActive(false);
                 Resume();
             }
             else
             {
+                genUIRef.page.SetActive(true);
                 Pause();
             }
         }
@@ -280,8 +280,11 @@ public class Player : MonoBehaviour
             }
         }        
     }
-    void Resume()
+    public void Resume()
     {
+        genUIRef.SelectorIMG.gameObject.SetActive(true);
+        genUIRef.generalUIGO.SetActive(true);
+        healthUI.gameObject.SetActive(true);
         //pauseMenuUI.SetActive(false);
         Time.timeScale = 1f;
         GameIsPaused = false;
@@ -293,18 +296,19 @@ public class Player : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
     }
 
-    void Pause()
+    public void Pause()
     {
         //pauseMenuUI.SetActive(true);
         Time.timeScale = 0f;
         GameIsPaused = true;
-
+        genUIRef.SelectorIMG.gameObject.SetActive(false);
+        healthUI.gameObject.SetActive(false);
         // Pause all sounds
-        AudioListener.volume = 0;
+        AudioListener.volume = 0.25f;
 
         // Disable mouse input
-        Cursor.lockState = CursorLockMode.Locked;
-        
+        //Cursor.lockState = CursorLockMode.Locked;
+        genUIRef.generalUIGO.SetActive(false);
     }
     
     void RotateAim()
@@ -324,20 +328,5 @@ public class Player : MonoBehaviour
             aimProjectile.transform.rotation = Quaternion.Euler(0, 0, angle);
         }
         
-    }
-    void SpawnPortal()
-    {
-        if (dispair >= 15)
-        {
-            
-            if (!spawned)                
-            {
-                Instantiate(portal2prefab, transform.position, Quaternion.identity);
-                audioSourcePortalSpawn.Play();
-            }
-            
-            spawned = true;
-        }
-             
     }
 }

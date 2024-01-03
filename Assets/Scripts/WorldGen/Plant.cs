@@ -43,7 +43,6 @@ public class Plant : MonoBehaviour
     {
         if (HP < MaxHP)//for when half hp 
         {
-            Debug.Log("Hallo");
             rend.material.color = new Color(0.5f, 0, 0);
         }
         if (HP <= 0)

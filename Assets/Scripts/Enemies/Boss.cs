@@ -6,11 +6,10 @@ public class Boss : MonoBehaviour
 {
     public AudioSource audioSourceMainTheme;
     public AudioSource audioSourceTP;
-    //private ScoreManager scoreManagerRef; // The ScoreManager
+    public AudioSource audioSourceBossSoundTrack;
     private BasicEnemyLOS belos;
     private Player playerRef;
     private SpriteRenderer spriteRenderer;
-    private Rigidbody2D rb;
     public GameObject bossPrefab;
     public GameObject bossAttack2Prefab;
     public GameObject eProjectilePrefab;
@@ -29,9 +28,6 @@ public class Boss : MonoBehaviour
     private float attack1Ticker = 0;
     private float attack2Ticker = 0;
     private float attack3Ticker = 0;
-    public bool bHit = false;
-    public bool bHasLOS = false;
-    public bool bHasCollided = false;
     private bool bIsAttack1Active = false;
     private bool bIsAttack2Active = false;
     private bool bIsAttack3Active = false;
@@ -45,10 +41,10 @@ public class Boss : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         HP = maxHP;
         rend = GetComponent<Renderer>();
-        rb = GetComponent<Rigidbody2D>();
         belos = gameObject.GetComponent<BasicEnemyLOS>();
         playerRef = GameObject.Find("Player").GetComponent<Player>();
         //scoreManagerRef = GameObject.FindGameObjectWithTag("ScoreManager").GetComponent<ScoreManager>();
+        audioSourceBossSoundTrack = GameObject.Find("BossTheme").GetComponent<AudioSource>();
         audioSourceMainTheme = GameObject.Find("MainTheme").GetComponent<AudioSource>();
     }
 
@@ -57,12 +53,13 @@ public class Boss : MonoBehaviour
         float randPosX = (UnityEngine.Random.value > 0.5f) ? 1 : -1;
         float randPosY = (UnityEngine.Random.value > 0.5f) ? 1 : -1;
         float distance = Vector3.Distance(playerRef.transform.position, this.transform.position);
-        if (bHit)
+        if (belos.isHit)
         {
+            Debug.Log("bhit");
             audioSourceTP.Play();
             Vector3 movehere = new Vector3(playerRef.transform.position.x, playerRef.transform.position.y + randPosY, playerRef.transform.position.z);
             this.transform.position = movehere;
-            bHit = false;
+            belos.isHit = false;
         }
         else if (distance > 2)
         {
@@ -111,7 +108,7 @@ public class Boss : MonoBehaviour
         new Vector3(1.5f, 0, 0),
         new Vector3(-1.5f, 0, 0)
         };
-        if (bHasLOS)
+        if (belos.bHasLOS)
         {
             foreach (Vector3 offset in offsets)
             {
@@ -128,7 +125,7 @@ public class Boss : MonoBehaviour
         float randPosX = (UnityEngine.Random.value > 0.5f) ? 3 : -3;
 
         Vector3 offset = new Vector3(randPosX, randPosY, 0);
-        if (bHasLOS)
+        if (belos.bHasLOS)
         {
             GameObject attack2GO = Instantiate(bossAttack2Prefab, playerRef.transform.position + offset, Quaternion.identity);
 
@@ -148,7 +145,7 @@ public class Boss : MonoBehaviour
     {
         bIsAttack3Active = true;
         int spawnCount = Random.Range(1,10);
-        if (bHasLOS)
+        if (belos.bHasLOS)
         {
             for(int i = 0; i < spawnCount;i++)
             {
@@ -180,15 +177,26 @@ public class Boss : MonoBehaviour
         }
 
     }
-
+    void SoundControl()
+    {
+        if (audioSourceMainTheme.isPlaying && belos.bHasLOS)
+        {
+            audioSourceMainTheme.Pause();
+        }
+        if (belos.bHasLOS)
+        {
+            if (!audioSourceBossSoundTrack.isPlaying)
+            {
+                audioSourceBossSoundTrack.Play();
+            }
+        }
+    }
     // Update is called once per frame
     void FixedUpdate()
     {
         belos.EnemyTakeDamage(ref HP, playerRef.playerDamage);
-        if (audioSourceMainTheme.isPlaying && belos.bHasLOS)
-        {
-            audioSourceMainTheme.Stop();
-        }
+        SoundControl();
+        
         if (HP < 5)
         {
             rend.material.color = new Color(0.5f, 0, 0);
@@ -216,7 +224,7 @@ public class Boss : MonoBehaviour
         }
             
 
-        if (bHasLOS)
+        if (belos.bHasLOS)
         {
             if (playerRef.thing <=1)
             {
@@ -346,15 +354,6 @@ public class Boss : MonoBehaviour
         
     }
 
-    void OnTriggerEnter2D(Collider2D collider)
-    {
-        //Check for a match with the specified name on any GameObject that collides with your GameObject
-        if (collider.gameObject.tag == "Player")
-        {
-            bHasLOS = true;
-            playerRef.thing += 1;
-        }
-    }
 
     void OnTriggerExit2D(Collider2D collider)
     {
@@ -363,35 +362,20 @@ public class Boss : MonoBehaviour
         {
             if(!audioSourceMainTheme.isPlaying)
             audioSourceMainTheme.Play();
-            bHasLOS = false;
-            playerRef.thing -= 1;
+            
         }
     }
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        //Check for a match with the specified name on any GameObject that collides with your GameObject
-        if (collision.gameObject.tag == "Player")
-        {
-            bHasCollided = true;
-        }
         if (collision.gameObject.tag == "playerProjectile")
         {
-            //audioSourceHit.Play();
-            Destroy(collision.gameObject);
-            FollowPlayer();
-            bHit = true;
-            //hp -= 1;        
+            if(belos.bHasLOS)
+            {
+                belos.isHit = true;
+                FollowPlayer();
+                
+            }     
         }
     }
-
-    void OnCollisionExit2D(Collision2D collision)
-    {
-        //Check for a match with the specified name on any GameObject that collides with your GameObject
-        if (collision.gameObject.tag == "Player")
-        {
-            bHasCollided = false;
-        }
-    }
-
 }

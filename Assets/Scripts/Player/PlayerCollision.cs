@@ -1,11 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-
 public class PlayerCollision : MonoBehaviour
 {
     public Player playerRef;
@@ -16,6 +11,7 @@ public class PlayerCollision : MonoBehaviour
     private GameObject heartObject;
     private GameObject shieldObject;
     private GameObject powerup69Object;
+    private GameObject chestObject;
     public GameObject pressE;
     public GameObject pressQ;
     private bool onKey = false;
@@ -25,22 +21,77 @@ public class PlayerCollision : MonoBehaviour
     private bool onHeart = false;
     private bool onShield = false;
     private bool onPowerup69 = false;
-
+    //shop stuff
+    public GameObject shopUI;
+    public Button closeButton;
+    public Button buyHomingButton;
+    public Button buySpreadButton;
+    public Text shopkeyCountText;
+    public Text costText;
+    public GameObject Cursorgo;
+    private CanvasGroup canvasGroup;
+    public int cost = -25;
+    public int inflation = -25;
     // Start is called before the first frame update
     void Start()
     {
+        shopUI.SetActive(false);//make sure shops always close when starting up
+        closeButton.onClick.AddListener(CloseShop);
+        buySpreadButton.onClick.AddListener(MoreSpread);
+        buyHomingButton.onClick.AddListener(MoreHoming);
         genUIRef = GameObject.Find("GeneralUI").GetComponent<GeneralUI>();
         playerRef = GetComponent<Player>();
         itemRef = GetComponent<Item>();
-    }
-    
+        DisplayCost();
+        canvasGroup = Cursorgo.GetComponent<CanvasGroup>();
+        // If the CanvasGroup component doesn't exist, add one
+        if (canvasGroup == null)
+        {
+            canvasGroup = Cursorgo.AddComponent<CanvasGroup>();
+        }
 
+        canvasGroup.blocksRaycasts = false;
+    }
+    public void DisplayCost()
+    {
+        costText.text = cost.ToString();
+    }
     void Update()
     {
         InteractQ();
         PickUpE();
+        Cursor.visible = false;
+        Vector3 mousePos = Input.mousePosition;
+        mousePos.z = 10;
+        Cursorgo.transform.position = Input.mousePosition;
     }
-    
+    void CloseShop()
+    {
+        shopUI.SetActive(false);
+        playerRef.Resume();
+    }
+    void MoreSpread()
+    {
+        if (GeneralUI.totalKeys >= -cost) // Check if player has enough keys
+        {
+            Debug.Log("Purchase successful");
+            genUIRef.UpdateKey(cost);
+            GeneralUI.shootSpread++;
+            cost = cost += inflation;
+            DisplayCost();
+        }
+    }
+    void MoreHoming()
+    {
+        if (GeneralUI.totalKeys >= -cost) // Check if player has enough keys
+        {
+            Debug.Log("Purchase successful");
+            genUIRef.UpdateKey(cost);
+            GeneralUI.shootSpread++;
+            cost = cost += inflation;
+            DisplayCost();
+        }
+    }
     private void InteractQ()
     {
         if (onChest || onDoor)
@@ -60,6 +111,11 @@ public class PlayerCollision : MonoBehaviour
             PlayerPrefs.SetInt("PlayerScore", GeneralUI.score); // Save current score
             PlayerPrefs.SetInt("PlayerKeys", GeneralUI.totalKeys);
             SceneManager.LoadScene("OverWorld");
+        }
+        if(onChest && Input.GetKeyDown(KeyCode.Q))
+        {
+            shopUI.SetActive(true);
+            playerRef.Pause();
         }
     }
     private void PickUpE()
@@ -109,6 +165,10 @@ public class PlayerCollision : MonoBehaviour
             case "Door":
                 onDoor = true;
                 break;
+            case "Chest":
+                onChest = true;
+                chestObject = collider.gameObject;
+                break;
             case "GrimisDrink":
                 onGrimisDrink = true;
                 grimisDrinkObject = collider.gameObject;
@@ -157,6 +217,10 @@ public class PlayerCollision : MonoBehaviour
             case "Key":
                 onKey = false;
                 keyObject = collider.gameObject;
+                break;
+            case "Chest":
+                onChest = false;
+                chestObject = collider.gameObject;
                 break;
             case "Door":
                 onDoor = false;

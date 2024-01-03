@@ -8,6 +8,7 @@ public class PlayerProjectile : MonoBehaviour
     public Player playerRef;
     public GameObject playerGO;
 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -53,6 +54,11 @@ public class PlayerProjectile : MonoBehaviour
             Destroy(gameObject);
         }
         if (collision.gameObject.tag == "GrimisAtk")
+        {
+            audioSourceHit.Play();
+            Destroy(gameObject);
+        }
+        if (collision.gameObject.tag == "boss")
         {
             audioSourceHit.Play();
             Destroy(gameObject);

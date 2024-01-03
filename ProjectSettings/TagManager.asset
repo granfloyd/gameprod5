@@ -28,6 +28,7 @@ TagManager:
   - boss
   - bossAttack1
   - Plant
+  - Cursor
   layers:
   - Default
   - TransparentFX
