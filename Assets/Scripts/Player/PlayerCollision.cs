@@ -30,8 +30,8 @@ public class PlayerCollision : MonoBehaviour
     public Text costText;
     public GameObject Cursorgo;
     private CanvasGroup canvasGroup;
-    public int cost = -25;
-    public int inflation = -25;
+    public int cost = 25;
+    public int inflation = 25;
     // Start is called before the first frame update
     void Start()
     {
@@ -42,6 +42,7 @@ public class PlayerCollision : MonoBehaviour
         genUIRef = GameObject.Find("GeneralUI").GetComponent<GeneralUI>();
         playerRef = GetComponent<Player>();
         itemRef = GetComponent<Item>();
+       
         DisplayCost();
         canvasGroup = Cursorgo.GetComponent<CanvasGroup>();
         // If the CanvasGroup component doesn't exist, add one
@@ -72,18 +73,18 @@ public class PlayerCollision : MonoBehaviour
     }
     void MoreSpread()
     {
-        if (GeneralUI.totalKeys >= -cost) // Check if player has enough keys
+        if (GeneralUI.totalKeys >= cost) // Check if player has enough keys
         {
             Debug.Log("Purchase successful");
-            genUIRef.UpdateKey(cost);
+            genUIRef.UpdateKey(-cost);
             GeneralUI.shootSpread++;
-            cost = cost += inflation;
+            cost += inflation;
             DisplayCost();
         }
     }
     void MoreHoming()
     {
-        if (GeneralUI.totalKeys >= -cost) // Check if player has enough keys
+        if (GeneralUI.totalKeys >= cost) // Check if player has enough keys
         {
             Debug.Log("Purchase successful");
             genUIRef.UpdateKey(cost);

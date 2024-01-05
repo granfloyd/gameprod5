@@ -59,7 +59,7 @@ public class GeneralUI : MonoBehaviour
             shootSpread = PlayerPrefs.GetInt("PlayerShootSpread", 0);
             homingCharges = PlayerPrefs.GetInt("PlayerHomingCharges", 0);
         }
-        
+        UpdateKey(200);
     }
 
     public void UpdateKey(int addkey)

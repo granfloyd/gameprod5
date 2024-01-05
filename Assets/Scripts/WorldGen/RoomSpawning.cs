@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class RoomSpawning : MonoBehaviour
 {
@@ -11,10 +12,16 @@ public class RoomSpawning : MonoBehaviour
     public GameObject Plant1Prefab;
     public GameObject Plant2Prefab;
     public GameObject Plant3Prefab;
-    
+
+    public GameObject Ruin1Prefab;
+    public GameObject Ruin2Prefab;
+    public GameObject Ruin3Prefab;
+
+    public int scale;
     public GameObject[] PlantPrefabs;
     List<GameObject> enemyList = new List<GameObject>();
     List<GameObject> plantList = new List<GameObject>();
+    List<GameObject> ruinList = new List<GameObject>();
     public Dictionary<GameObject, List<GameObject>> roomEnemies = new Dictionary<GameObject, List<GameObject>>();
     public GameObject RoomPrefab;
     public FirstStartManager fs;
@@ -24,8 +31,7 @@ public class RoomSpawning : MonoBehaviour
         //scale to make game harder
         fs = GameObject.Find("firststartmanager").GetComponent<FirstStartManager>();
         GameObject[] sameNameObjs = fs.FindGameObjectsWithSameName("firststartmanager");
-        int scale = sameNameObjs.Length;
-
+        scale = sameNameObjs.Length;
         enemyList.Add(Blackguyprefab);
         enemyList.Add(Grimisprefab);
         enemyList.Add(Roboguyprefab);
@@ -34,6 +40,23 @@ public class RoomSpawning : MonoBehaviour
         plantList.Add(Plant1Prefab);
         plantList.Add(Plant2Prefab);
         plantList.Add(Plant3Prefab);
+
+        ruinList.Add(Ruin1Prefab);
+        ruinList.Add(Ruin2Prefab);
+        ruinList.Add(Ruin3Prefab);
+
+        int randNumber = Random.Range(1, 15);
+        if (randNumber == 1)
+        {
+            Debug.Log("spawning");
+            int randIndexRuin = Random.Range(0, ruinList.Count);
+            GameObject randRuin = ruinList[randIndexRuin];
+            float randX3 = Random.Range(-1.7f, 1.7f);//rand pos for plant diffrent from enemy 
+            float randY3 = Random.Range(-1.7f, 1.7f);
+            Vector2 randPos3 = new Vector2(randX3, randY3);
+            GameObject spawnthisRuin = Instantiate(randRuin, RoomPrefab.transform);
+            spawnthisRuin.transform.localPosition = randPos3;
+        }
 
         int randIndexPlants = Random.Range(0, plantList.Count);
         GameObject randPlant = plantList[randIndexPlants];
@@ -56,7 +79,7 @@ public class RoomSpawning : MonoBehaviour
                 roomEnemies[RoomPrefab] = new List<GameObject>();
             }
             roomEnemies[RoomPrefab].Add(spawnthis);
-            
+
         }
     }
 }

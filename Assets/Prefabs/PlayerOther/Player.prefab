@@ -1642,7 +1642,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.0013119951, y: -0.0026239753}
+  m_Offset: {x: 0.0013119951, y: 0.000971511}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -1653,7 +1653,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.12582599, y: 0.31475204}
+  m_Size: {x: 0.12582599, y: 0.321943}
   m_EdgeRadius: 0
 --- !u!114 &4068212458614073206
 MonoBehaviour:
@@ -1765,6 +1765,7 @@ MonoBehaviour:
   buySpreadButton: {fileID: 7012930001309231796}
   shopkeyCountText: {fileID: 2921769013316068027}
   costText: {fileID: 5930162353422410259}
+  Cursorgo: {fileID: 0}
   cost: -25
   inflation: -25
 --- !u!114 &7487166230307174198
