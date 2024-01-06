@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 
 public class Generation : MonoBehaviour
@@ -12,6 +13,8 @@ public class Generation : MonoBehaviour
     public List<RoomSpawning> roomSpawningScripts = new List<RoomSpawning>();
     public RoomSpawning roomSpawning;
     public GameObject portalPrefab;
+    public GameObject floorClearedTextPrefab;
+    public Transform target;//Player transform
     public bool isSpawned = false;
     void Awake()
     {
@@ -30,6 +33,28 @@ public class Generation : MonoBehaviour
                 roomSpawningScripts.Add(roomSpawning);
             }
         }
+    }
+    void FloorClearedDisplay()
+    {
+        GameObject clearedFloorTextObject = Instantiate(floorClearedTextPrefab, target.transform.position, Quaternion.identity, transform);
+        StartCoroutine(MoveAndDestroy(clearedFloorTextObject));
+    }
+    IEnumerator MoveAndDestroy(GameObject damageTextObject)
+    {
+        float fadeTime = 1f;
+        float speed = 0.5f;
+        for (float t = 0; t < fadeTime; t += Time.deltaTime)
+        {
+            // Move the object upwards over time
+            damageTextObject.transform.position += Vector3.up * speed * Time.deltaTime;
+
+            // Rotate the object over time
+            float rotationAmount = speed * Time.deltaTime;
+            damageTextObject.transform.rotation = Quaternion.Euler(damageTextObject.transform.rotation.eulerAngles + new Vector3(rotationAmount, 0, 0));
+
+            yield return null;
+        }
+        Destroy(damageTextObject);
     }
 
     void GenerateRoomPositions()
