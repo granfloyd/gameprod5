@@ -9,7 +9,6 @@ public class RoboGuy : MonoBehaviour
     public GameObject eProjectilePrefab;   
 
     //enemy stats
-    public int HP = 2;
     public float eProjectileSpeed = 4;    
     public float speed = 0.3f;
 
@@ -33,7 +32,7 @@ public class RoboGuy : MonoBehaviour
     void FixedUpdate()
     {
         belos.OnDeath(drop, spriteRenderer);
-        belos.EnemyTakeDamage(ref HP, playerRef.playerDamage);
+        belos.EnemyTakeDamage(playerRef.playerDamage);
         ticker += Time.deltaTime;
         if (belos.bHasLOS)
         {

@@ -11,8 +11,10 @@ public class GeneralUI : MonoBehaviour
     public PlayerCollision PC;
     public static int score;
     public static int totalKeys;
+    public static int cost;
     public static int shootSpread;
-    public static int homingCharges;
+    public static float newShootCD;
+    public static float crackSpeed;
     public int savehighscore;
     public int highscore;
     public Text highscoreText;
@@ -45,11 +47,15 @@ public class GeneralUI : MonoBehaviour
             score = 0;
             totalKeys = 0;
             shootSpread = 0;
-            homingCharges = 0;
+            cost = 25;
+            newShootCD = 0.7f;
+            crackSpeed = 1.5f;
             PlayerPrefs.SetInt("PlayerScore", score); // Save score to PlayerPrefs
             PlayerPrefs.SetInt("PlayerKeys", totalKeys); // Save totalkeys to PlayerPrefs
             PlayerPrefs.SetInt("PlayerShootSpread", shootSpread);
-            PlayerPrefs.SetInt("PlayerHomingCharges", homingCharges);
+            PlayerPrefs.SetInt("Cost", cost);
+            PlayerPrefs.SetFloat("NewShootCD", newShootCD);
+            PlayerPrefs.SetFloat("CrackSpeed", crackSpeed);
         }
         else
         {
@@ -57,9 +63,10 @@ public class GeneralUI : MonoBehaviour
             score = PlayerPrefs.GetInt("PlayerScore", 0);
             totalKeys = PlayerPrefs.GetInt("PlayerKeys", 0);
             shootSpread = PlayerPrefs.GetInt("PlayerShootSpread", 0);
-            homingCharges = PlayerPrefs.GetInt("PlayerHomingCharges", 0);
+            cost = PlayerPrefs.GetInt("Cost", 0);
+            newShootCD = PlayerPrefs.GetFloat("NewShootCD", 0.7f);
+            crackSpeed = PlayerPrefs.GetFloat("CrackSpeed", 1.5f);
         }
-        UpdateKey(200);
     }
 
     public void UpdateKey(int addkey)
@@ -115,7 +122,7 @@ public class GeneralUI : MonoBehaviour
 
     public void UpdatePermishPowerUpsUI()
     {
-        homingText.text = homingCharges.ToString();
+        //homingText.text = homingCharges.ToString();
         spreadText.text = shootSpread.ToString();
     }
     void Update()
@@ -133,7 +140,7 @@ public class GeneralUI : MonoBehaviour
             }
             UpdateHighScoreText();
         }
-        //Debug.Log("SCORE: " + score);
+        //Debug.Log("SCORE: " + newShootCD);
     }
     
 }

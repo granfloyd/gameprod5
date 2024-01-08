@@ -491,6 +491,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   audioSourceMainTheme: {fileID: 0}
   audioSourceTP: {fileID: 3910680129238809317}
+  audioSourceBossSoundTrack: {fileID: 0}
   bossPrefab: {fileID: 3580511833490471184, guid: 8798164aac1db22408616f078a803a70, type: 3}
   bossAttack2Prefab: {fileID: 3580511833490471184, guid: f8a2ab404d13ca148acb674272667b48, type: 3}
   eProjectilePrefab: {fileID: 7986293975911026654, guid: f89b0da5a038f814e8b5f765b7248dd8, type: 3}
@@ -498,7 +499,6 @@ MonoBehaviour:
   Enemy1Prefab: {fileID: 3364070151232361827, guid: a6c59aba9fd45624ea2c7b6851b4d5f5, type: 3}
   drop: {fileID: 5483950112051104397, guid: 8afc91131dff8c34091d2c7f74edc59b, type: 3}
   rend: {fileID: 4936889976324819335}
-  HP: 0
   maxHP: 10
   speed: 0.3
   fasterfaster: 0.5
@@ -625,7 +625,6 @@ MonoBehaviour:
   playerGO: {fileID: 4864749207398539638, guid: 3a1bacbc6592bcc408356f1a9dd1a3be, type: 3}
   audioSourceHit: {fileID: 7906194438008314466}
   audioSourceCritHit: {fileID: 3460113783713375700}
-  audioSourceBossSoundTrack: {fileID: 1967058475432878597}
   audioSourceBossDeath: {fileID: 0}
   damageTextPrefab: {fileID: 8190826780014623523, guid: d9e10c4e2e706b746a31c0018e37f181, type: 3}
   keyObject: {fileID: 5483950112051104397, guid: 8afc91131dff8c34091d2c7f74edc59b, type: 3}
@@ -641,6 +640,9 @@ MonoBehaviour:
   fadeTime: 1
   destroyTime: 1
   isBoss: 1
+  fs: {fileID: 0}
+  HP: 10
+  scale: 0
 --- !u!1 &7260057136386120151
 GameObject:
   m_ObjectHideFlags: 0

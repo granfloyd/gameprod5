@@ -11,9 +11,10 @@ GameObject:
   - component: {fileID: 8508404753093103671}
   - component: {fileID: 6099868148414811644}
   - component: {fileID: 6588420033678060527}
+  - component: {fileID: -8815529142530071767}
   m_Layer: 0
   m_Name: ruin2
-  m_TagString: Untagged
+  m_TagString: Plant
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -73,7 +74,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1682125373
   m_SortingLayer: 1
-  m_SortingOrder: 1
+  m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: c042098a845e1a0448d8d09e205699d1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -130,3 +131,23 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.5221338, y: 0.3194639}
   m_EdgeRadius: 0
+--- !u!114 &-8815529142530071767
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8174191450654056212}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f07f1f9a6e8631d4abc79984d3d67799, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HP: 4
+  isDead: 0
+  dropList: []
+  audioSourceHit: {fileID: 0}
+  playerRef: {fileID: 0}
+  rend: {fileID: 0}
+  MaxHP: 5
+  isRuin: 1

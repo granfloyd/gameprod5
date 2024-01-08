@@ -11,6 +11,7 @@ public class Plant : MonoBehaviour
     public Player playerRef;
     public Renderer rend;
     public int MaxHP;
+    public bool isRuin = false;
     void Start()
     {
         rend = GetComponent<Renderer>();
@@ -24,7 +25,8 @@ public class Plant : MonoBehaviour
         if (collision.gameObject.tag == "playerProjectile")
         {
             audioSourceHit.Play();
-            HP -= playerRef.playerDamage;
+            if (!isRuin)
+                HP -= playerRef.playerDamage;
             Destroy(collision.gameObject);
         }
 
@@ -51,6 +53,7 @@ public class Plant : MonoBehaviour
         }
         if(isDead)
         {
+            
             OnDeath();
         }
     }

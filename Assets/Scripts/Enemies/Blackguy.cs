@@ -8,7 +8,7 @@ public class Blackguy : MonoBehaviour
     private Rigidbody2D rb;
     
     //enemy stats
-    public int HP = 2;
+    
     public float speed = 0.3f;
 
     //cds
@@ -29,7 +29,7 @@ public class Blackguy : MonoBehaviour
     void FixedUpdate()
     {
         belos.OnDeath(drop, spriteRenderer);
-        belos.EnemyTakeDamage(ref HP, playerRef.playerDamage);
+        belos.EnemyTakeDamage( playerRef.playerDamage);
         ticker += Time.deltaTime;
         if (belos.bHasLOS)
         {

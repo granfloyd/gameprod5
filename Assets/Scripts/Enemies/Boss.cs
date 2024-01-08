@@ -17,8 +17,8 @@ public class Boss : MonoBehaviour
     public GameObject Enemy1Prefab;
     public GameObject drop;
     public Renderer rend;
-    public int HP;
-    public int maxHP = 10;
+    //public int HP;
+    //public int maxHP;
     public float speed = 0.3f;
     public float fasterfaster = 0.5f;
     public float eProjectileSpeed = 6.0f;
@@ -31,6 +31,7 @@ public class Boss : MonoBehaviour
     private bool bIsAttack1Active = false;
     private bool bIsAttack2Active = false;
     private bool bIsAttack3Active = false;
+    //private int BOSSHP = 10;
     private List<GameObject> attackOneGameObjectList = new List<GameObject>();
     private List<GameObject> attackTwoGameObjectList = new List<GameObject>();
     private List<GameObject> attackThreeGameObjectList = new List<GameObject>(); 
@@ -39,7 +40,8 @@ public class Boss : MonoBehaviour
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
-        HP = maxHP;
+        //belos.HP = maxHP;
+        //BOSSHP = maxHP;
         rend = GetComponent<Renderer>();
         belos = gameObject.GetComponent<BasicEnemyLOS>();
         playerRef = GameObject.Find("Player").GetComponent<Player>();
@@ -194,14 +196,14 @@ public class Boss : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        belos.EnemyTakeDamage(ref HP, playerRef.playerDamage);
+        belos.EnemyTakeDamage(playerRef.playerDamage);
         SoundControl();
         
-        if (HP < 5)
+        if (belos.HP < 5)
         {
             rend.material.color = new Color(0.5f, 0, 0);
         }
-        if (HP <= 0)
+        if (belos.HP <= 0)
         {
             audioSourceBossSoundTrack.Stop();
             foreach (GameObject attack1GO in attackOneGameObjectList)

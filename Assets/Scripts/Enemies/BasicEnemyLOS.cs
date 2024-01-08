@@ -24,9 +24,25 @@ public class BasicEnemyLOS : MonoBehaviour
     public float fadeTime = 1f; // Time for the text to fade out
     public float destroyTime = 1f; // Time before the text is destroyed
     [SerializeField] private bool isBoss;
+    public FirstStartManager fs;
+    public int HP = 2;
+    public int scale;
     void Start()
     {
-        playerRef = GameObject.Find("Player").GetComponent<Player>();
+        
+        fs = GameObject.Find("firststartmanager").GetComponent<FirstStartManager>();
+        GameObject[] sameNameObjs = fs.FindGameObjectsWithSameName("firststartmanager");
+        scale = sameNameObjs.Length;
+        Debug.Log(scale);
+        if (!FirstStartManager.isFirstStart)
+        {
+            for (int i = 0; i < scale; i++)
+            {
+                HP += 1;
+            }
+        }
+        
+            playerRef = GameObject.Find("Player").GetComponent<Player>();
 
         genUIRef = genUIGO.GetComponent<GeneralUI>();
         if(isBoss)
@@ -91,18 +107,19 @@ public class BasicEnemyLOS : MonoBehaviour
         }
     }
 
-    public void EnemyTakeDamage(ref int enemyhp, int howmuch)
+    public void EnemyTakeDamage(int howmuch)
     {
         if (isHit)
         {
+            Debug.Log("Aye");
             int critHit = howmuch;
             int randNumber = Random.Range(1, 5);
-            if (critHit == randNumber)
+            if (critHit == randNumber || Item.ispp69Active)
             {
                 isCrit = true;
                 howmuch = howmuch * 2;
             }
-            enemyhp -= howmuch;
+            HP -= howmuch;
             GameObject damageTextObject = Instantiate(damageTextPrefab, transform.position, Quaternion.identity, transform);
             TextMeshPro damageText = damageTextObject.GetComponent<TextMeshPro>();
             damageText.text = "-" + howmuch.ToString();
@@ -117,7 +134,7 @@ public class BasicEnemyLOS : MonoBehaviour
             StartCoroutine(FadeAndDestroy(damageTextObject, damageText));
             isCrit = false;
             isHit = false;
-            if (enemyhp <= 0)
+            if (HP <= 0)
                 isDead = true;
         }
         

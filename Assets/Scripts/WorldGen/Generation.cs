@@ -37,24 +37,23 @@ public class Generation : MonoBehaviour
     void FloorClearedDisplay()
     {
         GameObject clearedFloorTextObject = Instantiate(floorClearedTextPrefab, target.transform.position, Quaternion.identity, transform);
-        StartCoroutine(MoveAndDestroy(clearedFloorTextObject));
+        TextMeshPro TextObject = clearedFloorTextObject.GetComponent<TextMeshPro>();
+        StartCoroutine(MoveAndDestroy(clearedFloorTextObject, TextObject));
     }
-    IEnumerator MoveAndDestroy(GameObject damageTextObject)
+    IEnumerator MoveAndDestroy(GameObject clearedFloorTextObject, TextMeshPro TextObject)
     {
         float fadeTime = 1f;
         float speed = 0.5f;
+        Color originalColor = TextObject.color;
         for (float t = 0; t < fadeTime; t += Time.deltaTime)
         {
-            // Move the object upwards over time
-            damageTextObject.transform.position += Vector3.up * speed * Time.deltaTime;
-
-            // Rotate the object over time
-            float rotationAmount = speed * Time.deltaTime;
-            damageTextObject.transform.rotation = Quaternion.Euler(damageTextObject.transform.rotation.eulerAngles + new Vector3(rotationAmount, 0, 0));
-
+            clearedFloorTextObject.transform.position += Vector3.up * speed * Time.deltaTime;
             yield return null;
+            float normalizedTime = t / fadeTime;
+            // Set the alpha
+            TextObject.color = Color.Lerp(originalColor, Color.clear, normalizedTime);
         }
-        Destroy(damageTextObject);
+        Destroy(clearedFloorTextObject);
     }
 
     void GenerateRoomPositions()
@@ -78,6 +77,7 @@ public class Generation : MonoBehaviour
         {
             if(!isSpawned)
             {
+                FloorClearedDisplay();
                 spawnSFX.Play();
                 Instantiate(portalPrefab, Vector3.zero, Quaternion.identity);
                 isSpawned = true;

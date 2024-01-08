@@ -16,12 +16,13 @@ public class Item : MonoBehaviour
     public GameObject powerup69Prefab;
     public GameObject shield;
 
-    public float crackSpeed = 3.0f;
+    
 
     public AudioSource audioSourceDrink;//drink
     public AudioSource audioSourceShield;//shield
     public AudioSource audioSourcePowerup69;//heartbeat sfx
-
+    public static bool ispp69Active = false;
+    public bool isShieldActive = false;
     void Start()
     {
         animator = GameObject.Find("pp69Ani").GetComponent<Animator>();
@@ -32,11 +33,11 @@ public class Item : MonoBehaviour
     }
     public IEnumerator UseDrink(float duration)
     {
-        float buff = 0.5f;
+        //float buff = 0.7f;        
         float newCD;
         float startTime = Time.time;
         audioSourceDrink.Play();
-        newCD = playerRef.shootCD * buff;
+        newCD = GeneralUI.newShootCD;
         animator2.SetTrigger("drink");
         while (Time.time - startTime < duration)//time from when called
         {
@@ -48,18 +49,25 @@ public class Item : MonoBehaviour
     }
     public IEnumerator UseShield(float duration)
     {
-        float startTime = Time.time;
-        audioSourceShield.Play();
-        shield = Instantiate(shield2Prefab, transform.position, Quaternion.identity);
-        while (Time.time - startTime < duration)//time from when called
+        if(!isShieldActive)
         {
-            shield.transform.position = transform.position;
-            yield return null; // Wait for the next frame
+            isShieldActive = true;
+            float startTime = Time.time;
+            audioSourceShield.Play();
+            shield = Instantiate(shield2Prefab, transform.position, Quaternion.identity);
+            while (Time.time - startTime < duration)//time from when called
+            {
+                shield.transform.position = transform.position;
+                yield return null; // Wait for the next frame
+            }
+            Destroy(shield);
+            isShieldActive = false;
         }
-        Destroy(shield);
+        
     }
     public IEnumerator UsePowerup69(float duration)
     {
+        ispp69Active = true;
         float startTime = Time.time;
         Debug.Log(movementRef.speed);
         if (movementRef.speed > PlayerMovement.originalSpeed)
@@ -69,18 +77,19 @@ public class Item : MonoBehaviour
         }
         audioSourcePowerup69.Play();
         //hsRef.powerup69active.SetActive(true);
-        movementRef.speed = crackSpeed;
+        movementRef.speed = GeneralUI.crackSpeed;
         animator.SetTrigger("pp69");
         while (Time.time - startTime < duration)//time from when called
         {
             
-            movementRef.speed = crackSpeed;
+            movementRef.speed = GeneralUI.crackSpeed;
             yield return null; // Wait for the next frame
         }
         audioSourcePowerup69.Stop();
         animator.SetTrigger("idle");
         //hsRef.powerup69active.SetActive(false);  
         movementRef.speed = PlayerMovement.originalSpeed;
+        ispp69Active = false;
     }
     public void Useheart()
     {

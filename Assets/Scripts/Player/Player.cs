@@ -215,6 +215,7 @@ public class Player : MonoBehaviour
     }
     void Update()
     {
+        Debug.Log(shootCD);
         //Cursor.visible = false;
         RotateAim();
         Shoot();

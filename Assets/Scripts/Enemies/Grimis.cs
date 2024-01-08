@@ -6,8 +6,6 @@ public class Grimis : MonoBehaviour
     private BasicEnemyLOS belos;
     private SpriteRenderer spriteRenderer;
     public GameObject grimisProjectilePrefab;
-    private Rigidbody2D rb;
-    public int HP = 2;
     public float grimisProjectileSpeed = 4.0f;
    
     public float speed = 0.3f;    
@@ -23,13 +21,12 @@ public class Grimis : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         playerRef = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         belos = gameObject.GetComponent<BasicEnemyLOS>();
-        rb = GetComponent<Rigidbody2D>();
     }
     
     void Update()
     {
         belos.OnDeath(drop, spriteRenderer);
-        belos.EnemyTakeDamage(ref HP, playerRef.playerDamage);
+        belos.EnemyTakeDamage( playerRef.playerDamage);
         ticker += Time.deltaTime;
         if (belos.bHasLOS)
         {

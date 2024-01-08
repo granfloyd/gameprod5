@@ -6,7 +6,6 @@ public class Enemy1 : MonoBehaviour
     private BasicEnemyLOS belos;
     private SpriteRenderer spriteRenderer;
     private Rigidbody2D rb;
-    public int HP = 2;
     private float speed = 0.5f;
     public GameObject drop;
     // Start is called before the first frame update
@@ -21,7 +20,7 @@ public class Enemy1 : MonoBehaviour
     void FixedUpdate()
     {
         belos.OnDeath(drop, spriteRenderer);
-        belos.EnemyTakeDamage(ref HP, playerRef.playerDamage);
+        belos.EnemyTakeDamage( playerRef.playerDamage);
         if (belos.bHasLOS)
         {
             belos.FollowPlayer(rb, speed);

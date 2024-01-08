@@ -14,6 +14,7 @@ public class PlayerCollision : MonoBehaviour
     private GameObject chestObject;
     public GameObject pressE;
     public GameObject pressQ;
+    public AudioSource AS_key;
     private bool onKey = false;
     private bool onChest = false;
     private bool onDoor = false;
@@ -24,13 +25,14 @@ public class PlayerCollision : MonoBehaviour
     //shop stuff
     public GameObject shopUI;
     public Button closeButton;
-    public Button buyHomingButton;
+    public Button buyBetterDrinkButton;
+    public Button buyBetterPP69Button;
     public Button buySpreadButton;
     public Text shopkeyCountText;
     public Text costText;
     public GameObject Cursorgo;
     private CanvasGroup canvasGroup;
-    public int cost = 25;
+    
     public int inflation = 25;
     // Start is called before the first frame update
     void Start()
@@ -38,7 +40,8 @@ public class PlayerCollision : MonoBehaviour
         shopUI.SetActive(false);//make sure shops always close when starting up
         closeButton.onClick.AddListener(CloseShop);
         buySpreadButton.onClick.AddListener(MoreSpread);
-        buyHomingButton.onClick.AddListener(MoreHoming);
+        buyBetterDrinkButton.onClick.AddListener(BetterDrink);
+        buyBetterPP69Button.onClick.AddListener(BetterPP69);
         genUIRef = GameObject.Find("GeneralUI").GetComponent<GeneralUI>();
         playerRef = GetComponent<Player>();
         itemRef = GetComponent<Item>();
@@ -55,7 +58,7 @@ public class PlayerCollision : MonoBehaviour
     }
     public void DisplayCost()
     {
-        costText.text = cost.ToString();
+        costText.text = GeneralUI.cost.ToString();
     }
     void Update()
     {
@@ -73,23 +76,38 @@ public class PlayerCollision : MonoBehaviour
     }
     void MoreSpread()
     {
-        if (GeneralUI.totalKeys >= cost) // Check if player has enough keys
+        if (GeneralUI.totalKeys >= GeneralUI.cost) // Check if player has enough keys
         {
             Debug.Log("Purchase successful");
-            genUIRef.UpdateKey(-cost);
+            genUIRef.UpdateKey(-GeneralUI.cost);
             GeneralUI.shootSpread++;
-            cost += inflation;
+            GeneralUI.cost += inflation;
             DisplayCost();
         }
     }
-    void MoreHoming()
+    void BetterDrink()
     {
-        if (GeneralUI.totalKeys >= cost) // Check if player has enough keys
+        if(GeneralUI.newShootCD > 0.2)
+        {
+            if (GeneralUI.totalKeys >= GeneralUI.cost) // Check if player has enough keys
+            {
+                Debug.Log("Purchase successful");
+                genUIRef.UpdateKey(-GeneralUI.cost);
+                GeneralUI.newShootCD -= 0.1f;
+                GeneralUI.cost += inflation;
+                DisplayCost();
+            }
+        }
+        
+    }
+    void BetterPP69()
+    {
+        if (GeneralUI.totalKeys >= GeneralUI.cost) // Check if player has enough keys
         {
             Debug.Log("Purchase successful");
-            genUIRef.UpdateKey(cost);
-            GeneralUI.shootSpread++;
-            cost = cost += inflation;
+            genUIRef.UpdateKey(-GeneralUI.cost);
+            GeneralUI.crackSpeed++;
+            GeneralUI.cost += inflation;
             DisplayCost();
         }
     }
@@ -112,7 +130,9 @@ public class PlayerCollision : MonoBehaviour
             PlayerPrefs.SetInt("PlayerScore", GeneralUI.score); // Save current score
             PlayerPrefs.SetInt("PlayerKeys", GeneralUI.totalKeys);
             PlayerPrefs.SetInt("PlayerShootSpread", GeneralUI.shootSpread);
-            PlayerPrefs.SetInt("PlayerHomingCharges", GeneralUI.homingCharges);
+            PlayerPrefs.SetInt("Cost", GeneralUI.cost);
+            PlayerPrefs.SetFloat("NewShootCD", GeneralUI.newShootCD);
+            PlayerPrefs.SetFloat("CrackSpeed", GeneralUI.crackSpeed);
             SceneManager.LoadScene("OverWorld");
         }
         if(onChest && Input.GetKeyDown(KeyCode.Q))
@@ -127,6 +147,7 @@ public class PlayerCollision : MonoBehaviour
         if (onKey && Input.GetKeyDown(KeyCode.E))
         {
             genUIRef.UpdateKey(1);
+            AS_key.Play();
             Destroy(keyObject);
         }
 
