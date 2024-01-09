@@ -147,14 +147,14 @@ public class PlayerCollision : MonoBehaviour
     private void PickUpE()
     {
         //key stuff
-        if (onKey && Input.GetKeyDown(KeyCode.E))
+        if (onKey)
         {
             genUIRef.UpdateKey(1);
             AS_key.Play();
             Destroy(keyObject);
         }
 
-        if (onKey || onGrimisDrink || onShield || onPowerup69 || onHeart)
+        if ( onGrimisDrink || onShield || onPowerup69 || onHeart)
         {
             pressE.SetActive(true);
         }

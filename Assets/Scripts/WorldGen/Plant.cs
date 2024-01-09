@@ -29,8 +29,13 @@ public class Plant : MonoBehaviour
                 HP -= playerRef.playerDamage;
             Destroy(collision.gameObject);
         }
-
+        if (collision.gameObject.tag == "enemyProjectile")
+        {
+            if(isRuin)
+            Destroy(collision.gameObject);
+        }
     }
+
     public void OnDeath()
     {
         int randIndex = Random.Range(0, dropList.Length);

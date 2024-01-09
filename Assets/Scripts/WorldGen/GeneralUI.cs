@@ -68,7 +68,7 @@ public class GeneralUI : MonoBehaviour
             newShootCD = PlayerPrefs.GetFloat("NewShootCD", 0.7f);
             crackSpeed = PlayerPrefs.GetFloat("CrackSpeed", 1.5f);
         }
-        UpdateKey(500);
+        UpdateKey(10);
     }
 
     public void UpdateKey(int addkey)

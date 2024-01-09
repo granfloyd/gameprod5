@@ -306,13 +306,13 @@ public class Player : MonoBehaviour
         Time.timeScale = 0f;
         GameIsPaused = true;
         genUIRef.SelectorIMG.gameObject.SetActive(false);
-        healthUI.gameObject.SetActive(false);
+        
         // Pause all sounds
         AudioListener.volume = 0.25f;
 
         // Disable mouse input
         //Cursor.lockState = CursorLockMode.Locked;
-        genUIRef.generalUIGO.SetActive(false);
+        
     }
     
     void RotateAim()

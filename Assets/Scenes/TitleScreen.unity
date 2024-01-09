@@ -1884,7 +1884,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Keys: Use at the SHOP to upgrade your items powers and your power'
+  m_text: 'Keys: Use at the SHOP to upgrade your items powers and your power.To pickup
+    Keys walk over them'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 768bee2212a06d24195f5e25f4059459, type: 2}
   m_sharedMaterial: {fileID: -960743201904400841, guid: 768bee2212a06d24195f5e25f4059459, type: 2}
@@ -3471,7 +3472,7 @@ MonoBehaviour:
   m_text: 'Enemies: When dead can drop Keys.
 
     You MUST kill all the Enemies in
-    the Level to spawn the PORTAL'
+    the Level to spawn the PORTAL. .'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 768bee2212a06d24195f5e25f4059459, type: 2}
   m_sharedMaterial: {fileID: -960743201904400841, guid: 768bee2212a06d24195f5e25f4059459, type: 2}
