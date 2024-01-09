@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7732893236507138980}
   - component: {fileID: 1910701930962327832}
   - component: {fileID: 513241621902383029}
+  - component: {fileID: 7764374515716180367}
   m_Layer: 5
   m_Name: Cursor2.0
   m_TagString: Untagged
@@ -75,3 +76,15 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &7764374515716180367
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 405857236138502778}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0

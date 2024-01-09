@@ -2,80 +2,104 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class titlescreen : MonoBehaviour
+public class Titlescreen : MonoBehaviour
 {
-    public Button playButton;
     public Button newGameButton;
     public Image TitleScreenBG;
-    public Button continueButton;
-    public Button infoButton;
+    public Button howtoplayButton;
     public Button backButton;
-    public Button playmainbackButton;
-    public GameObject info;
-    public GameObject playmain;
-    public GameObject main;
+    public Button nextButton;
+    public GameObject[] howtoplay = new GameObject[3];
     public Button exitButton;
+    public Button creditsButton;
+    public Button closecreditsButton;
+    public GameObject creditsUI;
 
+    public GameObject howtoplayui;
     public GameObject Cursorgo;
-    private CanvasGroup canvasGroup;
-
+    public GameObject Cursorgo2;
+    public GameObject Cursorgo3;
+    public int Index = 0;
+    public bool isInMain = true;
     // Start is called before the first frame update
     void Start()
     {
+        creditsUI.SetActive(false);
+        HideHowToPlay();
         newGameButton.onClick.AddListener(NewGame);
-        //continueButton.onClick.AddListener(LoadGame);
-        //infoButton.onClick.AddListener(showinfo);
-        //if(backButton != null)
-        //backButton.onClick.AddListener(hideinfo);
-        //exitButton.onClick.AddListener(Exit);
-        //playmainbackButton.onClick.AddListener(Exit2);
-        //playButton.onClick.AddListener(HideMain);
-
-        // Get the CanvasGroup component
-        canvasGroup = Cursorgo.GetComponent<CanvasGroup>();
-        // If the CanvasGroup component doesn't exist, add one
-        if (canvasGroup == null)
-        {
-            canvasGroup = Cursorgo.AddComponent<CanvasGroup>();
-        }
-
-        canvasGroup.blocksRaycasts = false;
+        howtoplayButton.onClick.AddListener(HowToPlay);
+        exitButton.onClick.AddListener(Exit);
+        backButton.onClick.AddListener(GoBack);
+        nextButton.onClick.AddListener(GoNext);
+        creditsButton.onClick.AddListener(DisplayCredits);
+        closecreditsButton.onClick.AddListener(CloseCredits);
     }
 
-    void LoadGame()
-    {
-        Debug.Log("get a life,said the wind - schizoblitzo");
-        //SceneManager.LoadScene("OverWorld");
-    }
-    // Update is called once per frame
     void Update()
     {
-        Cursor.visible = false;
+        if(isInMain)
+        {
+            HideHowToPlay();
+            Cursor.visible = false;
+        }
+        if(!isInMain)
+        {
+            Cursor.visible = false;
+        }
+        
         Vector3 mousePos = Input.mousePosition;
         mousePos.z = -10;
-        Cursorgo.transform.position = Input.mousePosition; 
+        Cursorgo.transform.position = Input.mousePosition;
+        Cursorgo2.transform.position = Input.mousePosition;
+        Cursorgo3.transform.position = Input.mousePosition;
+    }
+    void DisplayCredits()
+    {
+        creditsUI.SetActive(true);
+    }
+    void CloseCredits()
+    {
+        creditsUI.SetActive(false);
+    }
+    void HowToPlay()
+    {
+        isInMain = false;
+        howtoplayui.SetActive(true);
+        Index = 0;
+        howtoplay[Index].SetActive(true);
+    }
+    void GoBack()
+    {
+        if (Index > 0)
+        {
+            howtoplay[Index].SetActive(false);
+            Index--;
+            howtoplay[Index].SetActive(true);
+        }
+        else
+        {
+            isInMain = true;
+        }
+    }
+    void GoNext()
+    {
+        if (Index < howtoplay.Length - 1)
+        {
+            howtoplay[Index].SetActive(false);// Set old one false
+            Index++;
+            howtoplay[Index].SetActive(true);
+        }
     }
     void NewGame()
     {
         SceneManager.LoadScene("OverWorld");
     }
-    void showinfo()
+    void HideHowToPlay()
     {
-        info.SetActive(true);
+        howtoplayui.SetActive(false);
     }
-    void hideinfo()
-    {
-        info.SetActive(false);
-    }
-    void HideMain()
-    {
-        playmain.SetActive(true);
-    }
-    void Exit2()
-    {
-        playmain.SetActive(false);
-        main.SetActive(true);
-    }
+
+
     void Exit()
     {
         Application.Quit();
