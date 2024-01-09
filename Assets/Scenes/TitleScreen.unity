@@ -3874,7 +3874,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1062235317
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4793,7 +4793,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "Inventory: The white box around the first box indicates that it\u2019s
     active. \n\nTo change the active slot, press 1, 2, 3, 4, or use the scroll wheel\n\nPress
-    LSHIFT to DASH\n\nPress P to pause game\n\nPress M1 to shoot"
+    R to delete selected ITEM\n\nPress LSHIFT to DASH\n\nPress P to pause game\n\nPress
+    M1 to shoot"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 768bee2212a06d24195f5e25f4059459, type: 2}
   m_sharedMaterial: {fileID: -960743201904400841, guid: 768bee2212a06d24195f5e25f4059459, type: 2}
