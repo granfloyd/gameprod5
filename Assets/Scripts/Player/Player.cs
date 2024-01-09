@@ -217,10 +217,14 @@ public class Player : MonoBehaviour
     {
         Debug.Log(shootCD);
         //Cursor.visible = false;
-        RotateAim();
-        Shoot();
-        ScrollingControl();
-        RemoveFromInventory();
+        if(!GameIsPaused)
+        {
+            RotateAim();
+            Shoot();
+            ScrollingControl();
+            RemoveFromInventory();
+        }
+        
 
         if (Input.GetKeyDown(KeyCode.Space))//use item
             DeleteItemFromInventory();

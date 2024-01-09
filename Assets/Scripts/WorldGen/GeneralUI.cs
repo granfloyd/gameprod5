@@ -20,7 +20,8 @@ public class GeneralUI : MonoBehaviour
     public Text highscoreText;
     public Text scoreText;
     public Text keyCountText;
-    public TMP_Text homingText;
+    public TMP_Text drinkText;
+    public TMP_Text pp69Text;
     public TMP_Text spreadText;
     //UI stuff//
     public GameObject generalUIGO;
@@ -67,6 +68,7 @@ public class GeneralUI : MonoBehaviour
             newShootCD = PlayerPrefs.GetFloat("NewShootCD", 0.7f);
             crackSpeed = PlayerPrefs.GetFloat("CrackSpeed", 1.5f);
         }
+        UpdateKey(500);
     }
 
     public void UpdateKey(int addkey)
@@ -122,14 +124,14 @@ public class GeneralUI : MonoBehaviour
 
     public void UpdatePermishPowerUpsUI()
     {
-        //homingText.text = homingCharges.ToString();
+        drinkText.text = newShootCD.ToString();
+        pp69Text.text = crackSpeed.ToString();
         spreadText.text = shootSpread.ToString();
     }
     void Update()
     {
         UpdateScoreText();
         LoadHighScore();
-        
         if (score > highscore)
         {
             highscore = score;

@@ -102,14 +102,17 @@ public class PlayerCollision : MonoBehaviour
     }
     void BetterPP69()
     {
-        if (GeneralUI.totalKeys >= GeneralUI.cost) // Check if player has enough keys
+        if(GeneralUI.crackSpeed < 5.5f)
         {
-            Debug.Log("Purchase successful");
-            genUIRef.UpdateKey(-GeneralUI.cost);
-            GeneralUI.crackSpeed++;
-            GeneralUI.cost += inflation;
-            DisplayCost();
-        }
+            if (GeneralUI.totalKeys >= GeneralUI.cost) // Check if player has enough keys
+            {
+                Debug.Log("Purchase successful");
+                genUIRef.UpdateKey(-GeneralUI.cost);
+                GeneralUI.crackSpeed++;
+                GeneralUI.cost += inflation;
+                DisplayCost();
+            }
+        }        
     }
     private void InteractQ()
     {
